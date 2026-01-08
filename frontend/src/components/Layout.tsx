@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/authStore';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { Home, LogOut } from 'lucide-react';
 
 interface LayoutProps {
@@ -9,6 +11,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, logout } = useAuthStore();
 
   const handleLogout = () => {
@@ -29,12 +32,13 @@ export function Layout({ children }: LayoutProps) {
             {user && (
               <div className="flex items-center gap-4">
                 <span className="text-sm text-gray-600">{user.email}</span>
+                <LanguageSwitcher />
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
-                  Logout
+                  {t('common.logout')}
                 </button>
               </div>
             )}

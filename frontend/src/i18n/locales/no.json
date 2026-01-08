@@ -1,0 +1,119 @@
+{
+  "common": {
+    "appName": "HomeRhythm",
+    "logout": "Logg ut",
+    "cancel": "Avbryt",
+    "save": "Lagre",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "close": "Lukk",
+    "loading": "Laster...",
+    "search": "Søk",
+    "all": "Alle"
+  },
+  "auth": {
+    "signIn": "Logg inn",
+    "signUp": "Registrer deg",
+    "signInToAccount": "Logg inn på kontoen din",
+    "createAccount": "Opprett konto",
+    "email": "E-postadresse",
+    "password": "Passord",
+    "confirmPassword": "Bekreft passord",
+    "emailPlaceholder": "deg@eksempel.no",
+    "passwordPlaceholder": "••••••••",
+    "signingIn": "Logger inn...",
+    "creatingAccount": "Oppretter konto...",
+    "dontHaveAccount": "Har du ikke en konto?",
+    "alreadyHaveAccount": "Har du allerede en konto?",
+    "passwordsDoNotMatch": "Passordene stemmer ikke overens",
+    "passwordTooShort": "Passordet må være minst 8 tegn",
+    "failedToLogin": "Pålogging mislyktes",
+    "failedToRegister": "Registrering mislyktes"
+  },
+  "dashboard": {
+    "title": "Vedlikeholdsoppgaver for hjemmet",
+    "subtitle": "Spor og administrer ditt sesongbaserte hjemmevedlikehold",
+    "searchPlaceholder": "Søk etter oppgaver...",
+    "newTask": "Ny oppgave",
+    "browseTemplates": "Bla gjennom maler",
+    "allCategories": "Alle kategorier",
+    "allPriorities": "Alle prioriteter",
+    "noTasksFound": "Ingen oppgaver funnet",
+    "browseTaskTemplates": "Bla gjennom oppgavemaler",
+    "loadingTasks": "Laster oppgaver..."
+  },
+  "taskForm": {
+    "createNewTask": "Opprett ny oppgave",
+    "editTask": "Rediger oppgave",
+    "title": "Tittel",
+    "titlePlaceholder": "Rengjør takrenner",
+    "description": "Beskrivelse",
+    "descriptionPlaceholder": "Fjern løv og rusk fra takrenner og nedløpsrør",
+    "category": "Kategori",
+    "priority": "Prioritet",
+    "recurrenceType": "Gjentagelsestype",
+    "interval": "Intervall",
+    "seasonConfig": "Sesongkonfigurasjon (JSON)",
+    "seasonConfigPlaceholder": "{\"season\": \"spring\"}",
+    "estimatedTime": "Estimert tid (minutter)",
+    "estimatedTimePlaceholder": "60",
+    "estimatedCost": "Estimert kostnad (kr)",
+    "estimatedCostPlaceholder": "500",
+    "notes": "Notater",
+    "notesPlaceholder": "Tilleggsnotater eller instruksjoner",
+    "createTask": "Opprett oppgave",
+    "updateTask": "Oppdater oppgave",
+    "saving": "Lagrer...",
+    "required": "*"
+  },
+  "taskCard": {
+    "lastCompleted": "Sist fullført",
+    "priority": "prioritet",
+    "min": "min",
+    "every": "hver"
+  },
+  "taskDetails": {
+    "markAsComplete": "Marker som fullført",
+    "completeTask": "Fullfør oppgave",
+    "completionNotes": "Fullføringsnotater (valgfritt)",
+    "completionNotesPlaceholder": "Eventuelle notater om fullføringen...",
+    "photos": "Bilder (valgfritt)",
+    "submitCompletion": "Send inn fullføring",
+    "submitting": "Sender inn...",
+    "completionHistory": "Fullføringshistorikk",
+    "noCompletions": "Ingen fullføringer ennå",
+    "minutes": "minutter",
+    "deleteConfirm": "Er du sikker på at du vil slette denne oppgaven?",
+    "failedToDelete": "Kunne ikke slette oppgaven",
+    "failedToComplete": "Kunne ikke fullføre oppgaven"
+  },
+  "templateLibrary": {
+    "title": "Oppgavemalbibliotek",
+    "loadingTemplates": "Laster maler..."
+  },
+  "categories": {
+    "general": "Generelt",
+    "plumbing": "Rørleggerarbeid",
+    "electrical": "Elektrisitet",
+    "hvac": "Varme og ventilasjon",
+    "landscaping": "Hagearbeid",
+    "exterior": "Utvendig",
+    "interior": "Innvendig",
+    "appliances": "Apparater",
+    "safety": "Sikkerhet",
+    "seasonal": "Sesongbasert"
+  },
+  "priorities": {
+    "low": "Lav",
+    "medium": "Middels",
+    "high": "Høy"
+  },
+  "recurrenceTypes": {
+    "once": "Engangs",
+    "daily": "Daglig",
+    "weekly": "Ukentlig",
+    "monthly": "Månedlig",
+    "yearly": "Årlig",
+    "seasonal": "Sesongbasert"
+  }
+}

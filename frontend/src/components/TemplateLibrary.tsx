@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TaskTemplate, CATEGORY_COLORS } from '../types';
 import { templatesApi } from '../lib/api';
 import { X, BookOpen } from 'lucide-react';
-import { capitalizeFirst } from '../lib/utils';
 
 interface TemplateLibraryProps {
   onClose: () => void;
@@ -10,6 +10,7 @@ interface TemplateLibraryProps {
 }
 
 export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryProps) {
+  const { t } = useTranslation();
   const [templates, setTemplates] = useState<Record<string, TaskTemplate[]>>({});
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -37,7 +38,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <BookOpen className="w-6 h-6 text-primary-600" />
-            <h2 className="text-xl font-semibold text-gray-900">Task Template Library</h2>
+            <h2 className="text-xl font-semibold text-gray-900">{t('templateLibrary.title')}</h2>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-6 h-6" />
@@ -46,7 +47,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
 
         <div className="p-6">
           {loading ? (
-            <p className="text-center text-gray-500">Loading templates...</p>
+            <p className="text-center text-gray-500">{t('templateLibrary.loadingTemplates')}</p>
           ) : (
             <div className="space-y-6">
               <div className="flex flex-wrap gap-2">
@@ -58,7 +59,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  All
+                  {t('common.all')}
                 </button>
                 {categories.map((category) => (
                   <button
@@ -70,7 +71,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    {capitalizeFirst(category)} ({templates[category].length})
+                    {t(`categories.${category}`)} ({templates[category].length})
                   </button>
                 ))}
               </div>
@@ -81,7 +82,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                   .map((category) => (
                     <div key={category}>
                       <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                        {capitalizeFirst(category)}
+                        {t(`categories.${category}`)}
                       </h3>
                       <div className="grid gap-3">
                         {templates[category].map((template) => (
@@ -102,12 +103,12 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                                 )}
                                 <div className="flex items-center gap-2 text-xs text-gray-500">
                                   <span className={`px-2 py-1 rounded-full border ${CATEGORY_COLORS[template.category]}`}>
-                                    {capitalizeFirst(template.category)}
+                                    {t(`categories.${template.category}`)}
                                   </span>
                                   <span>
-                                    {capitalizeFirst(template.suggested_recurrence_type)}
+                                    {t(`recurrenceTypes.${template.suggested_recurrence_type}`)}
                                     {template.suggested_recurrence_interval &&
-                                      ` (every ${template.suggested_recurrence_interval})`}
+                                      ` (${t('taskCard.every')} ${template.suggested_recurrence_interval})`}
                                   </span>
                                 </div>
                               </div>
