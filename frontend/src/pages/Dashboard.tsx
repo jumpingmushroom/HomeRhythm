@@ -103,14 +103,13 @@ export function Dashboard() {
     }
   };
 
-  const handleSelectTemplate = (template: TaskTemplate) => {
+  const handleSelectTemplate = async (template: TaskTemplate) => {
     setShowTemplates(false);
-    setEditingTask(undefined);
-    setShowTaskForm(true);
+    setSubmitting(true);
 
-    // Pre-fill form with template data
-    setTimeout(() => {
-      const formData: CreateTaskInput = {
+    try {
+      // Create task directly from template data
+      const taskData: CreateTaskInput = {
         title: template.title,
         description: template.description || '',
         category: template.category,
@@ -119,8 +118,15 @@ export function Dashboard() {
         recurrence_config: template.suggested_recurrence_config || '',
         priority: 'medium',
       };
-      setEditingTask(formData as any);
-    }, 0);
+
+      const response = await tasksApi.create(taskData);
+      addTask(response.data.task);
+    } catch (error: any) {
+      console.error('Failed to create task from template:', error);
+      alert(error.response?.data?.error || 'Failed to create task from template');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const filteredTasks = tasks;
