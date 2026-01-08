@@ -4,6 +4,8 @@ import { formatDate } from '../lib/utils';
 import { Calendar, Clock, DollarSign, AlertCircle, User } from 'lucide-react';
 import { useTasksStore } from '../store/tasksStore';
 import { useAuthStore } from '../store/authStore';
+import { useLanguageStore } from '../store/languageStore';
+import { formatUSDAsLocalCurrency } from '../utils/currency';
 
 interface TaskCardProps {
   task: Task;
@@ -15,6 +17,7 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
   const { t } = useTranslation();
   const { userMap } = useTasksStore();
   const { user: currentUser } = useAuthStore();
+  const { language } = useLanguageStore();
   const assignedUser = task.assigned_to ? userMap[task.assigned_to] : null;
   const isAssignedToOther = task.assigned_to && task.assigned_to !== currentUser?.id;
 
@@ -81,7 +84,7 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
         {task.estimated_cost && (
           <div className="flex items-center gap-1">
             <DollarSign className="w-4 h-4" />
-            <span>${task.estimated_cost}</span>
+            <span>{formatUSDAsLocalCurrency(task.estimated_cost, language)}</span>
           </div>
         )}
       </div>
