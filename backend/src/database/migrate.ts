@@ -18,6 +18,15 @@ export function runMigrations() {
     if (count.count === 0) {
       console.log('Seeding task templates...');
       seedTemplates();
+    } else {
+      // Migration: Update 'garden' category to 'landscaping'
+      console.log('Checking for category updates...');
+      const gardenCount = db.prepare("SELECT COUNT(*) as count FROM task_templates WHERE category = 'garden'").get() as { count: number };
+      if (gardenCount.count > 0) {
+        console.log(`Updating ${gardenCount.count} templates from 'garden' to 'landscaping' category...`);
+        db.prepare("UPDATE task_templates SET category = 'landscaping' WHERE category = 'garden'").run();
+        console.log('Category update completed');
+      }
     }
 
     console.log('Migrations completed successfully');
