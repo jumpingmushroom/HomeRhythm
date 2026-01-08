@@ -114,11 +114,11 @@ export function seedTemplates() {
       recurrence_config: null,
     },
 
-    // Garden
+    // Landscaping
     {
       title: 'Fertilize lawn',
       description: 'Apply seasonal fertilizer to lawn',
-      category: 'garden',
+      category: 'landscaping',
       recurrence_type: 'yearly',
       recurrence_interval: 2,
       recurrence_config: JSON.stringify({ seasons: ['spring', 'fall'] }),
@@ -126,7 +126,7 @@ export function seedTemplates() {
     {
       title: 'Aerate lawn',
       description: 'Core aeration of lawn for better water and nutrient absorption',
-      category: 'garden',
+      category: 'landscaping',
       recurrence_type: 'yearly',
       recurrence_interval: 1,
       recurrence_config: JSON.stringify({ season: 'fall' }),
@@ -134,7 +134,7 @@ export function seedTemplates() {
     {
       title: 'Prune trees and shrubs',
       description: 'Trim back overgrown branches',
-      category: 'garden',
+      category: 'landscaping',
       recurrence_type: 'yearly',
       recurrence_interval: 1,
       recurrence_config: JSON.stringify({ season: 'spring' }),
@@ -142,7 +142,7 @@ export function seedTemplates() {
     {
       title: 'Mulch garden beds',
       description: 'Apply fresh mulch to garden beds',
-      category: 'garden',
+      category: 'landscaping',
       recurrence_type: 'yearly',
       recurrence_interval: 1,
       recurrence_config: JSON.stringify({ season: 'spring' }),
@@ -150,7 +150,7 @@ export function seedTemplates() {
     {
       title: 'Winterize sprinkler system',
       description: 'Blow out irrigation lines and shut off water',
-      category: 'garden',
+      category: 'landscaping',
       recurrence_type: 'yearly',
       recurrence_interval: 1,
       recurrence_config: JSON.stringify({ season: 'fall' }),
