@@ -115,5 +115,119 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "seasonal": "Seasonal"
+  },
+  "templates": {
+    "cleanGutters": {
+      "title": "Clean gutters",
+      "description": "Remove leaves and debris from gutters and downspouts"
+    },
+    "powerWashExterior": {
+      "title": "Power wash exterior",
+      "description": "Clean siding, deck, and driveway"
+    },
+    "inspectRoof": {
+      "title": "Inspect roof",
+      "description": "Check for damaged or missing shingles"
+    },
+    "sealDriveway": {
+      "title": "Seal driveway",
+      "description": "Apply sealant to asphalt driveway"
+    },
+    "winterizeOutdoorFaucets": {
+      "title": "Winterize outdoor faucets",
+      "description": "Drain and cover outdoor water spigots"
+    },
+    "replaceHvacFilters": {
+      "title": "Replace HVAC filters",
+      "description": "Change air filters for heating and cooling system"
+    },
+    "serviceHvacSystem": {
+      "title": "Service HVAC system",
+      "description": "Professional maintenance of heating and cooling system"
+    },
+    "cleanFurnace": {
+      "title": "Clean furnace",
+      "description": "Clean burners and check furnace operation"
+    },
+    "serviceHeatPump": {
+      "title": "Service heat pump",
+      "description": "Professional heat pump inspection and servicing"
+    },
+    "cleanDryerVent": {
+      "title": "Clean dryer vent",
+      "description": "Remove lint buildup from dryer exhaust vent"
+    },
+    "cleanRefrigeratorCoils": {
+      "title": "Clean refrigerator coils",
+      "description": "Vacuum condenser coils on refrigerator"
+    },
+    "replaceWaterFilter": {
+      "title": "Replace water filter",
+      "description": "Change refrigerator or whole-house water filter"
+    },
+    "cleanDishwasherFilter": {
+      "title": "Clean dishwasher filter",
+      "description": "Remove and clean dishwasher filter and spray arms"
+    },
+    "fertilizeLawn": {
+      "title": "Fertilize lawn",
+      "description": "Apply seasonal fertilizer to lawn"
+    },
+    "aerateLawn": {
+      "title": "Aerate lawn",
+      "description": "Core aeration of lawn for better water and nutrient absorption"
+    },
+    "pruneTreesAndShrubs": {
+      "title": "Prune trees and shrubs",
+      "description": "Trim back overgrown branches"
+    },
+    "mulchGardenBeds": {
+      "title": "Mulch garden beds",
+      "description": "Apply fresh mulch to garden beds"
+    },
+    "winterizeSprinklerSystem": {
+      "title": "Winterize sprinkler system",
+      "description": "Blow out irrigation lines and shut off water"
+    },
+    "testSumpPump": {
+      "title": "Test sump pump",
+      "description": "Pour water into sump pit to test pump operation"
+    },
+    "flushWaterHeater": {
+      "title": "Flush water heater",
+      "description": "Drain sediment from water heater tank"
+    },
+    "checkForLeaks": {
+      "title": "Check for leaks",
+      "description": "Inspect under sinks, around toilets, and exposed pipes"
+    },
+    "testGfciOutlets": {
+      "title": "Test GFCI outlets",
+      "description": "Press test button on all GFCI outlets"
+    },
+    "testSmokeDetectors": {
+      "title": "Test smoke detectors",
+      "description": "Test all smoke and CO detectors, replace batteries"
+    },
+    "replaceSmokeDetectorBatteries": {
+      "title": "Replace smoke detector batteries",
+      "description": "Replace batteries in all smoke and CO detectors"
+    },
+    "deepCleanCarpets": {
+      "title": "Deep clean carpets",
+      "description": "Professional or DIY carpet cleaning"
+    },
+    "cleanWindows": {
+      "title": "Clean windows",
+      "description": "Wash interior and exterior windows"
+    },
+    "checkWeatherstripping": {
+      "title": "Check weatherstripping",
+      "description": "Inspect and replace worn weatherstripping on doors and windows"
+    },
+    "cleanKitchenExhaustFan": {
+      "title": "Clean kitchen exhaust fan",
+      "description": "Remove and clean range hood filters"
+    }
   }
 }

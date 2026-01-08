@@ -115,5 +115,119 @@
     "monthly": "Månedlig",
     "yearly": "Årlig",
     "seasonal": "Sesongbasert"
+  },
+  "templates": {
+    "cleanGutters": {
+      "title": "Rengjør takrenner",
+      "description": "Fjern løv og rusk fra takrenner og nedløpsrør"
+    },
+    "powerWashExterior": {
+      "title": "Høytrykksvask utvendig",
+      "description": "Rengjør kledning, terrasse og innkjørsel"
+    },
+    "inspectRoof": {
+      "title": "Inspiser tak",
+      "description": "Sjekk for skadede eller manglende takstein"
+    },
+    "sealDriveway": {
+      "title": "Forsegl innkjørsel",
+      "description": "Påfør tettemiddel på asfaltinnkjørsel"
+    },
+    "winterizeOutdoorFaucets": {
+      "title": "Vinterforbered utekraner",
+      "description": "Tøm og dekk til utvendige vannkraner"
+    },
+    "replaceHvacFilters": {
+      "title": "Bytt varme- og ventilasjonsfiltre",
+      "description": "Skift luftfiltre for varme- og kjølesystem"
+    },
+    "serviceHvacSystem": {
+      "title": "Service varme- og ventilasjonsanlegg",
+      "description": "Profesjonelt vedlikehold av varme- og kjølesystem"
+    },
+    "cleanFurnace": {
+      "title": "Rengjør fyrkjel",
+      "description": "Rengjør brennere og kontroller fyrkjelens funksjon"
+    },
+    "serviceHeatPump": {
+      "title": "Service varmepumpe",
+      "description": "Profesjonell inspeksjon og service av varmepumpe"
+    },
+    "cleanDryerVent": {
+      "title": "Rengjør tørketrommelventil",
+      "description": "Fjern lo-opphopning fra tørketrommelens utblåsingsventil"
+    },
+    "cleanRefrigeratorCoils": {
+      "title": "Rengjør kjøleskapspiralene",
+      "description": "Støvsug kondensatorspiralene på kjøleskapet"
+    },
+    "replaceWaterFilter": {
+      "title": "Bytt vannfilter",
+      "description": "Skift vannfilter på kjøleskap eller hele huset"
+    },
+    "cleanDishwasherFilter": {
+      "title": "Rengjør oppvaskmaskinfilter",
+      "description": "Fjern og rengjør oppvaskmaskinens filter og spylearmer"
+    },
+    "fertilizeLawn": {
+      "title": "Gjødsle plen",
+      "description": "Påfør sesongbasert gjødsel på plenen"
+    },
+    "aerateLawn": {
+      "title": "Lufter plen",
+      "description": "Kjernelufting av plen for bedre vann- og næringsopptak"
+    },
+    "pruneTreesAndShrubs": {
+      "title": "Beskjær trær og busker",
+      "description": "Kutt tilbake overvokste greiner"
+    },
+    "mulchGardenBeds": {
+      "title": "Muldek hagebed",
+      "description": "Påfør frisk bark i hagebed"
+    },
+    "winterizeSprinklerSystem": {
+      "title": "Vinterforbered sprinklersystem",
+      "description": "Blås ut vannledninger og steng av vann"
+    },
+    "testSumpPump": {
+      "title": "Test slukpumpe",
+      "description": "Hell vann i slukgropen for å teste pumpens funksjon"
+    },
+    "flushWaterHeater": {
+      "title": "Spyl varmtvannsbeholder",
+      "description": "Tapp ut sediment fra varmtvannsbeholderen"
+    },
+    "checkForLeaks": {
+      "title": "Sjekk for lekkasjer",
+      "description": "Inspiser under vasker, rundt toaletter og synlige rør"
+    },
+    "testGfciOutlets": {
+      "title": "Test jordfeilbrytere",
+      "description": "Trykk testknappen på alle jordfeilbrytere"
+    },
+    "testSmokeDetectors": {
+      "title": "Test røykvarslere",
+      "description": "Test alle røyk- og CO-varslere, bytt batterier"
+    },
+    "replaceSmokeDetectorBatteries": {
+      "title": "Bytt batterier i røykvarslere",
+      "description": "Bytt batterier i alle røyk- og CO-varslere"
+    },
+    "deepCleanCarpets": {
+      "title": "Dyprengjør tepper",
+      "description": "Profesjonell eller hjemmelaget tepperengjøring"
+    },
+    "cleanWindows": {
+      "title": "Vask vinduer",
+      "description": "Vask innvendige og utvendige vinduer"
+    },
+    "checkWeatherstripping": {
+      "title": "Sjekk tettningslister",
+      "description": "Inspiser og bytt utslitte tettningslister på dører og vinduer"
+    },
+    "cleanKitchenExhaustFan": {
+      "title": "Rengjør kjøkkenvifte",
+      "description": "Fjern og rengjør filtre i emhette"
+    }
   }
 }
