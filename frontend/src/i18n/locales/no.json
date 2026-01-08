@@ -116,6 +116,12 @@
     "yearly": "Årlig",
     "seasonal": "Sesongbasert"
   },
+  "seasons": {
+    "spring": "Vår",
+    "summer": "Sommer",
+    "fall": "Høst",
+    "winter": "Vinter"
+  },
   "templates": {
     "cleanGutters": {
       "title": "Rengjør takrenner",

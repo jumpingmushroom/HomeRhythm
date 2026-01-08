@@ -12,10 +12,30 @@ interface TaskFormProps {
   loading?: boolean;
 }
 
+// Helper function to parse season from JSON config
+const parseSeasonFromConfig = (config: string | undefined): string => {
+  if (!config) return '';
+  try {
+    const parsed = JSON.parse(config);
+    return parsed.season || '';
+  } catch {
+    return '';
+  }
+};
+
+// Helper function to convert season to JSON config
+const seasonToConfig = (season: string): string => {
+  if (!season) return '';
+  return JSON.stringify({ season });
+};
+
 export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
   const { t } = useTranslation();
   const { user: currentUser } = useAuthStore();
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedSeason, setSelectedSeason] = useState<string>(
+    task?.recurrence_pattern === 'seasonal' ? parseSeasonFromConfig(task?.recurrence_config) : ''
+  );
   const [formData, setFormData] = useState<CreateTaskInput>({
     title: task?.title || '',
     description: task?.description || '',
@@ -150,6 +170,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                   handleChange('recurrence_pattern', undefined);
                   handleChange('recurrence_interval', undefined);
                   handleChange('recurrence_config', '');
+                  setSelectedSeason('');
                 } else {
                   handleChange('due_date', undefined);
                   handleChange('flexibility_window', undefined);
@@ -197,7 +218,15 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                   <select
                     required={formData.schedule_type === 'recurring'}
                     value={formData.recurrence_pattern || ''}
-                    onChange={(e) => handleChange('recurrence_pattern', e.target.value || undefined)}
+                    onChange={(e) => {
+                      const pattern = e.target.value || undefined;
+                      handleChange('recurrence_pattern', pattern);
+                      // Clear season selection if switching away from seasonal
+                      if (pattern !== 'seasonal') {
+                        setSelectedSeason('');
+                        handleChange('recurrence_config', '');
+                      }
+                    }}
                     className="input"
                   >
                     <option value="">Select pattern</option>
@@ -224,14 +253,23 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
 
               {formData.recurrence_pattern === 'seasonal' && (
                 <div>
-                  <label className="label">{t('taskForm.seasonConfig')}</label>
-                  <input
-                    type="text"
-                    value={formData.recurrence_config}
-                    onChange={(e) => handleChange('recurrence_config', e.target.value)}
+                  <label className="label">Season {t('taskForm.required')}</label>
+                  <select
+                    required={formData.recurrence_pattern === 'seasonal'}
+                    value={selectedSeason}
+                    onChange={(e) => {
+                      const season = e.target.value;
+                      setSelectedSeason(season);
+                      handleChange('recurrence_config', seasonToConfig(season));
+                    }}
                     className="input"
-                    placeholder={t('taskForm.seasonConfigPlaceholder')}
-                  />
+                  >
+                    <option value="">Select season</option>
+                    <option value="spring">{t('seasons.spring')}</option>
+                    <option value="summer">{t('seasons.summer')}</option>
+                    <option value="fall">{t('seasons.fall')}</option>
+                    <option value="winter">{t('seasons.winter')}</option>
+                  </select>
                 </div>
               )}
             </>
