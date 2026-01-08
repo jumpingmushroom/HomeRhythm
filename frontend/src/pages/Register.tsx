@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { authApi } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { Home } from 'lucide-react';
 
 export function Register() {
@@ -44,25 +45,26 @@ export function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="absolute top-4 right-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="absolute top-4 right-4 flex gap-2">
+        <ThemeToggle />
         <LanguageSwitcher />
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex items-center justify-center gap-2">
-          <Home className="w-10 h-10 text-primary-600" />
-          <h1 className="text-3xl font-bold text-gray-900">{t('common.appName')}</h1>
+          <Home className="w-10 h-10 text-primary-600 dark:text-primary-400" />
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t('common.appName')}</h1>
         </div>
-        <h2 className="mt-6 text-center text-2xl font-semibold text-gray-900">
+        <h2 className="mt-6 text-center text-2xl font-semibold text-gray-900 dark:text-gray-100">
           {t('auth.createAccount')}
         </h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
+        <div className="bg-white dark:bg-gray-900 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -122,9 +124,9 @@ export function Register() {
           </form>
 
           <div className="mt-6 text-center">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
               {t('auth.alreadyHaveAccount')}{' '}
-              <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+              <Link to="/login" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium">
                 {t('auth.signIn')}
               </Link>
             </span>

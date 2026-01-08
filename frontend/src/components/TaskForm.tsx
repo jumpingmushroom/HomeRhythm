@@ -95,13 +95,13 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             {task ? t('taskForm.editTask') : t('taskForm.createNewTask')}
           </h2>
-          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -319,7 +319,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                 className="input"
                 placeholder={t('taskForm.estimatedCostPlaceholder')}
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Enter amount in {getCurrencySymbol(language)} ({language === 'en' ? 'USD' : 'NOK'})
               </p>
             </div>
@@ -336,7 +336,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
             />
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button type="submit" disabled={loading} className="btn btn-primary flex-1">
               {loading ? t('taskForm.saving') : task ? t('taskForm.updateTask') : t('taskForm.createTask')}
             </button>

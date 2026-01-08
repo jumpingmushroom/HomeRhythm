@@ -74,11 +74,11 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">{task.title}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{task.title}</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -97,8 +97,8 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
           </div>
 
           {task.assigned_to && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-sm text-blue-900">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-sm text-blue-900 dark:text-blue-300">
                 <User className="w-4 h-4" />
                 <span className="font-medium">
                   {isAssignedToOther
@@ -112,13 +112,13 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
 
           {task.description && (
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-1">{t('taskForm.description')}</h3>
-              <p className="text-gray-900">{task.description}</p>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('taskForm.description')}</h3>
+              <p className="text-gray-900 dark:text-gray-100">{task.description}</p>
             </div>
           )}
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <Calendar className="w-4 h-4" />
               <span>
                 {task.schedule_type === 'once' ? (
@@ -126,7 +126,7 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
                     One-time task
                     {task.due_date && ` - Due: ${new Date(task.due_date).toLocaleDateString()}`}
                     {task.flexibility_window && (
-                      <span className="block text-xs text-gray-500 mt-1">
+                      <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">
                         Flexibility: {task.flexibility_window.replace('within_', '').replace('_', ' ')}
                       </span>
                     )}
@@ -141,14 +141,14 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
             </div>
 
             {task.estimated_time && (
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <Clock className="w-4 h-4" />
                 <span>{task.estimated_time} {t('taskDetails.minutes')}</span>
               </div>
             )}
 
             {task.estimated_cost && (
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <DollarSign className="w-4 h-4" />
                 <span>{formatUSDAsLocalCurrency(task.estimated_cost, language)}</span>
               </div>
@@ -157,12 +157,12 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
 
           {task.notes && (
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-1">{t('taskForm.notes')}</h3>
-              <p className="text-sm text-gray-600 whitespace-pre-wrap">{task.notes}</p>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('taskForm.notes')}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">{task.notes}</p>
             </div>
           )}
 
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button onClick={() => setShowCompleteForm(true)} className="btn btn-primary flex items-center gap-2">
               <CheckCircle className="w-4 h-4" />
               {t('taskDetails.markAsComplete')}
@@ -178,8 +178,8 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
           </div>
 
           {showCompleteForm && (
-            <div className="bg-gray-50 p-4 rounded-lg space-y-4">
-              <h3 className="font-medium text-gray-900">{t('taskDetails.completeTask')}</h3>
+            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-4">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100">{t('taskDetails.completeTask')}</h3>
 
               <div>
                 <label className="label">{t('taskDetails.completionNotes')}</label>
@@ -221,27 +221,27 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
             </div>
           )}
 
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
               {t('taskDetails.completionHistory')} ({completions.length})
             </h3>
 
             {loading ? (
-              <p className="text-gray-500">{t('common.loading')}</p>
+              <p className="text-gray-500 dark:text-gray-400">{t('common.loading')}</p>
             ) : completions.length === 0 ? (
-              <p className="text-gray-500">{t('taskDetails.noCompletions')}</p>
+              <p className="text-gray-500 dark:text-gray-400">{t('taskDetails.noCompletions')}</p>
             ) : (
               <div className="space-y-4">
                 {completions.map((completion) => (
-                  <div key={completion.id} className="bg-gray-50 rounded-lg p-4">
+                  <div key={completion.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
                         {formatDateTime(completion.completed_at)}
                       </span>
                     </div>
 
                     {completion.completion_notes && (
-                      <p className="text-sm text-gray-600 mb-2">{completion.completion_notes}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{completion.completion_notes}</p>
                     )}
 
                     {completion.photos && completion.photos.length > 0 && (
@@ -251,7 +251,7 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
                             key={photo.id}
                             src={photosApi.getUrl(photo.id)}
                             alt="Completion photo"
-                            className="w-24 h-24 object-cover rounded-lg border border-gray-200"
+                            className="w-24 h-24 object-cover rounded-lg border border-gray-200 dark:border-gray-700"
                           />
                         ))}
                       </div>
