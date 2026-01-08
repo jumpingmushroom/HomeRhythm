@@ -6,13 +6,13 @@ import { TaskForm } from '../components/TaskForm';
 import { TaskDetails } from '../components/TaskDetails';
 import { TemplateLibrary } from '../components/TemplateLibrary';
 import { useTasksStore } from '../store/tasksStore';
-import { tasksApi, completionsApi } from '../lib/api';
+import { tasksApi, completionsApi, usersApi } from '../lib/api';
 import { Task, CreateTaskInput, TaskTemplate, CATEGORIES } from '../types';
 import { Plus, Search, BookOpen, List, Calendar as CalendarIcon } from 'lucide-react';
 
 export function Dashboard() {
   const { t } = useTranslation();
-  const { tasks, setTasks, addTask, updateTask, deleteTask, filters, setFilters } = useTasksStore();
+  const { tasks, setTasks, addTask, updateTask, deleteTask, filters, setFilters, setUser } = useTasksStore();
   const [loading, setLoading] = useState(true);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
@@ -24,7 +24,17 @@ export function Dashboard() {
 
   useEffect(() => {
     loadTasks();
+    loadUsers();
   }, [filters]);
+
+  const loadUsers = async () => {
+    try {
+      const response = await usersApi.getAll();
+      response.data.users.forEach(user => setUser(user));
+    } catch (error) {
+      console.error('Failed to load users:', error);
+    }
+  };
 
   const loadTasks = async () => {
     try {

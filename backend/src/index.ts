@@ -9,6 +9,7 @@ import taskRoutes from './routes/tasks';
 import completionRoutes from './routes/completions';
 import photoRoutes from './routes/photos';
 import templateRoutes from './routes/templates';
+import userRoutes from './routes/users';
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/completions', completionRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api/users', userRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

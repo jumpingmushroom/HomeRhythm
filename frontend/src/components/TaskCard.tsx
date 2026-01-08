@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { Task, CATEGORY_COLORS, PRIORITY_COLORS } from '../types';
 import { formatDate } from '../lib/utils';
-import { Calendar, Clock, DollarSign, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, DollarSign, AlertCircle, User } from 'lucide-react';
+import { useTasksStore } from '../store/tasksStore';
+import { useAuthStore } from '../store/authStore';
 
 interface TaskCardProps {
   task: Task;
@@ -11,6 +13,11 @@ interface TaskCardProps {
 
 export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
   const { t } = useTranslation();
+  const { userMap } = useTasksStore();
+  const { user: currentUser } = useAuthStore();
+  const assignedUser = task.assigned_to ? userMap[task.assigned_to] : null;
+  const isAssignedToOther = task.assigned_to && task.assigned_to !== currentUser?.id;
+
   return (
     <div
       onClick={onClick}
@@ -25,6 +32,13 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
 
       {task.description && (
         <p className="text-sm text-gray-600 mb-3 line-clamp-2">{task.description}</p>
+      )}
+
+      {isAssignedToOther && (
+        <div className="mb-3 flex items-center gap-1 text-sm text-blue-600">
+          <User className="w-4 h-4" />
+          <span>Assigned to: {assignedUser?.email || `User ${task.assigned_to}`}</span>
+        </div>
       )}
 
       <div className="flex flex-wrap gap-3 text-sm text-gray-600">

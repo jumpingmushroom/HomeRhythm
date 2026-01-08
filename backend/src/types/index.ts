@@ -8,6 +8,7 @@ export interface User {
 export interface Task {
   id: number;
   user_id: number;
+  assigned_to: number | null;
   title: string;
   description: string | null;
   category: string;

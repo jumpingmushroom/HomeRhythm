@@ -28,7 +28,7 @@ export const authApi = {
 
 // Tasks
 export const tasksApi = {
-  getAll: (params?: { category?: string; priority?: string; search?: string }) =>
+  getAll: (params?: { category?: string; priority?: string; search?: string; filter?: 'created' | 'assigned' }) =>
     api.get<{ tasks: Task[] }>('/tasks', { params }),
 
   getOne: (id: number) =>
@@ -90,4 +90,13 @@ export const templatesApi = {
 
   getOne: (id: number) =>
     api.get<{ template: TaskTemplate }>(`/templates/${id}`),
+};
+
+// Users
+export const usersApi = {
+  getAll: (params?: { search?: string }) =>
+    api.get<{ users: User[] }>('/users', { params }),
+
+  getOne: (id: number) =>
+    api.get<{ user: User }>(`/users/${id}`),
 };

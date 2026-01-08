@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Task, TaskCompletion, CATEGORY_COLORS, PRIORITY_COLORS } from '../types';
 import { formatDateTime } from '../lib/utils';
 import { completionsApi, photosApi } from '../lib/api';
-import { X, Calendar, Clock, DollarSign, AlertCircle, CheckCircle, Edit, Trash2 } from 'lucide-react';
+import { X, Calendar, Clock, DollarSign, AlertCircle, CheckCircle, Edit, Trash2, User } from 'lucide-react';
+import { useTasksStore } from '../store/tasksStore';
+import { useAuthStore } from '../store/authStore';
 
 interface TaskDetailsProps {
   task: Task;
@@ -15,12 +17,17 @@ interface TaskDetailsProps {
 
 export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: TaskDetailsProps) {
   const { t } = useTranslation();
+  const { userMap } = useTasksStore();
+  const { user: currentUser } = useAuthStore();
   const [completions, setCompletions] = useState<TaskCompletion[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCompleteForm, setShowCompleteForm] = useState(false);
   const [completionNotes, setCompletionNotes] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const assignedUser = task.assigned_to ? userMap[task.assigned_to] : null;
+  const isAssignedToOther = task.assigned_to && task.assigned_to !== currentUser?.id;
 
   useEffect(() => {
     loadCompletions();
@@ -85,6 +92,20 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
               </span>
             )}
           </div>
+
+          {task.assigned_to && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-sm text-blue-900">
+                <User className="w-4 h-4" />
+                <span className="font-medium">
+                  {isAssignedToOther
+                    ? `Assigned to: ${assignedUser?.email || `User ${task.assigned_to}`}`
+                    : 'Assigned to: You'
+                  }
+                </span>
+              </div>
+            </div>
+          )}
 
           {task.description && (
             <div>

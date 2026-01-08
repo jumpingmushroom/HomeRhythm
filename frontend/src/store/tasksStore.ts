@@ -1,14 +1,16 @@
 import { create } from 'zustand';
-import { Task, TaskCompletion } from '../types';
+import { Task, TaskCompletion, User } from '../types';
 
 interface TasksState {
   tasks: Task[];
   selectedTask: Task | null;
   completions: Record<number, TaskCompletion[]>;
+  userMap: Record<number, User>;
   filters: {
     category: string | null;
     priority: string | null;
     search: string;
+    assignmentFilter: 'all' | 'created' | 'assigned';
   };
   setTasks: (tasks: Task[]) => void;
   addTask: (task: Task) => void;
@@ -17,6 +19,7 @@ interface TasksState {
   setSelectedTask: (task: Task | null) => void;
   setCompletions: (taskId: number, completions: TaskCompletion[]) => void;
   addCompletion: (completion: TaskCompletion) => void;
+  setUser: (user: User) => void;
   setFilters: (filters: Partial<TasksState['filters']>) => void;
 }
 
@@ -24,10 +27,12 @@ export const useTasksStore = create<TasksState>((set) => ({
   tasks: [],
   selectedTask: null,
   completions: {},
+  userMap: {},
   filters: {
     category: null,
     priority: null,
     search: '',
+    assignmentFilter: 'all',
   },
 
   setTasks: (tasks) => set({ tasks }),
@@ -58,6 +63,10 @@ export const useTasksStore = create<TasksState>((set) => ({
         ...(state.completions[completion.task_id] || []),
       ],
     },
+  })),
+
+  setUser: (user) => set((state) => ({
+    userMap: { ...state.userMap, [user.id]: user },
   })),
 
   setFilters: (filters) => set((state) => ({
