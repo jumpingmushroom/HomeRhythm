@@ -6,6 +6,8 @@ import { completionsApi, photosApi } from '../lib/api';
 import { X, Calendar, Clock, DollarSign, AlertCircle, CheckCircle, Edit, Trash2, User } from 'lucide-react';
 import { useTasksStore } from '../store/tasksStore';
 import { useAuthStore } from '../store/authStore';
+import { useLanguageStore } from '../store/languageStore';
+import { formatUSDAsLocalCurrency } from '../utils/currency';
 
 interface TaskDetailsProps {
   task: Task;
@@ -19,6 +21,7 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
   const { t } = useTranslation();
   const { userMap } = useTasksStore();
   const { user: currentUser } = useAuthStore();
+  const { language } = useLanguageStore();
   const [completions, setCompletions] = useState<TaskCompletion[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCompleteForm, setShowCompleteForm] = useState(false);
@@ -147,7 +150,7 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
             {task.estimated_cost && (
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <DollarSign className="w-4 h-4" />
-                <span>${task.estimated_cost}</span>
+                <span>{formatUSDAsLocalCurrency(task.estimated_cost, language)}</span>
               </div>
             )}
           </div>

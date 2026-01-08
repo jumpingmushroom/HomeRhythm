@@ -4,6 +4,8 @@ import { Task, CreateTaskInput, CATEGORIES, User } from '../types';
 import { X } from 'lucide-react';
 import { usersApi } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
+import { useLanguageStore } from '../store/languageStore';
+import { convertToUSD, convertFromUSD, getCurrencySymbol } from '../utils/currency';
 
 interface TaskFormProps {
   task?: Task;
@@ -32,10 +34,19 @@ const seasonToConfig = (season: string): string => {
 export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
   const { t } = useTranslation();
   const { user: currentUser } = useAuthStore();
+  const { language } = useLanguageStore();
   const [users, setUsers] = useState<User[]>([]);
   const [selectedSeason, setSelectedSeason] = useState<string>(
     task?.recurrence_pattern === 'seasonal' ? parseSeasonFromConfig(task?.recurrence_config) : ''
   );
+
+  // Convert USD to local currency for display in form
+  const initialLocalCost = task?.estimated_cost
+    ? convertFromUSD(task.estimated_cost, language)
+    : undefined;
+
+  const [localCostValue, setLocalCostValue] = useState<number | undefined>(initialLocalCost);
+
   const [formData, setFormData] = useState<CreateTaskInput>({
     title: task?.title || '',
     description: task?.description || '',
@@ -67,7 +78,16 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    // Convert local currency to USD before submitting
+    const costInUSD = localCostValue !== undefined
+      ? convertToUSD(localCostValue, language)
+      : undefined;
+
+    onSubmit({
+      ...formData,
+      estimated_cost: costInUSD,
+    });
   };
 
   const handleChange = (field: keyof CreateTaskInput, value: any) => {
@@ -294,11 +314,14 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                 type="number"
                 min="0"
                 step="0.01"
-                value={formData.estimated_cost || ''}
-                onChange={(e) => handleChange('estimated_cost', parseFloat(e.target.value) || undefined)}
+                value={localCostValue || ''}
+                onChange={(e) => setLocalCostValue(parseFloat(e.target.value) || undefined)}
                 className="input"
                 placeholder={t('taskForm.estimatedCostPlaceholder')}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Enter amount in {getCurrencySymbol(language)} ({language === 'en' ? 'USD' : 'NOK'})
+              </p>
             </div>
           </div>
 
