@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 import i18n from '../i18n/config';
+import { SupportedLanguage } from '../utils/currency';
 
 interface LanguageState {
-  currentLanguage: string;
-  setLanguage: (language: string) => void;
+  language: SupportedLanguage;
+  setLanguage: (language: SupportedLanguage) => void;
 }
 
 export const useLanguageStore = create<LanguageState>((set) => ({
-  currentLanguage: localStorage.getItem('language') || 'en',
-  setLanguage: (language: string) => {
+  language: (localStorage.getItem('language') as SupportedLanguage) || 'en',
+  setLanguage: (language: SupportedLanguage) => {
     localStorage.setItem('language', language);
     i18n.changeLanguage(language);
-    set({ currentLanguage: language });
+    set({ language });
   },
 }));
