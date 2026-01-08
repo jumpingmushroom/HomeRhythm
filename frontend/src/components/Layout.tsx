@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/authStore';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { ThemeToggle } from './ThemeToggle';
 import { Home, LogOut } from 'lucide-react';
 
 interface LayoutProps {
@@ -20,22 +21,23 @@ export function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b border-gray-200">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <nav className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-              <Home className="w-6 h-6 text-primary-600" />
-              <span className="text-xl font-bold text-gray-900">HomeRhythm</span>
+              <Home className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+              <span className="text-xl font-bold text-gray-900 dark:text-gray-100">HomeRhythm</span>
             </div>
 
             {user && (
               <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-600">{user.email}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">{user.email}</span>
+                <ThemeToggle />
                 <LanguageSwitcher />
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                   {t('common.logout')}

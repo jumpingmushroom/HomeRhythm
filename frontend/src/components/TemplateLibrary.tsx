@@ -44,21 +44,21 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
   const categories = Object.keys(templates);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-primary-600" />
-            <h2 className="text-xl font-semibold text-gray-900">{t('templateLibrary.title')}</h2>
+            <BookOpen className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{t('templateLibrary.title')}</h2>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <div className="p-6">
           {loading ? (
-            <p className="text-center text-gray-500">{t('templateLibrary.loadingTemplates')}</p>
+            <p className="text-center text-gray-500 dark:text-gray-400">{t('templateLibrary.loadingTemplates')}</p>
           ) : (
             <div className="space-y-6">
               <div className="flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                     selectedCategory === null
                       ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
                   }`}
                 >
                   {t('common.all')}
@@ -79,7 +79,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       selectedCategory === category
                         ? 'bg-primary-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
                     }`}
                   >
                     {t(`categories.${category}`)} ({templates[category].length})
@@ -92,7 +92,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                   .filter((cat) => !selectedCategory || cat === selectedCategory)
                   .map((category) => (
                     <div key={category}>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                         {t(`categories.${category}`)}
                       </h3>
                       <div className="grid gap-3">
@@ -114,19 +114,19 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                             <div
                               key={template.id}
                               onClick={() => onSelectTemplate(translatedTemplate)}
-                              className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 cursor-pointer transition-colors border border-gray-200"
+                              className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg p-4 cursor-pointer transition-colors border border-gray-200 dark:border-gray-700"
                             >
                               <div className="flex items-start justify-between">
                                 <div className="flex-1">
-                                  <h4 className="font-medium text-gray-900 mb-1">
+                                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">
                                     {translatedTitle}
                                   </h4>
                                   {translatedDescription && (
-                                    <p className="text-sm text-gray-600 mb-2">
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                                       {translatedDescription}
                                     </p>
                                   )}
-                                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                                  <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                                     <span className={`px-2 py-1 rounded-full border ${CATEGORY_COLORS[template.category]}`}>
                                       {t(`categories.${template.category}`)}
                                     </span>

@@ -27,24 +27,24 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
       className="card hover:shadow-md transition-shadow cursor-pointer"
     >
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-lg font-semibold text-gray-900">{task.title}</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{task.title}</h3>
         <span className={`px-2 py-1 text-xs font-medium rounded-full border ${CATEGORY_COLORS[task.category] || CATEGORY_COLORS.general}`}>
           {t(`categories.${task.category}`)}
         </span>
       </div>
 
       {task.description && (
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{task.description}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">{task.description}</p>
       )}
 
       {isAssignedToOther && (
-        <div className="mb-3 flex items-center gap-1 text-sm text-blue-600">
+        <div className="mb-3 flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400">
           <User className="w-4 h-4" />
           <span>Assigned to: {assignedUser?.email || `User ${task.assigned_to}`}</span>
         </div>
       )}
 
-      <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+      <div className="flex flex-wrap gap-3 text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-1">
           <Calendar className="w-4 h-4" />
           <span>
@@ -53,7 +53,7 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
                 One-time
                 {task.due_date && ` - ${formatDate(task.due_date)}`}
                 {task.flexibility_window && task.flexibility_window !== 'exact_date' && (
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-gray-500 dark:text-gray-500">
                     {' '}({task.flexibility_window.replace('within_', '').replace('_', ' ')})
                   </span>
                 )}
@@ -90,7 +90,7 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
       </div>
 
       {lastCompleted && (
-        <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-gray-500">
+        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
           {t('taskCard.lastCompleted')}: {formatDate(lastCompleted)}
         </div>
       )}
