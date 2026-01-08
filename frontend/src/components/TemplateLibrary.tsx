@@ -9,6 +9,17 @@ interface TemplateLibraryProps {
   onSelectTemplate: (template: TaskTemplate) => void;
 }
 
+// Helper function to convert template title to translation key
+function getTitleKey(title: string): string {
+  return title
+    .split(' ')
+    .map((word, index) => {
+      const cleaned = word.replace(/[^a-zA-Z]/g, '');
+      return index === 0 ? cleaned.charAt(0).toLowerCase() + cleaned.slice(1) : cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+    })
+    .join('');
+}
+
 export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryProps) {
   const { t } = useTranslation();
   const [templates, setTemplates] = useState<Record<string, TaskTemplate[]>>({});
@@ -85,36 +96,44 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                         {t(`categories.${category}`)}
                       </h3>
                       <div className="grid gap-3">
-                        {templates[category].map((template) => (
-                          <div
-                            key={template.id}
-                            onClick={() => onSelectTemplate(template)}
-                            className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 cursor-pointer transition-colors border border-gray-200"
-                          >
-                            <div className="flex items-start justify-between">
-                              <div className="flex-1">
-                                <h4 className="font-medium text-gray-900 mb-1">
-                                  {template.title}
-                                </h4>
-                                {template.description && (
-                                  <p className="text-sm text-gray-600 mb-2">
-                                    {template.description}
-                                  </p>
-                                )}
-                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                  <span className={`px-2 py-1 rounded-full border ${CATEGORY_COLORS[template.category]}`}>
-                                    {t(`categories.${template.category}`)}
-                                  </span>
-                                  <span>
-                                    {t(`recurrenceTypes.${template.suggested_recurrence_type}`)}
-                                    {template.suggested_recurrence_interval &&
-                                      ` (${t('taskCard.every')} ${template.suggested_recurrence_interval})`}
-                                  </span>
+                        {templates[category].map((template) => {
+                          const titleKey = getTitleKey(template.title);
+                          const translatedTitle = t(`templates.${titleKey}.title`, { defaultValue: template.title });
+                          const translatedDescription = template.description
+                            ? t(`templates.${titleKey}.description`, { defaultValue: template.description })
+                            : '';
+
+                          return (
+                            <div
+                              key={template.id}
+                              onClick={() => onSelectTemplate(template)}
+                              className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 cursor-pointer transition-colors border border-gray-200"
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <h4 className="font-medium text-gray-900 mb-1">
+                                    {translatedTitle}
+                                  </h4>
+                                  {translatedDescription && (
+                                    <p className="text-sm text-gray-600 mb-2">
+                                      {translatedDescription}
+                                    </p>
+                                  )}
+                                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                                    <span className={`px-2 py-1 rounded-full border ${CATEGORY_COLORS[template.category]}`}>
+                                      {t(`categories.${template.category}`)}
+                                    </span>
+                                    <span>
+                                      {t(`recurrenceTypes.${template.suggested_recurrence_type}`)}
+                                      {template.suggested_recurrence_interval &&
+                                        ` (${t('taskCard.every')} ${template.suggested_recurrence_interval})`}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   ))}
