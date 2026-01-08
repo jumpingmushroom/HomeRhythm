@@ -13,6 +13,20 @@ export function runMigrations() {
 
     console.log('Database schema created successfully');
 
+    // Migration: Add assigned_to column to tasks table if it doesn't exist
+    console.log('Checking for assigned_to column...');
+    const tableInfo = db.prepare("PRAGMA table_info(tasks)").all() as Array<{ name: string }>;
+    const hasAssignedTo = tableInfo.some(col => col.name === 'assigned_to');
+
+    if (!hasAssignedTo) {
+      console.log('Adding assigned_to column to tasks table...');
+      db.exec(`
+        ALTER TABLE tasks ADD COLUMN assigned_to INTEGER REFERENCES users(id) ON DELETE SET NULL;
+        CREATE INDEX IF NOT EXISTS idx_tasks_assigned_to ON tasks(assigned_to);
+      `);
+      console.log('assigned_to column added successfully');
+    }
+
     // Seed templates if table is empty
     const count = db.prepare('SELECT COUNT(*) as count FROM task_templates').get() as { count: number };
     if (count.count === 0) {

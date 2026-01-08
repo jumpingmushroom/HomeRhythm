@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Task, CreateTaskInput, CATEGORIES } from '../types';
+import { Task, CreateTaskInput, CATEGORIES, User } from '../types';
 import { X } from 'lucide-react';
+import { usersApi } from '../lib/api';
+import { useAuthStore } from '../store/authStore';
 
 interface TaskFormProps {
   task?: Task;
@@ -12,6 +14,8 @@ interface TaskFormProps {
 
 export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
   const { t } = useTranslation();
+  const { user: currentUser } = useAuthStore();
+  const [users, setUsers] = useState<User[]>([]);
   const [formData, setFormData] = useState<CreateTaskInput>({
     title: task?.title || '',
     description: task?.description || '',
@@ -23,7 +27,20 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
     estimated_time: task?.estimated_time || undefined,
     estimated_cost: task?.estimated_cost || undefined,
     notes: task?.notes || '',
+    assigned_to: task?.assigned_to || undefined,
   });
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await usersApi.getAll();
+        setUsers(response.data.users);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +116,22 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                 <option value="high">{t('priorities.high')}</option>
               </select>
             </div>
+          </div>
+
+          <div>
+            <label className="label">Assign To</label>
+            <select
+              value={formData.assigned_to || ''}
+              onChange={(e) => handleChange('assigned_to', e.target.value ? parseInt(e.target.value) : undefined)}
+              className="input"
+            >
+              <option value="">Assign to me ({currentUser?.email})</option>
+              {users.filter(u => u.id !== currentUser?.id).map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.email}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

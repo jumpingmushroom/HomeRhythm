@@ -7,6 +7,7 @@ export interface User {
 export interface Task {
   id: number;
   user_id: number;
+  assigned_to: number | null;
   title: string;
   description: string | null;
   category: string;
@@ -60,6 +61,7 @@ export interface CreateTaskInput {
   estimated_time?: number;
   estimated_cost?: number;
   notes?: string;
+  assigned_to?: number;
 }
 
 export const CATEGORIES = [

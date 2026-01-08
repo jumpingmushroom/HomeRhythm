@@ -21,6 +21,7 @@ export const taskSchema = z.object({
   estimated_time: z.number().int().positive().optional().nullable(),
   estimated_cost: z.number().positive().optional().nullable(),
   notes: z.string().optional().nullable(),
+  assigned_to: z.number().int().positive().optional().nullable(),
 });
 
 export const completionSchema = z.object({

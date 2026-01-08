@@ -12,10 +12,22 @@ router.use(authenticateToken);
 // Get all tasks for the current user
 router.get('/', (req: AuthRequest, res) => {
   const db = getDatabase();
-  const { category, priority, search } = req.query;
+  const { category, priority, search, filter } = req.query;
 
-  let query = 'SELECT * FROM tasks WHERE user_id = ?';
-  const params: any[] = [req.userId!];
+  // Filter: 'created' = tasks user created, 'assigned' = tasks assigned to user, default = both
+  let query = 'SELECT * FROM tasks WHERE ';
+  const params: any[] = [];
+
+  if (filter === 'created') {
+    query += 'user_id = ?';
+    params.push(req.userId!);
+  } else if (filter === 'assigned') {
+    query += 'assigned_to = ?';
+    params.push(req.userId!);
+  } else {
+    query += '(user_id = ? OR assigned_to = ?)';
+    params.push(req.userId!, req.userId!);
+  }
 
   if (category) {
     query += ' AND category = ?';
@@ -50,7 +62,7 @@ router.get('/:id', (req: AuthRequest, res) => {
   const taskId = parseInt(req.params.id);
 
   try {
-    const task = db.prepare('SELECT * FROM tasks WHERE id = ? AND user_id = ?').get(taskId, req.userId!) as Task | undefined;
+    const task = db.prepare('SELECT * FROM tasks WHERE id = ? AND (user_id = ? OR assigned_to = ?)').get(taskId, req.userId!, req.userId!) as Task | undefined;
 
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
@@ -76,12 +88,13 @@ router.post('/', (req: AuthRequest, res) => {
   try {
     const result = db.prepare(`
       INSERT INTO tasks (
-        user_id, title, description, category,
+        user_id, assigned_to, title, description, category,
         recurrence_type, recurrence_interval, recurrence_config,
         priority, estimated_time, estimated_cost, notes
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       req.userId!,
+      data.assigned_to || null,
       data.title,
       data.description || null,
       data.category,
