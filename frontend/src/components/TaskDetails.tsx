@@ -118,8 +118,22 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Calendar className="w-4 h-4" />
               <span>
-                {t(`recurrenceTypes.${task.recurrence_type}`)}
-                {task.recurrence_interval && ` (${t('taskCard.every')} ${task.recurrence_interval})`}
+                {task.schedule_type === 'once' ? (
+                  <>
+                    One-time task
+                    {task.due_date && ` - Due: ${new Date(task.due_date).toLocaleDateString()}`}
+                    {task.flexibility_window && (
+                      <span className="block text-xs text-gray-500 mt-1">
+                        Flexibility: {task.flexibility_window.replace('within_', '').replace('_', ' ')}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {task.recurrence_pattern && t(`recurrenceTypes.${task.recurrence_pattern}`)}
+                    {task.recurrence_interval && ` (${t('taskCard.every')} ${task.recurrence_interval})`}
+                  </>
+                )}
               </span>
             </div>
 

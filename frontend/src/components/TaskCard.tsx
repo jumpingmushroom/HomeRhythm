@@ -45,8 +45,22 @@ export function TaskCard({ task, onClick, lastCompleted }: TaskCardProps) {
         <div className="flex items-center gap-1">
           <Calendar className="w-4 h-4" />
           <span>
-            {t(`recurrenceTypes.${task.recurrence_type}`)}
-            {task.recurrence_interval && ` (${t('taskCard.every')} ${task.recurrence_interval})`}
+            {task.schedule_type === 'once' ? (
+              <>
+                One-time
+                {task.due_date && ` - ${formatDate(task.due_date)}`}
+                {task.flexibility_window && task.flexibility_window !== 'exact_date' && (
+                  <span className="text-xs text-gray-500">
+                    {' '}({task.flexibility_window.replace('within_', '').replace('_', ' ')})
+                  </span>
+                )}
+              </>
+            ) : (
+              <>
+                {task.recurrence_pattern && t(`recurrenceTypes.${task.recurrence_pattern}`)}
+                {task.recurrence_interval && ` (${t('taskCard.every')} ${task.recurrence_interval})`}
+              </>
+            )}
           </span>
         </div>
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getDatabase } from '../database';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
-import { validateRequest, taskSchema } from '../utils/validation';
+import { validateRequest, taskSchema, taskSchemaPartial } from '../utils/validation';
 import { Task } from '../types';
 
 const router = Router();
@@ -89,16 +89,19 @@ router.post('/', (req: AuthRequest, res) => {
     const result = db.prepare(`
       INSERT INTO tasks (
         user_id, assigned_to, title, description, category,
-        recurrence_type, recurrence_interval, recurrence_config,
+        schedule_type, due_date, flexibility_window, recurrence_pattern, recurrence_interval, recurrence_config,
         priority, estimated_time, estimated_cost, notes
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       req.userId!,
       data.assigned_to || null,
       data.title,
       data.description || null,
       data.category,
-      data.recurrence_type,
+      data.schedule_type,
+      data.due_date || null,
+      data.flexibility_window || null,
+      data.recurrence_pattern || null,
       data.recurrence_interval || null,
       data.recurrence_config || null,
       data.priority,
@@ -117,7 +120,7 @@ router.post('/', (req: AuthRequest, res) => {
 
 // Update a task
 router.put('/:id', (req: AuthRequest, res) => {
-  const validation = validateRequest(taskSchema.partial(), req.body);
+  const validation = validateRequest(taskSchemaPartial, req.body);
   if (!validation.success) {
     return res.status(400).json({ error: validation.error });
   }
