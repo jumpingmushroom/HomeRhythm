@@ -8,7 +8,7 @@ import { TemplateLibrary } from '../components/TemplateLibrary';
 import { useTasksStore } from '../store/tasksStore';
 import { tasksApi, completionsApi, usersApi } from '../lib/api';
 import { Task, CreateTaskInput, TaskTemplate, CATEGORIES } from '../types';
-import { Plus, Search, BookOpen, List, Calendar as CalendarIcon } from 'lucide-react';
+import { Plus, Search, BookOpen } from 'lucide-react';
 
 export function Dashboard() {
   const { t } = useTranslation();
@@ -20,7 +20,6 @@ export function Dashboard() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [lastCompletions, setLastCompletions] = useState<Record<number, string>>({});
-  const [view, setView] = useState<'list' | 'calendar'>('list');
 
   useEffect(() => {
     loadTasks();
@@ -211,25 +210,6 @@ export function Dashboard() {
               <option value="medium">{t('priorities.medium')}</option>
               <option value="high">{t('priorities.high')}</option>
             </select>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => setView('list')}
-                className={`p-2 rounded-lg ${
-                  view === 'list' ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
-                }`}
-              >
-                <List className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setView('calendar')}
-                className={`p-2 rounded-lg ${
-                  view === 'calendar' ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
-                }`}
-              >
-                <CalendarIcon className="w-5 h-5" />
-              </button>
-            </div>
           </div>
         </div>
 
