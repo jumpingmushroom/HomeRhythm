@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout';
 import { TaskCard } from '../components/TaskCard';
 import { TaskForm } from '../components/TaskForm';
@@ -8,9 +9,9 @@ import { useTasksStore } from '../store/tasksStore';
 import { tasksApi, completionsApi } from '../lib/api';
 import { Task, CreateTaskInput, TaskTemplate, CATEGORIES } from '../types';
 import { Plus, Search, BookOpen, List, Calendar as CalendarIcon } from 'lucide-react';
-import { capitalizeFirst } from '../lib/utils';
 
 export function Dashboard() {
+  const { t } = useTranslation();
   const { tasks, setTasks, addTask, updateTask, deleteTask, filters, setFilters } = useTasksStore();
   const [loading, setLoading] = useState(true);
   const [showTaskForm, setShowTaskForm] = useState(false);
@@ -91,7 +92,7 @@ export function Dashboard() {
   };
 
   const handleDeleteTask = async (task: Task) => {
-    if (!confirm('Are you sure you want to delete this task?')) return;
+    if (!confirm(t('taskDetails.deleteConfirm'))) return;
 
     try {
       await tasksApi.delete(task.id);
@@ -99,7 +100,7 @@ export function Dashboard() {
       setSelectedTask(null);
     } catch (error) {
       console.error('Failed to delete task:', error);
-      alert('Failed to delete task');
+      alert(t('taskDetails.failedToDelete'));
     }
   };
 
@@ -136,8 +137,8 @@ export function Dashboard() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Home Maintenance Tasks</h1>
-            <p className="text-gray-600 mt-1">Track and manage your seasonal home maintenance</p>
+            <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
+            <p className="text-gray-600 mt-1">{t('dashboard.subtitle')}</p>
           </div>
 
           <div className="flex gap-3">
@@ -146,7 +147,7 @@ export function Dashboard() {
               className="btn btn-secondary flex items-center gap-2"
             >
               <BookOpen className="w-4 h-4" />
-              Browse Templates
+              {t('dashboard.browseTemplates')}
             </button>
             <button
               onClick={() => {
@@ -156,7 +157,7 @@ export function Dashboard() {
               className="btn btn-primary flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
-              New Task
+              {t('dashboard.newTask')}
             </button>
           </div>
         </div>
@@ -168,7 +169,7 @@ export function Dashboard() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search tasks..."
+                  placeholder={t('dashboard.searchPlaceholder')}
                   value={filters.search}
                   onChange={(e) => setFilters({ search: e.target.value })}
                   className="input pl-10"
@@ -181,10 +182,10 @@ export function Dashboard() {
               onChange={(e) => setFilters({ category: e.target.value || null })}
               className="input sm:w-48"
             >
-              <option value="">All Categories</option>
+              <option value="">{t('dashboard.allCategories')}</option>
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
-                  {capitalizeFirst(cat)}
+                  {t(`categories.${cat}`)}
                 </option>
               ))}
             </select>
@@ -194,10 +195,10 @@ export function Dashboard() {
               onChange={(e) => setFilters({ priority: e.target.value || null })}
               className="input sm:w-48"
             >
-              <option value="">All Priorities</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="">{t('dashboard.allPriorities')}</option>
+              <option value="low">{t('priorities.low')}</option>
+              <option value="medium">{t('priorities.medium')}</option>
+              <option value="high">{t('priorities.high')}</option>
             </select>
 
             <div className="flex gap-2">
@@ -222,16 +223,16 @@ export function Dashboard() {
         </div>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-500">Loading tasks...</div>
+          <div className="text-center py-12 text-gray-500">{t('dashboard.loadingTasks')}</div>
         ) : filteredTasks.length === 0 ? (
           <div className="card text-center py-12">
-            <p className="text-gray-500 mb-4">No tasks found</p>
+            <p className="text-gray-500 mb-4">{t('dashboard.noTasksFound')}</p>
             <button
               onClick={() => setShowTemplates(true)}
               className="btn btn-primary inline-flex items-center gap-2"
             >
               <BookOpen className="w-4 h-4" />
-              Browse Task Templates
+              {t('dashboard.browseTaskTemplates')}
             </button>
           </div>
         ) : (

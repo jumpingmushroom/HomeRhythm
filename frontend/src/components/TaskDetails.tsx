@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Task, TaskCompletion, CATEGORY_COLORS, PRIORITY_COLORS } from '../types';
-import { formatDateTime, capitalizeFirst } from '../lib/utils';
+import { formatDateTime } from '../lib/utils';
 import { completionsApi, photosApi } from '../lib/api';
 import { X, Calendar, Clock, DollarSign, AlertCircle, CheckCircle, Edit, Trash2 } from 'lucide-react';
 
@@ -13,6 +14,7 @@ interface TaskDetailsProps {
 }
 
 export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: TaskDetailsProps) {
+  const { t } = useTranslation();
   const [completions, setCompletions] = useState<TaskCompletion[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCompleteForm, setShowCompleteForm] = useState(false);
@@ -55,7 +57,7 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
       onComplete();
     } catch (error) {
       console.error('Failed to complete task:', error);
-      alert('Failed to complete task');
+      alert(t('taskDetails.failedToComplete'));
     } finally {
       setSubmitting(false);
     }
@@ -74,19 +76,19 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
         <div className="p-6 space-y-6">
           <div className="flex items-center gap-2">
             <span className={`px-3 py-1 text-sm font-medium rounded-full border ${CATEGORY_COLORS[task.category] || CATEGORY_COLORS.general}`}>
-              {capitalizeFirst(task.category)}
+              {t(`categories.${task.category}`)}
             </span>
             {task.priority !== 'medium' && (
               <span className={`flex items-center gap-1 text-sm ${PRIORITY_COLORS[task.priority]}`}>
                 <AlertCircle className="w-4 h-4" />
-                {capitalizeFirst(task.priority)} priority
+                {t(`priorities.${task.priority}`)} {t('taskCard.priority')}
               </span>
             )}
           </div>
 
           {task.description && (
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-1">Description</h3>
+              <h3 className="text-sm font-medium text-gray-700 mb-1">{t('taskForm.description')}</h3>
               <p className="text-gray-900">{task.description}</p>
             </div>
           )}
@@ -95,15 +97,15 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Calendar className="w-4 h-4" />
               <span>
-                {capitalizeFirst(task.recurrence_type)}
-                {task.recurrence_interval && ` (every ${task.recurrence_interval})`}
+                {t(`recurrenceTypes.${task.recurrence_type}`)}
+                {task.recurrence_interval && ` (${t('taskCard.every')} ${task.recurrence_interval})`}
               </span>
             </div>
 
             {task.estimated_time && (
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Clock className="w-4 h-4" />
-                <span>{task.estimated_time} minutes</span>
+                <span>{task.estimated_time} {t('taskDetails.minutes')}</span>
               </div>
             )}
 
@@ -117,7 +119,7 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
 
           {task.notes && (
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-1">Notes</h3>
+              <h3 className="text-sm font-medium text-gray-700 mb-1">{t('taskForm.notes')}</h3>
               <p className="text-sm text-gray-600 whitespace-pre-wrap">{task.notes}</p>
             </div>
           )}
@@ -125,35 +127,35 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
           <div className="flex gap-3 pt-4 border-t border-gray-200">
             <button onClick={() => setShowCompleteForm(true)} className="btn btn-primary flex items-center gap-2">
               <CheckCircle className="w-4 h-4" />
-              Mark as Complete
+              {t('taskDetails.markAsComplete')}
             </button>
             <button onClick={onEdit} className="btn btn-secondary flex items-center gap-2">
               <Edit className="w-4 h-4" />
-              Edit
+              {t('common.edit')}
             </button>
             <button onClick={onDelete} className="btn btn-danger flex items-center gap-2">
               <Trash2 className="w-4 h-4" />
-              Delete
+              {t('common.delete')}
             </button>
           </div>
 
           {showCompleteForm && (
             <div className="bg-gray-50 p-4 rounded-lg space-y-4">
-              <h3 className="font-medium text-gray-900">Complete Task</h3>
+              <h3 className="font-medium text-gray-900">{t('taskDetails.completeTask')}</h3>
 
               <div>
-                <label className="label">Completion Notes (optional)</label>
+                <label className="label">{t('taskDetails.completionNotes')}</label>
                 <textarea
                   value={completionNotes}
                   onChange={(e) => setCompletionNotes(e.target.value)}
                   className="input"
                   rows={3}
-                  placeholder="Any notes about the completion..."
+                  placeholder={t('taskDetails.completionNotesPlaceholder')}
                 />
               </div>
 
               <div>
-                <label className="label">Photos (optional)</label>
+                <label className="label">{t('taskDetails.photos')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -169,13 +171,13 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
                   disabled={submitting}
                   className="btn btn-primary"
                 >
-                  {submitting ? 'Submitting...' : 'Submit Completion'}
+                  {submitting ? t('taskDetails.submitting') : t('taskDetails.submitCompletion')}
                 </button>
                 <button
                   onClick={() => setShowCompleteForm(false)}
                   className="btn btn-secondary"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
               </div>
             </div>
@@ -183,13 +185,13 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
 
           <div className="border-t border-gray-200 pt-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Completion History ({completions.length})
+              {t('taskDetails.completionHistory')} ({completions.length})
             </h3>
 
             {loading ? (
-              <p className="text-gray-500">Loading...</p>
+              <p className="text-gray-500">{t('common.loading')}</p>
             ) : completions.length === 0 ? (
-              <p className="text-gray-500">No completions yet</p>
+              <p className="text-gray-500">{t('taskDetails.noCompletions')}</p>
             ) : (
               <div className="space-y-4">
                 {completions.map((completion) => (

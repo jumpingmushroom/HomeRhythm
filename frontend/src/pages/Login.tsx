@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { Home } from 'lucide-react';
 
 export function Login() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { setAuth } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +25,7 @@ export function Login() {
       setAuth(response.data.user, response.data.token);
       navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to login');
+      setError(err.response?.data?.error || t('auth.failedToLogin'));
     } finally {
       setLoading(false);
     }
@@ -30,13 +33,16 @@ export function Login() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex items-center justify-center gap-2">
           <Home className="w-10 h-10 text-primary-600" />
-          <h1 className="text-3xl font-bold text-gray-900">HomeRhythm</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t('common.appName')}</h1>
         </div>
         <h2 className="mt-6 text-center text-2xl font-semibold text-gray-900">
-          Sign in to your account
+          {t('auth.signInToAccount')}
         </h2>
       </div>
 
@@ -51,7 +57,7 @@ export function Login() {
 
             <div>
               <label htmlFor="email" className="label">
-                Email address
+                {t('auth.email')}
               </label>
               <input
                 id="email"
@@ -60,13 +66,13 @@ export function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input"
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="password" className="label">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 id="password"
@@ -75,7 +81,7 @@ export function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input"
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
               />
             </div>
 
@@ -84,15 +90,15 @@ export function Login() {
               disabled={loading}
               className="w-full btn btn-primary"
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? t('auth.signingIn') : t('auth.signIn')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <span className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              {t('auth.dontHaveAccount')}{' '}
               <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">
-                Sign up
+                {t('auth.signUp')}
               </Link>
             </span>
           </div>

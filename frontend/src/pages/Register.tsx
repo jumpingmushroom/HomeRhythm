@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { Home } from 'lucide-react';
 
 export function Register() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { setAuth } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,12 +21,12 @@ export function Register() {
     setError('');
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('auth.passwordsDoNotMatch'));
       return;
     }
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters');
+      setError(t('auth.passwordTooShort'));
       return;
     }
 
@@ -34,7 +37,7 @@ export function Register() {
       setAuth(response.data.user, response.data.token);
       navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to register');
+      setError(err.response?.data?.error || t('auth.failedToRegister'));
     } finally {
       setLoading(false);
     }
@@ -42,13 +45,16 @@ export function Register() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex items-center justify-center gap-2">
           <Home className="w-10 h-10 text-primary-600" />
-          <h1 className="text-3xl font-bold text-gray-900">HomeRhythm</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t('common.appName')}</h1>
         </div>
         <h2 className="mt-6 text-center text-2xl font-semibold text-gray-900">
-          Create your account
+          {t('auth.createAccount')}
         </h2>
       </div>
 
@@ -63,7 +69,7 @@ export function Register() {
 
             <div>
               <label htmlFor="email" className="label">
-                Email address
+                {t('auth.email')}
               </label>
               <input
                 id="email"
@@ -72,13 +78,13 @@ export function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input"
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="password" className="label">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 id="password"
@@ -87,13 +93,13 @@ export function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input"
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="confirmPassword" className="label">
-                Confirm password
+                {t('auth.confirmPassword')}
               </label>
               <input
                 id="confirmPassword"
@@ -102,7 +108,7 @@ export function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="input"
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
               />
             </div>
 
@@ -111,15 +117,15 @@ export function Register() {
               disabled={loading}
               className="w-full btn btn-primary"
             >
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading ? t('auth.creatingAccount') : t('auth.createAccount')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <span className="text-sm text-gray-600">
-              Already have an account?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
-                Sign in
+                {t('auth.signIn')}
               </Link>
             </span>
           </div>
