@@ -20,7 +20,10 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
     title: task?.title || '',
     description: task?.description || '',
     category: task?.category || 'general',
-    recurrence_type: task?.recurrence_type || 'once',
+    schedule_type: task?.schedule_type || 'once',
+    due_date: task?.due_date || undefined,
+    flexibility_window: task?.flexibility_window || undefined,
+    recurrence_pattern: task?.recurrence_pattern || undefined,
     recurrence_interval: task?.recurrence_interval || undefined,
     recurrence_config: task?.recurrence_config || '',
     priority: task?.priority || 'medium',
@@ -134,50 +137,104 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
             </select>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="label">{t('taskForm.recurrenceType')} {t('taskForm.required')}</label>
-              <select
-                required
-                value={formData.recurrence_type}
-                onChange={(e) => handleChange('recurrence_type', e.target.value)}
-                className="input"
-              >
-                <option value="once">{t('recurrenceTypes.once')}</option>
-                <option value="daily">{t('recurrenceTypes.daily')}</option>
-                <option value="weekly">{t('recurrenceTypes.weekly')}</option>
-                <option value="monthly">{t('recurrenceTypes.monthly')}</option>
-                <option value="yearly">{t('recurrenceTypes.yearly')}</option>
-                <option value="seasonal">{t('recurrenceTypes.seasonal')}</option>
-              </select>
-            </div>
-
-            {formData.recurrence_type !== 'once' && (
-              <div>
-                <label className="label">{t('taskForm.interval')}</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={formData.recurrence_interval || ''}
-                  onChange={(e) => handleChange('recurrence_interval', parseInt(e.target.value) || undefined)}
-                  className="input"
-                  placeholder="1"
-                />
-              </div>
-            )}
+          <div>
+            <label className="label">Schedule Type {t('taskForm.required')}</label>
+            <select
+              required
+              value={formData.schedule_type}
+              onChange={(e) => {
+                const scheduleType = e.target.value as 'once' | 'recurring';
+                handleChange('schedule_type', scheduleType);
+                // Clear fields that don't apply to the new schedule type
+                if (scheduleType === 'once') {
+                  handleChange('recurrence_pattern', undefined);
+                  handleChange('recurrence_interval', undefined);
+                  handleChange('recurrence_config', '');
+                } else {
+                  handleChange('due_date', undefined);
+                  handleChange('flexibility_window', undefined);
+                }
+              }}
+              className="input"
+            >
+              <option value="once">One-time task</option>
+              <option value="recurring">Recurring task</option>
+            </select>
           </div>
 
-          {formData.recurrence_type === 'seasonal' && (
-            <div>
-              <label className="label">{t('taskForm.seasonConfig')}</label>
-              <input
-                type="text"
-                value={formData.recurrence_config}
-                onChange={(e) => handleChange('recurrence_config', e.target.value)}
-                className="input"
-                placeholder={t('taskForm.seasonConfigPlaceholder')}
-              />
+          {formData.schedule_type === 'once' ? (
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">Due Date</label>
+                <input
+                  type="date"
+                  value={formData.due_date || ''}
+                  onChange={(e) => handleChange('due_date', e.target.value || undefined)}
+                  className="input"
+                />
+              </div>
+
+              <div>
+                <label className="label">Flexibility</label>
+                <select
+                  value={formData.flexibility_window || ''}
+                  onChange={(e) => handleChange('flexibility_window', e.target.value || undefined)}
+                  className="input"
+                >
+                  <option value="">Not specified</option>
+                  <option value="exact_date">Must be on exact date</option>
+                  <option value="within_week">Sometime this week</option>
+                  <option value="within_month">Sometime this month</option>
+                  <option value="within_year">Sometime this year</option>
+                </select>
+              </div>
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="label">Recurrence Pattern {t('taskForm.required')}</label>
+                  <select
+                    required={formData.schedule_type === 'recurring'}
+                    value={formData.recurrence_pattern || ''}
+                    onChange={(e) => handleChange('recurrence_pattern', e.target.value || undefined)}
+                    className="input"
+                  >
+                    <option value="">Select pattern</option>
+                    <option value="daily">{t('recurrenceTypes.daily')}</option>
+                    <option value="weekly">{t('recurrenceTypes.weekly')}</option>
+                    <option value="monthly">{t('recurrenceTypes.monthly')}</option>
+                    <option value="yearly">{t('recurrenceTypes.yearly')}</option>
+                    <option value="seasonal">{t('recurrenceTypes.seasonal')}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="label">{t('taskForm.interval')}</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.recurrence_interval || ''}
+                    onChange={(e) => handleChange('recurrence_interval', parseInt(e.target.value) || undefined)}
+                    className="input"
+                    placeholder="1"
+                  />
+                </div>
+              </div>
+
+              {formData.recurrence_pattern === 'seasonal' && (
+                <div>
+                  <label className="label">{t('taskForm.seasonConfig')}</label>
+                  <input
+                    type="text"
+                    value={formData.recurrence_config}
+                    onChange={(e) => handleChange('recurrence_config', e.target.value)}
+                    className="input"
+                    placeholder={t('taskForm.seasonConfigPlaceholder')}
+                  />
+                </div>
+              )}
+            </>
           )}
 
           <div className="grid grid-cols-2 gap-4">

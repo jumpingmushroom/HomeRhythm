@@ -11,7 +11,10 @@ export interface Task {
   title: string;
   description: string | null;
   category: string;
-  recurrence_type: 'once' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'seasonal';
+  schedule_type: 'once' | 'recurring';
+  due_date: string | null;
+  flexibility_window: 'exact_date' | 'within_week' | 'within_month' | 'within_year' | null;
+  recurrence_pattern: 'daily' | 'weekly' | 'monthly' | 'yearly' | 'seasonal' | null;
   recurrence_interval: number | null;
   recurrence_config: string | null;
   priority: 'low' | 'medium' | 'high';
@@ -43,7 +46,7 @@ export interface TaskTemplate {
   title: string;
   description: string | null;
   category: string;
-  suggested_recurrence_type: string;
+  suggested_recurrence_pattern: string;
   suggested_recurrence_interval: number | null;
   suggested_recurrence_config: string | null;
   is_system_template: number;
@@ -54,7 +57,10 @@ export interface CreateTaskInput {
   title: string;
   description?: string;
   category: string;
-  recurrence_type: 'once' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'seasonal';
+  schedule_type: 'once' | 'recurring';
+  due_date?: string;
+  flexibility_window?: 'exact_date' | 'within_week' | 'within_month' | 'within_year';
+  recurrence_pattern?: 'daily' | 'weekly' | 'monthly' | 'yearly' | 'seasonal';
   recurrence_interval?: number;
   recurrence_config?: string;
   priority?: 'low' | 'medium' | 'high';

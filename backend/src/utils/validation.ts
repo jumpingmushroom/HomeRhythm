@@ -10,11 +10,14 @@ export const loginSchema = z.object({
   password: z.string(),
 });
 
-export const taskSchema = z.object({
+const taskSchemaBase = z.object({
   title: z.string().min(1).max(200),
   description: z.string().optional().nullable(),
   category: z.string().min(1),
-  recurrence_type: z.enum(['once', 'daily', 'weekly', 'monthly', 'yearly', 'seasonal']),
+  schedule_type: z.enum(['once', 'recurring']),
+  due_date: z.string().optional().nullable(), // ISO 8601 date format
+  flexibility_window: z.enum(['exact_date', 'within_week', 'within_month', 'within_year']).optional().nullable(),
+  recurrence_pattern: z.enum(['daily', 'weekly', 'monthly', 'yearly', 'seasonal']).optional().nullable(),
   recurrence_interval: z.number().int().positive().optional().nullable(),
   recurrence_config: z.string().optional().nullable(), // JSON string
   priority: z.enum(['low', 'medium', 'high']).default('medium'),
@@ -23,6 +26,23 @@ export const taskSchema = z.object({
   notes: z.string().optional().nullable(),
   assigned_to: z.number().int().positive().optional().nullable(),
 });
+
+export const taskSchema = taskSchemaBase.refine((data) => {
+  // If schedule_type is 'recurring', recurrence_pattern must be provided
+  if (data.schedule_type === 'recurring' && !data.recurrence_pattern) {
+    return false;
+  }
+  // If schedule_type is 'once', recurrence_pattern should not be provided
+  if (data.schedule_type === 'once' && data.recurrence_pattern) {
+    return false;
+  }
+  return true;
+}, {
+  message: "For recurring tasks, recurrence_pattern is required. For one-time tasks, recurrence_pattern should not be set.",
+  path: ['schedule_type'],
+});
+
+export const taskSchemaPartial = taskSchemaBase.partial();
 
 export const completionSchema = z.object({
   completed_at: z.string(),

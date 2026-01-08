@@ -131,7 +131,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                                       {t(`categories.${template.category}`)}
                                     </span>
                                     <span>
-                                      {t(`recurrenceTypes.${template.suggested_recurrence_type}`)}
+                                      {t(`recurrenceTypes.${template.suggested_recurrence_pattern}`)}
                                       {template.suggested_recurrence_interval &&
                                         ` (${t('taskCard.every')} ${template.suggested_recurrence_interval})`}
                                     </span>

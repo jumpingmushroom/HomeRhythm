@@ -14,7 +14,10 @@ CREATE TABLE IF NOT EXISTS tasks (
   title TEXT NOT NULL,
   description TEXT,
   category TEXT NOT NULL,
-  recurrence_type TEXT NOT NULL CHECK(recurrence_type IN ('once', 'daily', 'weekly', 'monthly', 'yearly', 'seasonal')),
+  schedule_type TEXT NOT NULL CHECK(schedule_type IN ('once', 'recurring')),
+  due_date TEXT, -- ISO 8601 date format for one-time tasks
+  flexibility_window TEXT CHECK(flexibility_window IN ('exact_date', 'within_week', 'within_month', 'within_year')),
+  recurrence_pattern TEXT CHECK(recurrence_pattern IN ('daily', 'weekly', 'monthly', 'yearly', 'seasonal')),
   recurrence_interval INTEGER,
   recurrence_config TEXT, -- JSON for complex patterns like weekdays, month dates, etc.
   priority TEXT NOT NULL DEFAULT 'medium' CHECK(priority IN ('low', 'medium', 'high')),
@@ -51,7 +54,7 @@ CREATE TABLE IF NOT EXISTS task_templates (
   title TEXT NOT NULL,
   description TEXT,
   category TEXT NOT NULL,
-  suggested_recurrence_type TEXT NOT NULL,
+  suggested_recurrence_pattern TEXT NOT NULL,
   suggested_recurrence_interval INTEGER,
   suggested_recurrence_config TEXT,
   is_system_template INTEGER DEFAULT 1,
