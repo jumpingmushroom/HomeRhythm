@@ -61,6 +61,67 @@ export function runMigrations() {
         WHERE recurrence_type IN ('daily', 'weekly', 'monthly', 'yearly', 'seasonal')
       `).run();
 
+      // Drop the old recurrence_type column (requires SQLite 3.35.0+)
+      // For older SQLite versions, we need to recreate the table
+      try {
+        db.exec(`ALTER TABLE tasks DROP COLUMN recurrence_type;`);
+        console.log('Old recurrence_type column dropped successfully');
+      } catch (error: any) {
+        if (error.message.includes('DROP COLUMN')) {
+          // SQLite version doesn't support DROP COLUMN, recreate table instead
+          console.log('SQLite version does not support DROP COLUMN, recreating table...');
+
+          db.exec(`
+            -- Create new table with correct schema
+            CREATE TABLE tasks_new (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              user_id INTEGER NOT NULL,
+              assigned_to INTEGER,
+              title TEXT NOT NULL,
+              description TEXT,
+              category TEXT NOT NULL,
+              schedule_type TEXT NOT NULL CHECK(schedule_type IN ('once', 'recurring')),
+              due_date TEXT,
+              flexibility_window TEXT CHECK(flexibility_window IN ('exact_date', 'within_week', 'within_month', 'within_year')),
+              recurrence_pattern TEXT CHECK(recurrence_pattern IN ('daily', 'weekly', 'monthly', 'yearly', 'seasonal')),
+              recurrence_interval INTEGER,
+              recurrence_config TEXT,
+              priority TEXT NOT NULL DEFAULT 'medium' CHECK(priority IN ('low', 'medium', 'high')),
+              estimated_time INTEGER,
+              estimated_cost REAL,
+              notes TEXT,
+              created_at TEXT DEFAULT (datetime('now')),
+              updated_at TEXT DEFAULT (datetime('now')),
+              FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+              FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
+            );
+
+            -- Copy data from old table to new table
+            INSERT INTO tasks_new (id, user_id, assigned_to, title, description, category, schedule_type, due_date,
+                                   flexibility_window, recurrence_pattern, recurrence_interval, recurrence_config,
+                                   priority, estimated_time, estimated_cost, notes, created_at, updated_at)
+            SELECT id, user_id, assigned_to, title, description, category, schedule_type, due_date,
+                   flexibility_window, recurrence_pattern, recurrence_interval, recurrence_config,
+                   priority, estimated_time, estimated_cost, notes, created_at, updated_at
+            FROM tasks;
+
+            -- Drop old table
+            DROP TABLE tasks;
+
+            -- Rename new table
+            ALTER TABLE tasks_new RENAME TO tasks;
+
+            -- Recreate indexes
+            CREATE INDEX IF NOT EXISTS idx_tasks_user_id ON tasks(user_id);
+            CREATE INDEX IF NOT EXISTS idx_tasks_category ON tasks(category);
+            CREATE INDEX IF NOT EXISTS idx_tasks_assigned_to ON tasks(assigned_to);
+          `);
+          console.log('Table recreated successfully without recurrence_type column');
+        } else {
+          throw error;
+        }
+      }
+
       console.log('Scheduling schema migration completed successfully');
     }
 
