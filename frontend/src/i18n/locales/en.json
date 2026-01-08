@@ -116,6 +116,12 @@
     "yearly": "Yearly",
     "seasonal": "Seasonal"
   },
+  "seasons": {
+    "spring": "Spring",
+    "summer": "Summer",
+    "fall": "Fall",
+    "winter": "Winter"
+  },
   "templates": {
     "cleanGutters": {
       "title": "Clean gutters",
