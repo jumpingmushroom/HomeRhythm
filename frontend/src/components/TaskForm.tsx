@@ -13,7 +13,7 @@ interface TaskFormProps {
 }
 
 // Helper function to parse season from JSON config
-const parseSeasonFromConfig = (config: string | undefined): string => {
+const parseSeasonFromConfig = (config: string | null | undefined): string => {
   if (!config) return '';
   try {
     const parsed = JSON.parse(config);
