@@ -103,10 +103,17 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                             ? t(`templates.${titleKey}.description`, { defaultValue: template.description })
                             : '';
 
+                          // Create a translated copy of the template to pass to the handler
+                          const translatedTemplate = {
+                            ...template,
+                            title: translatedTitle,
+                            description: translatedDescription
+                          };
+
                           return (
                             <div
                               key={template.id}
-                              onClick={() => onSelectTemplate(template)}
+                              onClick={() => onSelectTemplate(translatedTemplate)}
                               className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 cursor-pointer transition-colors border border-gray-200"
                             >
                               <div className="flex items-start justify-between">
