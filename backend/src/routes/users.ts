@@ -13,11 +13,25 @@ router.get('/', (req: AuthRequest, res) => {
   const { search } = req.query;
 
   try {
-    let query = 'SELECT id, email, created_at FROM users';
+    // Get user's household_id
+    const user = db.prepare('SELECT household_id FROM users WHERE id = ?')
+      .get(req.userId!) as { household_id: number | null };
+
+    let query = 'SELECT id, email, created_at FROM users WHERE ';
     const params: any[] = [];
 
+    if (user.household_id) {
+      // Show only household members
+      query += 'household_id = ?';
+      params.push(user.household_id);
+    } else {
+      // Show only current user if no household
+      query += 'id = ?';
+      params.push(req.userId!);
+    }
+
     if (search) {
-      query += ' WHERE email LIKE ?';
+      query += ' AND email LIKE ?';
       params.push(`%${search}%`);
     }
 

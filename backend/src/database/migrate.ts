@@ -220,6 +220,59 @@ export function runMigrations() {
       console.log('Notification tables created successfully');
     }
 
+    // Migration: Add household_id to users table
+    console.log('Checking for household_id in users table...');
+    let usersTableInfo = db.prepare("PRAGMA table_info(users)").all() as Array<{ name: string }>;
+    const hasUserHouseholdId = usersTableInfo.some(col => col.name === 'household_id');
+
+    if (!hasUserHouseholdId) {
+      console.log('Adding household_id to users table...');
+      db.exec(`
+        ALTER TABLE users ADD COLUMN household_id INTEGER REFERENCES households(id) ON DELETE SET NULL;
+        CREATE INDEX IF NOT EXISTS idx_users_household_id ON users(household_id);
+      `);
+      console.log('household_id added to users table');
+    }
+
+    // Migration: Add household_id to tasks table
+    console.log('Checking for household_id in tasks table...');
+    let tasksTableInfo = db.prepare("PRAGMA table_info(tasks)").all() as Array<{ name: string }>;
+    const hasTaskHouseholdId = tasksTableInfo.some(col => col.name === 'household_id');
+
+    if (!hasTaskHouseholdId) {
+      console.log('Adding household_id to tasks table...');
+      db.exec(`
+        ALTER TABLE tasks ADD COLUMN household_id INTEGER REFERENCES households(id) ON DELETE CASCADE;
+        CREATE INDEX IF NOT EXISTS idx_tasks_household_id ON tasks(household_id);
+      `);
+      console.log('household_id added to tasks table');
+    }
+
+    // Migration: Create default households for existing users without one
+    console.log('Creating default households for existing users...');
+    const usersWithoutHousehold = db.prepare(
+      'SELECT id, email FROM users WHERE household_id IS NULL'
+    ).all() as Array<{ id: number; email: string }>;
+
+    if (usersWithoutHousehold.length > 0) {
+      console.log(`Found ${usersWithoutHousehold.length} users without households`);
+      const createHousehold = db.prepare(
+        'INSERT INTO households (name, owner_id) VALUES (?, ?)'
+      );
+      const updateUser = db.prepare('UPDATE users SET household_id = ? WHERE id = ?');
+      const updateTasks = db.prepare('UPDATE tasks SET household_id = ? WHERE user_id = ?');
+
+      for (const user of usersWithoutHousehold) {
+        const householdName = `${user.email.split('@')[0]}'s Home`;
+        const result = createHousehold.run(householdName, user.id);
+        const householdId = result.lastInsertRowid;
+        updateUser.run(householdId, user.id);
+        updateTasks.run(householdId, user.id);
+        console.log(`Created household ${householdId} for user ${user.id}`);
+      }
+      console.log('Default households created successfully');
+    }
+
     console.log('Migrations completed successfully');
   } catch (error) {
     console.error('Migration failed:', error);

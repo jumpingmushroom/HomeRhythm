@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { getDatabase } from '../database';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { validateRequest, completionSchema } from '../utils/validation';
-import { TaskCompletion, TaskPhoto } from '../types';
+import { TaskCompletion, TaskPhoto, Task } from '../types';
+import { activityService } from '../services/activity.service';
 
 const router = Router();
 
@@ -87,8 +88,8 @@ router.post('/task/:taskId', (req: AuthRequest, res) => {
   const db = getDatabase();
 
   try {
-    // Verify task belongs to user
-    const task = db.prepare('SELECT id FROM tasks WHERE id = ? AND user_id = ?').get(taskId, req.userId!);
+    // Verify task belongs to user and get full task details
+    const task = db.prepare('SELECT * FROM tasks WHERE id = ? AND (user_id = ? OR assigned_to = ?)').get(taskId, req.userId!, req.userId!) as Task | undefined;
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
     }
@@ -99,6 +100,20 @@ router.post('/task/:taskId', (req: AuthRequest, res) => {
     `).run(taskId, completed_at, completion_notes || null);
 
     const completion = db.prepare('SELECT * FROM task_completions WHERE id = ?').get(result.lastInsertRowid) as TaskCompletion;
+
+    // Create activity log entry
+    if (task.household_id) {
+      activityService.createActivity(
+        task.household_id,
+        req.userId!,
+        'task_completed',
+        taskId,
+        {
+          task_title: task.title,
+          completion_notes: completion_notes || undefined,
+        }
+      );
+    }
 
     res.status(201).json({ message: 'Task marked as completed', completion });
   } catch (error) {

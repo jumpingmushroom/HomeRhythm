@@ -1,12 +1,14 @@
 export interface User {
   id: number;
   email: string;
+  household_id: number | null;
   created_at: string;
 }
 
 export interface Task {
   id: number;
   user_id: number;
+  household_id: number | null;
   assigned_to: number | null;
   title: string;
   description: string | null;
@@ -122,4 +124,47 @@ export interface UpdateNotificationPreferencesInput {
   digest_frequency?: 'daily' | 'weekly';
   digest_time?: string;
   digest_day_of_week?: number;
+}
+
+export interface Household {
+  id: number;
+  name: string;
+  owner_id: number;
+  created_at: string;
+}
+
+export interface HouseholdInvite {
+  id: number;
+  household_id: number;
+  email: string;
+  invite_code: string;
+  status: 'pending' | 'accepted' | 'expired';
+  created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+}
+
+export interface HouseholdMember extends User {
+  // Same as User but clearer naming for context
+}
+
+export interface Activity {
+  id: number;
+  household_id: number;
+  user_id: number;
+  user_email: string;
+  activity_type: 'task_created' | 'task_completed' | 'task_assigned' | 'task_updated' | 'task_deleted';
+  task_id: number | null;
+  task_title: string | null;
+  metadata: string | null;
+  parsed_metadata: ActivityMetadata | null;
+  created_at: string;
+}
+
+export interface ActivityMetadata {
+  task_title?: string;
+  assigned_to?: number;
+  assigned_to_email?: string;
+  completion_notes?: string;
+  changes?: Record<string, { old: any; new: any }>;
 }

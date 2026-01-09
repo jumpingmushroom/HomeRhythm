@@ -4,6 +4,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
 import { Settings } from './pages/Settings';
+import { AcceptInvite } from './pages/AcceptInvite';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthStore } from './store/authStore';
 import { authApi } from './lib/api';
@@ -38,6 +39,7 @@ function App() {
           path="/register"
           element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
         />
+        <Route path="/accept-invite/:inviteCode" element={<AcceptInvite />} />
         <Route
           path="/"
           element={

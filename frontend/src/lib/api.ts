@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Task, TaskCompletion, TaskTemplate, CreateTaskInput, User, NotificationPreferences, UpdateNotificationPreferencesInput } from '../types';
+import { Task, TaskCompletion, TaskTemplate, CreateTaskInput, User, NotificationPreferences, UpdateNotificationPreferencesInput, Household, HouseholdInvite, HouseholdMember, Activity } from '../types';
 
 const api = axios.create({
   baseURL: '/api',
@@ -114,4 +114,34 @@ export const notificationPreferencesApi = {
 
   sendTestEmail: () =>
     api.post<{ message: string }>('/notification-preferences/test'),
+};
+
+// Households
+export const householdsApi = {
+  get: () =>
+    api.get<{ household: Household | null; members: HouseholdMember[]; invites: HouseholdInvite[] }>('/households'),
+
+  create: (name: string) =>
+    api.post<{ household: Household }>('/households', { name }),
+
+  update: (name: string) =>
+    api.put<{ household: Household }>('/households', { name }),
+
+  createInvite: (email: string) =>
+    api.post<{ invite: HouseholdInvite; inviteLink: string }>('/households/invites', { email }),
+
+  acceptInvite: (inviteCode: string) =>
+    api.post<{ household: Household }>('/households/invites/accept', { invite_code: inviteCode }),
+
+  deleteInvite: (inviteId: number) =>
+    api.delete(`/households/invites/${inviteId}`),
+
+  leave: () =>
+    api.post('/households/leave'),
+};
+
+// Activities
+export const activitiesApi = {
+  getAll: (limit?: number) =>
+    api.get<{ activities: Activity[] }>('/activities', { params: { limit } }),
 };

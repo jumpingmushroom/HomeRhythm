@@ -49,6 +49,18 @@ export const completionSchema = z.object({
   completion_notes: z.string().optional().nullable(),
 });
 
+export const householdSchema = z.object({
+  name: z.string().min(1).max(100),
+});
+
+export const inviteSchema = z.object({
+  email: z.string().email(),
+});
+
+export const acceptInviteSchema = z.object({
+  invite_code: z.string().min(1),
+});
+
 export function validateRequest<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; error: string } {
   try {
     const validData = schema.parse(data);

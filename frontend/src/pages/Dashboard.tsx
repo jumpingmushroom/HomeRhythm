@@ -6,10 +6,12 @@ import { TaskForm } from '../components/TaskForm';
 import { TaskDetails } from '../components/TaskDetails';
 import { TemplateLibrary } from '../components/TemplateLibrary';
 import { CalendarView } from '../components/CalendarView';
+import { TaskFilterTabs } from '../components/TaskFilterTabs';
+import { ActivityFeed } from '../components/ActivityFeed';
 import { useTasksStore } from '../store/tasksStore';
 import { tasksApi, completionsApi, usersApi } from '../lib/api';
 import { Task, CreateTaskInput, TaskTemplate, CATEGORIES } from '../types';
-import { Plus, Search, BookOpen, List, Calendar as CalendarIcon } from 'lucide-react';
+import { Plus, Search, BookOpen, List, Calendar as CalendarIcon, Activity } from 'lucide-react';
 
 export function Dashboard() {
   const { t } = useTranslation();
@@ -22,6 +24,7 @@ export function Dashboard() {
   const [submitting, setSubmitting] = useState(false);
   const [lastCompletions, setLastCompletions] = useState<Record<number, string>>({});
   const [view, setView] = useState<'list' | 'calendar'>('list');
+  const [mainView, setMainView] = useState<'tasks' | 'activities'>('tasks');
 
   useEffect(() => {
     loadTasks();
@@ -43,6 +46,9 @@ export function Dashboard() {
       if (filters.category) params.category = filters.category;
       if (filters.priority) params.priority = filters.priority;
       if (filters.search) params.search = filters.search;
+      if (filters.assignmentFilter && filters.assignmentFilter !== 'all') {
+        params.filter = filters.assignmentFilter;
+      }
 
       const response = await tasksApi.getAll(params);
       setTasks(response.data.tasks);
@@ -215,32 +221,63 @@ export function Dashboard() {
           </div>
         </div>
 
+        <TaskFilterTabs />
+
         <div className="flex justify-end gap-2">
           <button
-            onClick={() => setView('list')}
+            onClick={() => setMainView('tasks')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-              view === 'list'
+              mainView === 'tasks'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             <List className="w-4 h-4" />
-            {t('dashboard.listView')}
+            Tasks
           </button>
           <button
-            onClick={() => setView('calendar')}
+            onClick={() => setMainView('activities')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-              view === 'calendar'
+              mainView === 'activities'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
-            <CalendarIcon className="w-4 h-4" />
-            {t('dashboard.calendarView')}
+            <Activity className="w-4 h-4" />
+            Activity
           </button>
         </div>
 
-        {loading ? (
+        {mainView === 'tasks' && (
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setView('list')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                view === 'list'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              <List className="w-4 h-4" />
+              {t('dashboard.listView')}
+            </button>
+            <button
+              onClick={() => setView('calendar')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                view === 'calendar'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              <CalendarIcon className="w-4 h-4" />
+              {t('dashboard.calendarView')}
+            </button>
+          </div>
+        )}
+
+        {mainView === 'activities' ? (
+          <ActivityFeed />
+        ) : loading ? (
           <div className="text-center py-12 text-gray-500 dark:text-gray-400">{t('dashboard.loadingTasks')}</div>
         ) : filteredTasks.length === 0 ? (
           <div className="card text-center py-12">

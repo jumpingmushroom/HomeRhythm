@@ -1,4 +1,5 @@
 import { Layout } from '../components/Layout';
+import { HouseholdManagement } from '../components/HouseholdManagement';
 import { NotificationPreferences } from '../components/NotificationPreferences';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,7 @@ export function Settings() {
           </p>
         </div>
 
+        <HouseholdManagement />
         <NotificationPreferences />
       </div>
     </Layout>

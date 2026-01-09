@@ -2,12 +2,14 @@ export interface User {
   id: number;
   email: string;
   password_hash: string;
+  household_id: number | null;
   created_at: string;
 }
 
 export interface Task {
   id: number;
   user_id: number;
+  household_id: number | null;
   assigned_to: number | null;
   title: string;
   description: string | null;
@@ -99,4 +101,47 @@ export interface TaskWithNextDue extends Task {
   is_overdue?: boolean;
   days_until_due?: number;
   last_completed_at?: string | null;
+}
+
+export interface Household {
+  id: number;
+  name: string;
+  owner_id: number;
+  created_at: string;
+}
+
+export interface HouseholdInvite {
+  id: number;
+  household_id: number;
+  email: string;
+  invite_code: string;
+  invited_by: number;
+  status: 'pending' | 'accepted' | 'expired';
+  created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+}
+
+export interface Activity {
+  id: number;
+  household_id: number;
+  user_id: number;
+  activity_type: 'task_created' | 'task_completed' | 'task_assigned' | 'task_updated' | 'task_deleted';
+  task_id: number | null;
+  metadata: string | null;
+  created_at: string;
+}
+
+export interface ActivityMetadata {
+  task_title?: string;
+  assigned_to?: number;
+  assigned_to_email?: string;
+  completion_notes?: string;
+  changes?: Record<string, { old: any; new: any }>;
+}
+
+export interface ActivityWithDetails extends Activity {
+  user_email: string;
+  task_title: string | null;
+  parsed_metadata: ActivityMetadata | null;
 }

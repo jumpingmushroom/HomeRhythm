@@ -12,6 +12,8 @@ import photoRoutes from './routes/photos';
 import templateRoutes from './routes/templates';
 import userRoutes from './routes/users';
 import notificationPreferencesRoutes from './routes/notification-preferences';
+import householdRoutes from './routes/households';
+import activityRoutes from './routes/activities';
 
 const app = express();
 
@@ -41,6 +43,8 @@ app.use('/api/photos', photoRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notification-preferences', notificationPreferencesRoutes);
+app.use('/api/households', householdRoutes);
+app.use('/api/activities', activityRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
