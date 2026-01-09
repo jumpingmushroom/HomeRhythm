@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/authStore';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
-import { Home, LogOut } from 'lucide-react';
+import { Home, LogOut, Settings } from 'lucide-react';
 
 interface LayoutProps {
   children: ReactNode;
@@ -33,6 +33,14 @@ export function Layout({ children }: LayoutProps) {
             {user && (
               <div className="flex items-center gap-4">
                 <span className="text-sm text-gray-600 dark:text-gray-400">{user.email}</span>
+                <button
+                  onClick={() => navigate('/settings')}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  title={t('settings.title')}
+                >
+                  <Settings className="w-4 h-4" />
+                  <span className="hidden sm:inline">{t('settings.title')}</span>
+                </button>
                 <ThemeToggle />
                 <LanguageSwitcher />
                 <button

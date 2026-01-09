@@ -95,3 +95,31 @@ export const PRIORITY_COLORS: Record<string, string> = {
   medium: 'text-yellow-600',
   high: 'text-red-600',
 };
+
+export interface NotificationPreferences {
+  id: number;
+  user_id: number;
+  notifications_enabled: number;       // 0 or 1 (SQLite boolean)
+  task_due_soon_days: number;          // 1-30 days
+  task_due_soon_enabled: number;       // 0 or 1
+  task_overdue_enabled: number;        // 0 or 1
+  task_assigned_enabled: number;       // 0 or 1
+  digest_enabled: number;              // 0 or 1
+  digest_frequency: 'daily' | 'weekly';
+  digest_time: string;                 // HH:MM format
+  digest_day_of_week: number;          // 1-7 (Monday-Sunday)
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UpdateNotificationPreferencesInput {
+  notifications_enabled?: number;
+  task_due_soon_days?: number;
+  task_due_soon_enabled?: number;
+  task_overdue_enabled?: number;
+  task_assigned_enabled?: number;
+  digest_enabled?: number;
+  digest_frequency?: 'daily' | 'weekly';
+  digest_time?: string;
+  digest_day_of_week?: number;
+}

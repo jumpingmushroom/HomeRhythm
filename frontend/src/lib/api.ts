@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Task, TaskCompletion, TaskTemplate, CreateTaskInput, User } from '../types';
+import { Task, TaskCompletion, TaskTemplate, CreateTaskInput, User, NotificationPreferences, UpdateNotificationPreferencesInput } from '../types';
 
 const api = axios.create({
   baseURL: '/api',
@@ -99,4 +99,19 @@ export const usersApi = {
 
   getOne: (id: number) =>
     api.get<{ user: User }>(`/users/${id}`),
+};
+
+// Notification Preferences
+export const notificationPreferencesApi = {
+  get: () =>
+    api.get<{ preferences: NotificationPreferences }>('/notification-preferences'),
+
+  update: (data: UpdateNotificationPreferencesInput) =>
+    api.put<{ message: string; preferences: NotificationPreferences }>(
+      '/notification-preferences',
+      data
+    ),
+
+  sendTestEmail: () =>
+    api.post<{ message: string }>('/notification-preferences/test'),
 };
