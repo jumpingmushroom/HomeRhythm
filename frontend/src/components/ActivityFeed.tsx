@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useActivityStore } from '../store/activityStore';
 import { useAuthStore } from '../store/authStore';
 import { activitiesApi } from '../lib/api';
@@ -7,7 +6,6 @@ import { Activity as ActivityIcon, CheckCircle, UserPlus, Edit, Trash2, Plus } f
 import { formatDistanceToNow } from 'date-fns';
 
 export function ActivityFeed() {
-  const { t } = useTranslation();
   const { user } = useAuthStore();
   const { activities, setActivities, setLoading } = useActivityStore();
   const [loadingState, setLoadingState] = useState(true);

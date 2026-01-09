@@ -10,7 +10,7 @@ interface TasksState {
     category: string | null;
     priority: string | null;
     search: string;
-    assignmentFilter: 'all' | 'created' | 'assigned';
+    assignmentFilter: 'all' | 'created' | 'assigned' | 'unassigned';
   };
   setTasks: (tasks: Task[]) => void;
   addTask: (task: Task) => void;

@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useHouseholdStore } from '../store/householdStore';
 import { useAuthStore } from '../store/authStore';
 import { householdsApi } from '../lib/api';
 import { Users, Mail, Trash2, Copy, CheckCircle } from 'lucide-react';
 
 export function HouseholdManagement() {
-  const { t } = useTranslation();
   const { user } = useAuthStore();
   const { household, members, invites, setHousehold, setMembers, setInvites, addInvite, removeInvite } = useHouseholdStore();
   const [loading, setLoading] = useState(true);
