@@ -9,6 +9,7 @@ HomeRhythm is an open-source web application for tracking recurring home mainten
 
 ### Core Functionality
 - **Multi-user support** with JWT authentication
+- **Household collaboration** - Share tasks with family members and roommates
 - **Task management** - Create, edit, and delete maintenance tasks
 - **Flexible recurrence patterns** - Daily, weekly, monthly, yearly, or seasonal
 - **Task categories** - Organize by exterior, HVAC, appliances, garden, plumbing, electrical, and more
@@ -17,8 +18,12 @@ HomeRhythm is an open-source web application for tracking recurring home mainten
 - **Photo uploads** - Document your work with before/after photos
 - **Completion history** - View all past completions for each task
 - **Task template library** - 30+ pre-populated common home maintenance tasks
+- **Email notifications** - Optional reminders for upcoming and overdue tasks
+- **Notification preferences** - Customize when and how you receive notifications
+- **Activity feed** - Track household task completions and updates
 - **Search and filtering** - Find tasks by name, category, or priority
 - **Responsive design** - Works on mobile, tablet, and desktop
+- **Internationalization** - Support for multiple languages (English, Norwegian)
 
 ### User Interface
 - Clean, modern interface built with Tailwind CSS
@@ -374,7 +379,49 @@ MAX_FILE_SIZE=10485760
 
 # CORS
 CORS_ORIGIN=http://localhost:5173
+
+# Email Configuration (for notifications)
+EMAIL_ENABLED=false
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_SECURE=false
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASSWORD=your-app-password
+EMAIL_FROM=your-email@gmail.com
+EMAIL_FROM_NAME=HomeRhythm
+
+# Notification Configuration
+NOTIFICATION_DUE_SOON_DAYS=3
+DIGEST_DEFAULT_TIME=09:00
+EMAIL_MAX_RETRIES=3
 ```
+
+### Email Notifications (Optional)
+
+HomeRhythm supports email notifications for upcoming and overdue tasks. To enable email notifications:
+
+1. **Set `EMAIL_ENABLED=true`** in your `.env` file
+2. **Configure your SMTP settings**:
+   - For Gmail: Use an [App Password](https://support.google.com/accounts/answer/185833)
+   - For other providers: Use your SMTP server details
+3. **Set your email credentials**:
+   ```env
+   EMAIL_ENABLED=true
+   EMAIL_HOST=smtp.gmail.com
+   EMAIL_PORT=587
+   EMAIL_SECURE=false
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASSWORD=your-app-password
+   EMAIL_FROM=your-email@gmail.com
+   EMAIL_FROM_NAME=HomeRhythm
+   ```
+
+**Notification Settings**:
+- `NOTIFICATION_DUE_SOON_DAYS=3` - Days in advance to send "due soon" notifications
+- `DIGEST_DEFAULT_TIME=09:00` - Default time for daily digest emails (24-hour format)
+- `EMAIL_MAX_RETRIES=3` - Maximum retry attempts for failed emails
+
+Users can customize their notification preferences in the app settings.
 
 ### Docker Volumes
 
@@ -441,15 +488,16 @@ npm run migrate
 
 Future features under consideration:
 - Dark mode
-- Email/push notifications for upcoming tasks
+- Push notifications (web and mobile)
 - Data export (JSON/CSV)
 - Task dependencies
-- Recurring task scheduling with calendar integration
+- Calendar integration (Google Calendar, iCal)
 - Mobile apps (React Native)
-- Shared household accounts
-- Task assignment to household members
+- Task assignment to specific household members
 - Weather-based task scheduling
 - Cost tracking and budgeting
+- Recurring expense tracking
+- Vendor/contractor management
 
 ## Contributing
 
