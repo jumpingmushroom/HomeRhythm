@@ -20,4 +20,19 @@ export const config = {
   cors: {
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   },
+  email: {
+    enabled: process.env.EMAIL_ENABLED === 'true',
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.EMAIL_PORT || '587', 10),
+    secure: process.env.EMAIL_SECURE === 'true',
+    user: process.env.EMAIL_USER,
+    password: process.env.EMAIL_PASSWORD,
+    from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+    fromName: process.env.EMAIL_FROM_NAME || 'HomeRhythm',
+  },
+  notifications: {
+    defaultDueSoonDays: parseInt(process.env.NOTIFICATION_DUE_SOON_DAYS || '3', 10),
+    digestDefaultTime: process.env.DIGEST_DEFAULT_TIME || '09:00',
+    maxRetries: parseInt(process.env.EMAIL_MAX_RETRIES || '3', 10),
+  },
 };

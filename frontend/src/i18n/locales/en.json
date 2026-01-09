@@ -40,7 +40,20 @@
     "allPriorities": "All Priorities",
     "noTasksFound": "No tasks found",
     "browseTaskTemplates": "Browse Task Templates",
-    "loadingTasks": "Loading tasks..."
+    "loadingTasks": "Loading tasks...",
+    "listView": "List View",
+    "calendarView": "Calendar View"
+  },
+  "calendar": {
+    "today": "Today",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "agenda": "Agenda",
+    "noTasksOnDate": "No tasks scheduled",
+    "overdue": "Overdue",
+    "previous": "Previous",
+    "next": "Next"
   },
   "taskForm": {
     "createNewTask": "Create New Task",

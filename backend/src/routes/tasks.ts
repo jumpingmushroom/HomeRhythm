@@ -3,6 +3,7 @@ import { getDatabase } from '../database';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { validateRequest, taskSchema, taskSchemaPartial } from '../utils/validation';
 import { Task } from '../types';
+import { notificationService } from '../services/notification.service';
 
 const router = Router();
 
@@ -76,7 +77,7 @@ router.get('/:id', (req: AuthRequest, res) => {
 });
 
 // Create a new task
-router.post('/', (req: AuthRequest, res) => {
+router.post('/', async (req: AuthRequest, res) => {
   const validation = validateRequest(taskSchema, req.body);
   if (!validation.success) {
     return res.status(400).json({ error: validation.error });
@@ -111,6 +112,17 @@ router.post('/', (req: AuthRequest, res) => {
     );
 
     const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(result.lastInsertRowid) as Task;
+
+    // Send notification if task is assigned to someone else
+    if (task.assigned_to && task.assigned_to !== req.userId) {
+      try {
+        await notificationService.sendTaskAssignedNotification(task);
+      } catch (error) {
+        console.error('Error sending assignment notification:', error);
+        // Don't fail the request if notification fails
+      }
+    }
+
     res.status(201).json({ message: 'Task created successfully', task });
   } catch (error) {
     console.error('Error creating task:', error);
@@ -119,7 +131,7 @@ router.post('/', (req: AuthRequest, res) => {
 });
 
 // Update a task
-router.put('/:id', (req: AuthRequest, res) => {
+router.put('/:id', async (req: AuthRequest, res) => {
   const validation = validateRequest(taskSchemaPartial, req.body);
   if (!validation.success) {
     return res.status(400).json({ error: validation.error });
@@ -130,8 +142,8 @@ router.put('/:id', (req: AuthRequest, res) => {
   const db = getDatabase();
 
   try {
-    // Verify task belongs to user
-    const existingTask = db.prepare('SELECT id FROM tasks WHERE id = ? AND user_id = ?').get(taskId, req.userId!);
+    // Verify task belongs to user and get existing data
+    const existingTask = db.prepare('SELECT * FROM tasks WHERE id = ? AND user_id = ?').get(taskId, req.userId!) as Task | undefined;
     if (!existingTask) {
       return res.status(404).json({ error: 'Task not found' });
     }
@@ -155,6 +167,17 @@ router.put('/:id', (req: AuthRequest, res) => {
     db.prepare(`UPDATE tasks SET ${updates.join(', ')} WHERE id = ? AND user_id = ?`).run(...params);
 
     const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(taskId) as Task;
+
+    // Check if assigned_to changed and send notification
+    if (data.assigned_to !== undefined && data.assigned_to !== existingTask.assigned_to && data.assigned_to !== req.userId) {
+      try {
+        await notificationService.sendTaskAssignedNotification(task);
+      } catch (error) {
+        console.error('Error sending assignment notification:', error);
+        // Don't fail the request if notification fails
+      }
+    }
+
     res.json({ message: 'Task updated successfully', task });
   } catch (error) {
     console.error('Error updating task:', error);

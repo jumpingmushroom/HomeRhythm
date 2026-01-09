@@ -4,12 +4,14 @@ import fileUpload from 'express-fileupload';
 import path from 'path';
 import { config } from './config';
 import { runMigrations } from './database/migrate';
+import { schedulerService } from './services/scheduler.service';
 import authRoutes from './routes/auth';
 import taskRoutes from './routes/tasks';
 import completionRoutes from './routes/completions';
 import photoRoutes from './routes/photos';
 import templateRoutes from './routes/templates';
 import userRoutes from './routes/users';
+import notificationPreferencesRoutes from './routes/notification-preferences';
 
 const app = express();
 
@@ -38,6 +40,7 @@ app.use('/api/completions', completionRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/notification-preferences', notificationPreferencesRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -65,6 +68,14 @@ async function start() {
     console.log('Running database migrations...');
     runMigrations();
     console.log('Database ready');
+
+    // Initialize notification scheduler
+    if (config.email?.enabled) {
+      console.log('Initializing notification scheduler...');
+      schedulerService.initialize();
+    } else {
+      console.log('Email notifications disabled, scheduler not started');
+    }
 
     app.listen(config.port, () => {
       console.log(`HomeRhythm server running on port ${config.port}`);

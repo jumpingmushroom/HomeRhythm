@@ -40,7 +40,20 @@
     "allPriorities": "Alle prioriteter",
     "noTasksFound": "Ingen oppgaver funnet",
     "browseTaskTemplates": "Bla gjennom oppgavemaler",
-    "loadingTasks": "Laster oppgaver..."
+    "loadingTasks": "Laster oppgaver...",
+    "listView": "Listevisning",
+    "calendarView": "Kalendervisning"
+  },
+  "calendar": {
+    "today": "I dag",
+    "month": "Måned",
+    "week": "Uke",
+    "day": "Dag",
+    "agenda": "Agenda",
+    "noTasksOnDate": "Ingen oppgaver planlagt",
+    "overdue": "Forfalt",
+    "previous": "Forrige",
+    "next": "Neste"
   },
   "taskForm": {
     "createNewTask": "Opprett ny oppgave",

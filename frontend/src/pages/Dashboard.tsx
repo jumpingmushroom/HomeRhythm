@@ -5,10 +5,11 @@ import { TaskCard } from '../components/TaskCard';
 import { TaskForm } from '../components/TaskForm';
 import { TaskDetails } from '../components/TaskDetails';
 import { TemplateLibrary } from '../components/TemplateLibrary';
+import { CalendarView } from '../components/CalendarView';
 import { useTasksStore } from '../store/tasksStore';
 import { tasksApi, completionsApi, usersApi } from '../lib/api';
 import { Task, CreateTaskInput, TaskTemplate, CATEGORIES } from '../types';
-import { Plus, Search, BookOpen } from 'lucide-react';
+import { Plus, Search, BookOpen, List, Calendar as CalendarIcon } from 'lucide-react';
 
 export function Dashboard() {
   const { t } = useTranslation();
@@ -20,6 +21,7 @@ export function Dashboard() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [lastCompletions, setLastCompletions] = useState<Record<number, string>>({});
+  const [view, setView] = useState<'list' | 'calendar'>('list');
 
   useEffect(() => {
     loadTasks();
@@ -213,6 +215,31 @@ export function Dashboard() {
           </div>
         </div>
 
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => setView('list')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              view === 'list'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+            }`}
+          >
+            <List className="w-4 h-4" />
+            {t('dashboard.listView')}
+          </button>
+          <button
+            onClick={() => setView('calendar')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              view === 'calendar'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+            }`}
+          >
+            <CalendarIcon className="w-4 h-4" />
+            {t('dashboard.calendarView')}
+          </button>
+        </div>
+
         {loading ? (
           <div className="text-center py-12 text-gray-500 dark:text-gray-400">{t('dashboard.loadingTasks')}</div>
         ) : filteredTasks.length === 0 ? (
@@ -226,7 +253,7 @@ export function Dashboard() {
               {t('dashboard.browseTaskTemplates')}
             </button>
           </div>
-        ) : (
+        ) : view === 'list' ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredTasks.map((task) => (
               <TaskCard
@@ -237,6 +264,12 @@ export function Dashboard() {
               />
             ))}
           </div>
+        ) : (
+          <CalendarView
+            tasks={filteredTasks}
+            lastCompletions={lastCompletions}
+            onTaskClick={setSelectedTask}
+          />
         )}
       </div>
 

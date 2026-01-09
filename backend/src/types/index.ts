@@ -56,3 +56,47 @@ export interface TaskTemplate {
 export interface AuthRequest extends Express.Request {
   userId?: number;
 }
+
+export interface NotificationPreferences {
+  id: number;
+  user_id: number;
+  notifications_enabled: number; // SQLite boolean (0/1)
+  task_due_soon_days: number;
+  task_due_soon_enabled: number;
+  task_overdue_enabled: number;
+  task_assigned_enabled: number;
+  digest_enabled: number;
+  digest_frequency: 'daily' | 'weekly';
+  digest_time: string; // HH:MM format
+  digest_day_of_week: number; // 1-7 (1=Monday)
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NotificationLog {
+  id: number;
+  user_id: number;
+  task_id: number | null;
+  notification_type: 'due_soon' | 'overdue' | 'assigned' | 'digest';
+  reference_date: string;
+  sent_at: string;
+  status: 'sent' | 'failed';
+  error_message: string | null;
+}
+
+export interface EmailNotification {
+  to: string;
+  subject: string;
+  html: string;
+  type: 'due_soon' | 'overdue' | 'assigned' | 'digest';
+  userId: number;
+  taskId?: number;
+  referenceDate: string;
+}
+
+export interface TaskWithNextDue extends Task {
+  next_due_date?: string | null;
+  is_overdue?: boolean;
+  days_until_due?: number;
+  last_completed_at?: string | null;
+}

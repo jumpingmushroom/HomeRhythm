@@ -171,6 +171,55 @@ export function runMigrations() {
       }
     }
 
+    // Migration: Add notification preferences table
+    console.log('Checking for notification preferences table...');
+    const hasNotificationPrefs = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='user_notification_preferences'"
+    ).get();
+
+    if (!hasNotificationPrefs) {
+      console.log('Creating notification tables...');
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS user_notification_preferences (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL UNIQUE,
+          notifications_enabled INTEGER DEFAULT 1,
+          task_due_soon_days INTEGER DEFAULT 3,
+          task_due_soon_enabled INTEGER DEFAULT 1,
+          task_overdue_enabled INTEGER DEFAULT 1,
+          task_assigned_enabled INTEGER DEFAULT 1,
+          digest_enabled INTEGER DEFAULT 0,
+          digest_frequency TEXT DEFAULT 'daily' CHECK(digest_frequency IN ('daily', 'weekly')),
+          digest_time TEXT DEFAULT '09:00',
+          digest_day_of_week INTEGER DEFAULT 1,
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now')),
+          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS notification_logs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
+          task_id INTEGER,
+          notification_type TEXT NOT NULL CHECK(notification_type IN ('due_soon', 'overdue', 'assigned', 'digest')),
+          reference_date TEXT NOT NULL,
+          sent_at TEXT DEFAULT (datetime('now')),
+          status TEXT DEFAULT 'sent' CHECK(status IN ('sent', 'failed')),
+          error_message TEXT,
+          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+          FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_notification_logs_dedup
+          ON notification_logs(user_id, task_id, notification_type, reference_date);
+        CREATE INDEX IF NOT EXISTS idx_notification_logs_user_sent
+          ON notification_logs(user_id, sent_at);
+        CREATE INDEX IF NOT EXISTS idx_tasks_due_date ON tasks(due_date);
+        CREATE INDEX IF NOT EXISTS idx_tasks_schedule_type ON tasks(schedule_type);
+      `);
+      console.log('Notification tables created successfully');
+    }
+
     console.log('Migrations completed successfully');
   } catch (error) {
     console.error('Migration failed:', error);
