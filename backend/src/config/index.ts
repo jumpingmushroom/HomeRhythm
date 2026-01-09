@@ -35,4 +35,15 @@ export const config = {
     digestDefaultTime: process.env.DIGEST_DEFAULT_TIME || '09:00',
     maxRetries: parseInt(process.env.EMAIL_MAX_RETRIES || '3', 10),
   },
+  backup: {
+    enabled: process.env.BACKUP_ENABLED !== 'false', // Default to true
+    dir: process.env.BACKUP_DIR || path.join(process.cwd(), 'data', 'backups'),
+    intervalHours: parseInt(process.env.BACKUP_INTERVAL_HOURS || '1', 10),
+    retention: {
+      hourlyCount: parseInt(process.env.BACKUP_RETENTION_HOURLY || '24', 10), // Last 24 hours
+      dailyCount: parseInt(process.env.BACKUP_RETENTION_DAILY || '7', 10), // Last 7 days
+      weeklyCount: parseInt(process.env.BACKUP_RETENTION_WEEKLY || '4', 10), // Last 4 weeks
+      monthlyCount: parseInt(process.env.BACKUP_RETENTION_MONTHLY || '12', 10), // Last 12 months
+    },
+  },
 };

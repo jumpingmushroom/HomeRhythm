@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import { notificationService } from './notification.service';
 import { emailService } from './email.service';
+import { backupService } from './backup.service';
 import { config } from '../config';
 
 class SchedulerService {
@@ -43,6 +44,23 @@ class SchedulerService {
       await emailService.testConnection();
     });
 
+    // Automatic database backups
+    if (config.backup?.enabled) {
+      const intervalHours = config.backup.intervalHours;
+      // Run at the start of every N hours (e.g., "0 */1 * * *" for every hour)
+      this.scheduleJob('database-backup', `0 */${intervalHours} * * *`, async () => {
+        console.log('[Scheduler] Running automatic database backup...');
+        const result = await backupService.performBackup();
+        if (result.success) {
+          console.log(`[Scheduler] Backup completed: ${result.filename}`);
+        } else {
+          console.error(`[Scheduler] Backup failed: ${result.error}`);
+        }
+      });
+    } else {
+      console.log('[Scheduler] Database backups disabled');
+    }
+
     console.log('[Scheduler] All jobs scheduled');
   }
 
@@ -63,7 +81,7 @@ class SchedulerService {
       }
     }, {
       scheduled: true,
-      timezone: 'America/New_York', // Configure as needed
+      timezone: 'Europe/Oslo',
     });
 
     this.jobs.set(name, job);

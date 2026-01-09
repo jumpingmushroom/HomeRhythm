@@ -5,6 +5,7 @@ import path from 'path';
 import { config } from './config';
 import { runMigrations } from './database/migrate';
 import { schedulerService } from './services/scheduler.service';
+import { backupService } from './services/backup.service';
 import authRoutes from './routes/auth';
 import taskRoutes from './routes/tasks';
 import completionRoutes from './routes/completions';
@@ -14,6 +15,7 @@ import userRoutes from './routes/users';
 import notificationPreferencesRoutes from './routes/notification-preferences';
 import householdRoutes from './routes/households';
 import activityRoutes from './routes/activities';
+import backupRoutes from './routes/backup';
 
 const app = express();
 
@@ -45,10 +47,22 @@ app.use('/api/users', userRoutes);
 app.use('/api/notification-preferences', notificationPreferencesRoutes);
 app.use('/api/households', householdRoutes);
 app.use('/api/activities', activityRoutes);
+app.use('/api/backup', backupRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  const backupStatus = backupService.getStatus();
+
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    backup: {
+      enabled: backupStatus.enabled,
+      lastBackup: backupStatus.lastBackup?.toISOString(),
+      backupCount: backupStatus.backupCount,
+      totalSize: backupStatus.totalSize,
+    },
+  });
 });
 
 // Serve frontend for all other routes in production
@@ -73,12 +87,12 @@ async function start() {
     runMigrations();
     console.log('Database ready');
 
-    // Initialize notification scheduler
-    if (config.email?.enabled) {
-      console.log('Initializing notification scheduler...');
+    // Initialize scheduler for notifications and backups
+    if (config.email?.enabled || config.backup?.enabled) {
+      console.log('Initializing scheduler...');
       schedulerService.initialize();
     } else {
-      console.log('Email notifications disabled, scheduler not started');
+      console.log('Email notifications and backups disabled, scheduler not started');
     }
 
     app.listen(config.port, () => {
