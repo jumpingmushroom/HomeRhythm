@@ -326,7 +326,8 @@
     "assigned": "assigned",
     "to": "to",
     "updated": "updated",
-    "deleted": "deleted"
+    "deleted": "deleted",
+    "deletedTask": "(deleted task)"
   },
   "taskFilters": {
     "allTasks": "All Tasks",

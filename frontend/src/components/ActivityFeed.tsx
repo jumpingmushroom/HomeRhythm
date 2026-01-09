@@ -49,18 +49,21 @@ export function ActivityFeed() {
     const isCurrentUser = activity.user_id === user?.id;
     const userName = isCurrentUser ? t('activities.you') : activity.user_email.split('@')[0];
 
+    // Use metadata task_title if task is deleted (task_title will be null from the JOIN)
+    const taskTitle = activity.task_title || activity.parsed_metadata?.task_title || t('activities.deletedTask');
+
     switch (activity.activity_type) {
       case 'task_created':
-        return `${userName} ${t('activities.created')} "${activity.task_title}"`;
+        return `${userName} ${t('activities.created')} "${taskTitle}"`;
       case 'task_completed':
-        return `${userName} ${t('activities.completed')} "${activity.task_title}"`;
+        return `${userName} ${t('activities.completed')} "${taskTitle}"`;
       case 'task_assigned':
         const assignedTo = activity.parsed_metadata?.assigned_to_email?.split('@')[0];
-        return `${userName} ${t('activities.assigned')} "${activity.task_title}" ${t('activities.to')} ${assignedTo}`;
+        return `${userName} ${t('activities.assigned')} "${taskTitle}" ${t('activities.to')} ${assignedTo}`;
       case 'task_updated':
-        return `${userName} ${t('activities.updated')} "${activity.task_title}"`;
+        return `${userName} ${t('activities.updated')} "${taskTitle}"`;
       case 'task_deleted':
-        return `${userName} ${t('activities.deleted')} "${activity.task_title}"`;
+        return `${userName} ${t('activities.deleted')} "${taskTitle}"`;
       default:
         return `${userName} performed an action`;
     }

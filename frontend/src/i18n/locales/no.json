@@ -326,7 +326,8 @@
     "assigned": "tildelte",
     "to": "til",
     "updated": "oppdaterte",
-    "deleted": "slettet"
+    "deleted": "slettet",
+    "deletedTask": "(slettet oppgave)"
   },
   "taskFilters": {
     "allTasks": "Alle oppgaver",
