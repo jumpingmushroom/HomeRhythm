@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/authStore';
 import { householdsApi } from '../lib/api';
 import { CheckCircle, XCircle } from 'lucide-react';
 
 export function AcceptInvite() {
+  const { t } = useTranslation();
   const { inviteCode } = useParams<{ inviteCode: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
@@ -24,7 +26,7 @@ export function AcceptInvite() {
   const acceptInvite = async () => {
     if (!inviteCode) {
       setStatus('error');
-      setMessage('Invalid invite code');
+      setMessage(t('invites.inviteInvalid'));
       return;
     }
 
@@ -35,7 +37,7 @@ export function AcceptInvite() {
       setTimeout(() => navigate('/'), 2000);
     } catch (error: any) {
       setStatus('error');
-      setMessage(error.response?.data?.error || 'Failed to accept invite');
+      setMessage(error.response?.data?.error || t('invites.inviteFailed'));
     }
   };
 
@@ -45,7 +47,7 @@ export function AcceptInvite() {
         {status === 'loading' && (
           <>
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">Accepting invite...</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('invites.acceptingInvite')}</p>
           </>
         )}
 
@@ -54,7 +56,7 @@ export function AcceptInvite() {
             <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Success!</h2>
             <p className="text-gray-600 dark:text-gray-400">{message}</p>
-            <p className="text-sm text-gray-500 mt-2">Redirecting to dashboard...</p>
+            <p className="text-sm text-gray-500 mt-2">{t('invites.inviteAccepted')}</p>
           </>
         )}
 
@@ -64,7 +66,7 @@ export function AcceptInvite() {
             <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Error</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4">{message}</p>
             <button onClick={() => navigate('/')} className="btn btn-primary">
-              Go to Dashboard
+              {t('dashboard.title')}
             </button>
           </>
         )}

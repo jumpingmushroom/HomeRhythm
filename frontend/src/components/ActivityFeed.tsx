@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useActivityStore } from '../store/activityStore';
 import { useAuthStore } from '../store/authStore';
 import { activitiesApi } from '../lib/api';
@@ -6,6 +7,7 @@ import { Activity as ActivityIcon, CheckCircle, UserPlus, Edit, Trash2, Plus } f
 import { formatDistanceToNow } from 'date-fns';
 
 export function ActivityFeed() {
+  const { t } = useTranslation();
   const { user } = useAuthStore();
   const { activities, setActivities, setLoading } = useActivityStore();
   const [loadingState, setLoadingState] = useState(true);
@@ -45,36 +47,36 @@ export function ActivityFeed() {
 
   const getActivityText = (activity: any) => {
     const isCurrentUser = activity.user_id === user?.id;
-    const userName = isCurrentUser ? 'You' : activity.user_email.split('@')[0];
+    const userName = isCurrentUser ? t('activities.you') : activity.user_email.split('@')[0];
 
     switch (activity.activity_type) {
       case 'task_created':
-        return `${userName} created task "${activity.task_title}"`;
+        return `${userName} ${t('activities.created')} "${activity.task_title}"`;
       case 'task_completed':
-        return `${userName} completed "${activity.task_title}"`;
+        return `${userName} ${t('activities.completed')} "${activity.task_title}"`;
       case 'task_assigned':
         const assignedTo = activity.parsed_metadata?.assigned_to_email?.split('@')[0];
-        return `${userName} assigned "${activity.task_title}" to ${assignedTo}`;
+        return `${userName} ${t('activities.assigned')} "${activity.task_title}" ${t('activities.to')} ${assignedTo}`;
       case 'task_updated':
-        return `${userName} updated "${activity.task_title}"`;
+        return `${userName} ${t('activities.updated')} "${activity.task_title}"`;
       case 'task_deleted':
-        return `${userName} deleted "${activity.task_title}"`;
+        return `${userName} ${t('activities.deleted')} "${activity.task_title}"`;
       default:
         return `${userName} performed an action`;
     }
   };
 
   if (loadingState) {
-    return <div className="card">Loading activities...</div>;
+    return <div className="card">{t('activities.loadingActivities')}</div>;
   }
 
   if (activities.length === 0) {
     return (
       <div className="card text-center py-8">
         <ActivityIcon className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-        <p className="text-gray-500 dark:text-gray-400">No activities yet</p>
+        <p className="text-gray-500 dark:text-gray-400">{t('activities.noActivities')}</p>
         <p className="text-sm text-gray-400 dark:text-gray-500">
-          Activity from your household will appear here
+          {t('activities.noActivitiesDescription')}
         </p>
       </div>
     );
@@ -84,7 +86,7 @@ export function ActivityFeed() {
     <div className="card">
       <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
         <ActivityIcon className="w-5 h-5" />
-        Recent Activity
+        {t('activities.title')}
       </h2>
       <div className="space-y-3">
         {activities.map((activity) => (

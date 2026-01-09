@@ -42,7 +42,9 @@
     "browseTaskTemplates": "Browse Task Templates",
     "loadingTasks": "Loading tasks...",
     "listView": "List View",
-    "calendarView": "Calendar View"
+    "calendarView": "Calendar View",
+    "tasks": "Tasks",
+    "activity": "Activity"
   },
   "calendar": {
     "today": "Today",
@@ -283,5 +285,62 @@
     "failedToLoadPreferences": "Failed to load notification preferences",
     "failedToSavePreferences": "Failed to save preferences",
     "failedToSendTestEmail": "Failed to send test email"
+  },
+  "household": {
+    "title": "Household Management",
+    "createYourHousehold": "Create Your Household",
+    "createDescription": "Create a household to collaborate with family members on home maintenance tasks.",
+    "householdName": "Household name",
+    "householdNamePlaceholder": "e.g., Smith Family Home",
+    "createHousehold": "Create Household",
+    "editName": "Edit Name",
+    "owner": "Owner",
+    "members": "Members",
+    "inviteMembers": "Invite Members",
+    "inviteEmail": "Email address",
+    "inviteEmailPlaceholder": "Enter email address",
+    "sendInvite": "Send Invite",
+    "sending": "Sending...",
+    "inviteSent": "Invite sent! Share this link: {{link}}",
+    "pendingInvites": "Pending Invites",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "cancelInvite": "Cancel this invite?",
+    "loadingHousehold": "Loading household...",
+    "householdCreated": "Household created successfully!",
+    "householdUpdated": "Household name updated!",
+    "failedToCreate": "Failed to create household",
+    "failedToUpdate": "Failed to update household",
+    "failedToInvite": "Failed to send invite",
+    "failedToDeleteInvite": "Failed to delete invite",
+    "onlyHouseholdMembers": "Can only assign to household members"
+  },
+  "activities": {
+    "title": "Recent Activity",
+    "noActivities": "No activities yet",
+    "noActivitiesDescription": "Activity from your household will appear here",
+    "loadingActivities": "Loading activities...",
+    "you": "You",
+    "created": "created task",
+    "completed": "completed",
+    "assigned": "assigned",
+    "to": "to",
+    "updated": "updated",
+    "deleted": "deleted"
+  },
+  "taskFilters": {
+    "allTasks": "All Tasks",
+    "createdByMe": "Created by Me",
+    "assignedToMe": "Assigned to Me",
+    "unassigned": "Unassigned"
+  },
+  "invites": {
+    "acceptingInvite": "Accepting invite...",
+    "inviteAccepted": "Invite accepted! Redirecting to dashboard...",
+    "inviteFailed": "Failed to accept invite",
+    "alreadyInHousehold": "You're already in a household",
+    "inviteExpired": "This invite has expired",
+    "inviteInvalid": "Invalid invite code",
+    "redirectingToLogin": "Redirecting to login..."
   }
 }

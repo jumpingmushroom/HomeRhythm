@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { useTasksStore } from '../store/tasksStore';
 import { List, User, UserX } from 'lucide-react';
 
 export function TaskFilterTabs() {
+  const { t } = useTranslation();
   const { filters, setFilters } = useTasksStore();
   const { assignmentFilter } = filters;
 
@@ -16,7 +18,7 @@ export function TaskFilterTabs() {
         }`}
       >
         <List className="w-4 h-4" />
-        All Tasks
+        {t('taskFilters.allTasks')}
       </button>
       <button
         onClick={() => setFilters({ assignmentFilter: 'created' })}
@@ -27,7 +29,7 @@ export function TaskFilterTabs() {
         }`}
       >
         <User className="w-4 h-4" />
-        Created by Me
+        {t('taskFilters.createdByMe')}
       </button>
       <button
         onClick={() => setFilters({ assignmentFilter: 'assigned' })}
@@ -38,7 +40,7 @@ export function TaskFilterTabs() {
         }`}
       >
         <User className="w-4 h-4" />
-        Assigned to Me
+        {t('taskFilters.assignedToMe')}
       </button>
       <button
         onClick={() => setFilters({ assignmentFilter: 'unassigned' })}
@@ -49,7 +51,7 @@ export function TaskFilterTabs() {
         }`}
       >
         <UserX className="w-4 h-4" />
-        Unassigned
+        {t('taskFilters.unassigned')}
       </button>
     </div>
   );

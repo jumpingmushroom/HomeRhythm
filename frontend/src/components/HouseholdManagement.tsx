@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHouseholdStore } from '../store/householdStore';
 import { useAuthStore } from '../store/authStore';
 import { householdsApi } from '../lib/api';
 import { Users, Mail, Trash2, Copy, CheckCircle } from 'lucide-react';
 
 export function HouseholdManagement() {
+  const { t } = useTranslation();
   const { user } = useAuthStore();
   const { household, members, invites, setHousehold, setMembers, setInvites, addInvite, removeInvite } = useHouseholdStore();
   const [loading, setLoading] = useState(true);
@@ -40,9 +42,9 @@ export function HouseholdManagement() {
     try {
       const response = await householdsApi.create(householdName);
       setHousehold(response.data.household);
-      alert('Household created successfully!');
+      alert(t('household.householdCreated'));
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Failed to create household');
+      alert(error.response?.data?.error || t('household.failedToCreate'));
     }
   };
 
@@ -53,9 +55,9 @@ export function HouseholdManagement() {
       const response = await householdsApi.update(householdName);
       setHousehold(response.data.household);
       setEditing(false);
-      alert('Household name updated!');
+      alert(t('household.householdUpdated'));
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Failed to update household');
+      alert(error.response?.data?.error || t('household.failedToUpdate'));
     }
   };
 
@@ -67,22 +69,22 @@ export function HouseholdManagement() {
       const response = await householdsApi.createInvite(inviteEmail);
       addInvite(response.data.invite);
       setInviteEmail('');
-      alert(`Invite sent! Share this link: ${response.data.inviteLink}`);
+      alert(t('household.inviteSent', { link: response.data.inviteLink }));
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Failed to send invite');
+      alert(error.response?.data?.error || t('household.failedToInvite'));
     } finally {
       setInviting(false);
     }
   };
 
   const handleDeleteInvite = async (inviteId: number) => {
-    if (!confirm('Cancel this invite?')) return;
+    if (!confirm(t('household.cancelInvite'))) return;
 
     try {
       await householdsApi.deleteInvite(inviteId);
       removeInvite(inviteId);
     } catch (error: any) {
-      alert(error.response?.data?.error || 'Failed to delete invite');
+      alert(error.response?.data?.error || t('household.failedToDeleteInvite'));
     }
   };
 
@@ -96,26 +98,26 @@ export function HouseholdManagement() {
   const isOwner = household && user && household.owner_id === user.id;
 
   if (loading) {
-    return <div className="card">Loading household...</div>;
+    return <div className="card">{t('household.loadingHousehold')}</div>;
   }
 
   if (!household) {
     return (
       <div className="card">
-        <h2 className="text-xl font-semibold mb-4">Create Your Household</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('household.createYourHousehold')}</h2>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Create a household to collaborate with family members on home maintenance tasks.
+          {t('household.createDescription')}
         </p>
         <div className="flex gap-2">
           <input
             type="text"
             value={householdName}
             onChange={(e) => setHouseholdName(e.target.value)}
-            placeholder="e.g., Smith Family Home"
+            placeholder={t('household.householdNamePlaceholder')}
             className="input flex-1"
           />
           <button onClick={handleCreateHousehold} className="btn btn-primary">
-            Create Household
+            {t('household.createHousehold')}
           </button>
         </div>
       </div>
@@ -145,14 +147,14 @@ export function HouseholdManagement() {
               onClick={() => editing ? handleUpdateHousehold() : setEditing(true)}
               className="btn btn-secondary"
             >
-              {editing ? 'Save' : 'Edit Name'}
+              {editing ? t('common.save') : t('household.editName')}
             </button>
           )}
         </div>
 
         {/* Members List */}
         <div>
-          <h3 className="font-medium mb-2">Members ({members.length})</h3>
+          <h3 className="font-medium mb-2">{t('household.members')} ({members.length})</h3>
           <div className="space-y-2">
             {members.map((member) => (
               <div key={member.id} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-800 rounded">
@@ -161,7 +163,7 @@ export function HouseholdManagement() {
                 </div>
                 <span className="flex-1">{member.email}</span>
                 {member.id === household.owner_id && (
-                  <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Owner</span>
+                  <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">{t('household.owner')}</span>
                 )}
               </div>
             ))}
@@ -174,14 +176,14 @@ export function HouseholdManagement() {
         <div className="card">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Mail className="w-5 h-5" />
-            Invite Members
+            {t('household.inviteMembers')}
           </h3>
           <div className="flex gap-2 mb-4">
             <input
               type="email"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              placeholder="Enter email address"
+              placeholder={t('household.inviteEmailPlaceholder')}
               className="input flex-1"
             />
             <button
@@ -189,14 +191,14 @@ export function HouseholdManagement() {
               disabled={inviting}
               className="btn btn-primary"
             >
-              {inviting ? 'Sending...' : 'Send Invite'}
+              {inviting ? t('household.sending') : t('household.sendInvite')}
             </button>
           </div>
 
           {/* Pending Invites */}
           {invites.length > 0 && (
             <div>
-              <h4 className="font-medium mb-2">Pending Invites</h4>
+              <h4 className="font-medium mb-2">{t('household.pendingInvites')}</h4>
               <div className="space-y-2">
                 {invites.map((invite) => (
                   <div key={invite.id} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-800 rounded">
@@ -208,12 +210,12 @@ export function HouseholdManagement() {
                       {copiedCode === invite.invite_code ? (
                         <>
                           <CheckCircle className="w-4 h-4" />
-                          Copied!
+                          {t('household.copied')}
                         </>
                       ) : (
                         <>
                           <Copy className="w-4 h-4" />
-                          Copy Link
+                          {t('household.copyLink')}
                         </>
                       )}
                     </button>

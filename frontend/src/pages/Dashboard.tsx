@@ -233,7 +233,7 @@ export function Dashboard() {
             }`}
           >
             <List className="w-4 h-4" />
-            Tasks
+            {t('dashboard.tasks')}
           </button>
           <button
             onClick={() => setMainView('activities')}
@@ -244,7 +244,7 @@ export function Dashboard() {
             }`}
           >
             <Activity className="w-4 h-4" />
-            Activity
+            {t('dashboard.activity')}
           </button>
         </div>
 

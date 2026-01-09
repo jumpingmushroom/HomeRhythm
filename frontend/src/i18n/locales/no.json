@@ -42,7 +42,9 @@
     "browseTaskTemplates": "Bla gjennom oppgavemaler",
     "loadingTasks": "Laster oppgaver...",
     "listView": "Listevisning",
-    "calendarView": "Kalendervisning"
+    "calendarView": "Kalendervisning",
+    "tasks": "Oppgaver",
+    "activity": "Aktivitet"
   },
   "calendar": {
     "today": "I dag",
@@ -283,5 +285,62 @@
     "failedToLoadPreferences": "Kunne ikke laste varslingsinnstillinger",
     "failedToSavePreferences": "Kunne ikke lagre innstillinger",
     "failedToSendTestEmail": "Kunne ikke sende test-e-post"
+  },
+  "household": {
+    "title": "Husholdningsstyring",
+    "createYourHousehold": "Opprett din husholdning",
+    "createDescription": "Opprett en husholdning for å samarbeide med familiemedlemmer om vedlikeholdsoppgaver.",
+    "householdName": "Husholdningsnavn",
+    "householdNamePlaceholder": "f.eks. Hansen Familiens Hjem",
+    "createHousehold": "Opprett husholdning",
+    "editName": "Rediger navn",
+    "owner": "Eier",
+    "members": "Medlemmer",
+    "inviteMembers": "Inviter medlemmer",
+    "inviteEmail": "E-postadresse",
+    "inviteEmailPlaceholder": "Skriv inn e-postadresse",
+    "sendInvite": "Send invitasjon",
+    "sending": "Sender...",
+    "inviteSent": "Invitasjon sendt! Del denne lenken: {{link}}",
+    "pendingInvites": "Ventende invitasjoner",
+    "copyLink": "Kopier lenke",
+    "copied": "Kopiert!",
+    "cancelInvite": "Avbryt denne invitasjonen?",
+    "loadingHousehold": "Laster husholdning...",
+    "householdCreated": "Husholdning opprettet!",
+    "householdUpdated": "Husholdningsnavn oppdatert!",
+    "failedToCreate": "Kunne ikke opprette husholdning",
+    "failedToUpdate": "Kunne ikke oppdatere husholdning",
+    "failedToInvite": "Kunne ikke sende invitasjon",
+    "failedToDeleteInvite": "Kunne ikke slette invitasjon",
+    "onlyHouseholdMembers": "Kan kun tildele til husholdningsmedlemmer"
+  },
+  "activities": {
+    "title": "Nylig aktivitet",
+    "noActivities": "Ingen aktiviteter ennå",
+    "noActivitiesDescription": "Aktivitet fra husholdningen din vil vises her",
+    "loadingActivities": "Laster aktiviteter...",
+    "you": "Du",
+    "created": "opprettet oppgave",
+    "completed": "fullførte",
+    "assigned": "tildelte",
+    "to": "til",
+    "updated": "oppdaterte",
+    "deleted": "slettet"
+  },
+  "taskFilters": {
+    "allTasks": "Alle oppgaver",
+    "createdByMe": "Opprettet av meg",
+    "assignedToMe": "Tildelt til meg",
+    "unassigned": "Ikke tildelt"
+  },
+  "invites": {
+    "acceptingInvite": "Godtar invitasjon...",
+    "inviteAccepted": "Invitasjon godtatt! Omdirigerer til dashbord...",
+    "inviteFailed": "Kunne ikke godta invitasjon",
+    "alreadyInHousehold": "Du er allerede i en husholdning",
+    "inviteExpired": "Denne invitasjonen har utløpt",
+    "inviteInvalid": "Ugyldig invitasjonskode",
+    "redirectingToLogin": "Omdirigerer til innlogging..."
   }
 }
