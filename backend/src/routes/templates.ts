@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import { getDatabase } from '../database';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
-import { TaskTemplate } from '../types';
+import { validateRequest, templateGenerateSchema } from '../utils/validation';
+import { TaskTemplate, Task } from '../types';
+import { activityService } from '../services/activity.service';
+import { notificationService } from '../services/notification.service';
 
 const router = Router();
 
@@ -70,6 +73,105 @@ router.get('/:id', (req: AuthRequest, res) => {
   } catch (error) {
     console.error('Error fetching template:', error);
     res.status(500).json({ error: 'Failed to fetch template' });
+  }
+});
+
+// Generate a task from a template
+router.post('/:id/generate', async (req: AuthRequest, res) => {
+  const templateId = parseInt(req.params.id);
+  const validation = validateRequest(templateGenerateSchema, req.body);
+
+  if (!validation.success) {
+    return res.status(400).json({ error: validation.error });
+  }
+
+  const { due_date, assigned_to } = validation.data;
+  const db = getDatabase();
+
+  try {
+    // Get the template
+    const template = db.prepare('SELECT * FROM task_templates WHERE id = ?').get(templateId) as TaskTemplate | undefined;
+
+    if (!template) {
+      return res.status(404).json({ error: 'Template not found' });
+    }
+
+    // Get user's household_id
+    const user = db.prepare('SELECT household_id FROM users WHERE id = ?')
+      .get(req.userId!) as { household_id: number | null };
+
+    // If assigning to someone, verify they're in the same household
+    if (assigned_to && user.household_id) {
+      const assignee = db.prepare('SELECT household_id FROM users WHERE id = ?')
+        .get(assigned_to) as { household_id: number | null } | undefined;
+
+      if (!assignee || assignee.household_id !== user.household_id) {
+        return res.status(400).json({ error: 'Can only assign tasks to household members' });
+      }
+    }
+
+    // Determine schedule type based on template
+    const schedule_type = template.suggested_recurrence_pattern ? 'recurring' : 'once';
+    const recurrence_pattern = template.suggested_recurrence_pattern || null;
+    const recurrence_interval = template.suggested_recurrence_interval || null;
+    const recurrence_config = template.suggested_recurrence_config || null;
+
+    // Create task from template
+    const result = db.prepare(`
+      INSERT INTO tasks (
+        user_id, household_id, assigned_to, title, description, category,
+        schedule_type, due_date, flexibility_window, recurrence_pattern, recurrence_interval, recurrence_config,
+        priority, estimated_time, estimated_cost, notes
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      req.userId!,
+      user.household_id,
+      assigned_to || null,
+      template.title,
+      template.description || null,
+      template.category,
+      schedule_type,
+      due_date || null,
+      null, // flexibility_window - not in template
+      recurrence_pattern,
+      recurrence_interval,
+      recurrence_config,
+      'medium', // default priority
+      null, // estimated_time - not in template
+      null, // estimated_cost - not in template
+      null  // notes - not in template
+    );
+
+    const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(result.lastInsertRowid) as Task;
+
+    // Create activity log entry
+    if (user.household_id) {
+      activityService.createActivity(
+        user.household_id,
+        req.userId!,
+        'task_created',
+        task.id,
+        {
+          task_title: task.title,
+          assigned_to: task.assigned_to || undefined,
+        }
+      );
+    }
+
+    // Send notification if task is assigned to someone else
+    if (task.assigned_to && task.assigned_to !== req.userId) {
+      try {
+        await notificationService.sendTaskAssignedNotification(task);
+      } catch (error) {
+        console.error('Error sending assignment notification:', error);
+        // Don't fail the request if notification fails
+      }
+    }
+
+    res.status(201).json({ message: 'Task created from template', task });
+  } catch (error) {
+    console.error('Error generating task from template:', error);
+    res.status(500).json({ error: 'Failed to generate task from template' });
   }
 });
 

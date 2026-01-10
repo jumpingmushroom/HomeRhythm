@@ -61,6 +61,58 @@ export const acceptInviteSchema = z.object({
   invite_code: z.string().min(1),
 });
 
+// Advanced Task Features Validation
+
+// Subtasks
+export const subtaskSchema = z.object({
+  text: z.string().min(1).max(500),
+  completed: z.number().int().min(0).max(1).optional(),
+  position: z.number().int().nonnegative().optional(),
+});
+
+export const subtaskReorderSchema = z.object({
+  subtasks: z.array(z.object({
+    id: z.number().int().positive(),
+    position: z.number().int().nonnegative(),
+  })),
+});
+
+// Dependencies
+export const dependencySchema = z.object({
+  task_id: z.number().int().positive(),
+  depends_on_task_id: z.number().int().positive(),
+}).refine(data => data.task_id !== data.depends_on_task_id, {
+  message: "A task cannot depend on itself",
+  path: ['depends_on_task_id'],
+});
+
+// Time Tracking
+export const timeEntryStartSchema = z.object({
+  started_at: z.string().optional(), // ISO timestamp, defaults to now
+});
+
+export const timeEntryStopSchema = z.object({
+  ended_at: z.string().optional(), // ISO timestamp, defaults to now
+  notes: z.string().max(1000).optional().nullable(),
+});
+
+export const timeEntryUpdateSchema = z.object({
+  notes: z.string().max(1000).optional().nullable(),
+  duration: z.number().int().positive().optional(), // Manual override in seconds
+});
+
+// Comments
+export const commentSchema = z.object({
+  comment_text: z.string().min(1).max(2000),
+});
+
+// Template Generation
+export const templateGenerateSchema = z.object({
+  due_date: z.string().optional().nullable(),
+  assigned_to: z.number().int().positive().optional().nullable(),
+  start_date: z.string().optional().nullable(),
+});
+
 export function validateRequest<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; error: string } {
   try {
     const validData = schema.parse(data);

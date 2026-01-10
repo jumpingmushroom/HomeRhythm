@@ -8,6 +8,10 @@ import { useTasksStore } from '../store/tasksStore';
 import { useAuthStore } from '../store/authStore';
 import { useLanguageStore } from '../store/languageStore';
 import { formatUSDAsLocalCurrency } from '../utils/currency';
+import SubtasksList from './SubtasksList';
+import CommentsList from './CommentsList';
+import TimeTracker from './TimeTracker';
+import DependenciesList from './DependenciesList';
 
 interface TaskDetailsProps {
   task: Task;
@@ -161,6 +165,23 @@ export function TaskDetails({ task, onClose, onEdit, onDelete, onComplete }: Tas
               <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">{task.notes}</p>
             </div>
           )}
+
+          {/* Advanced Task Features */}
+          <div className="space-y-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+            <SubtasksList taskId={task.id} />
+          </div>
+
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+            <TimeTracker taskId={task.id} />
+          </div>
+
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+            <DependenciesList taskId={task.id} />
+          </div>
+
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+            <CommentsList taskId={task.id} />
+          </div>
 
           <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button onClick={() => setShowCompleteForm(true)} className="btn btn-primary flex items-center gap-2">

@@ -94,6 +94,27 @@ router.post('/task/:taskId', (req: AuthRequest, res) => {
       return res.status(404).json({ error: 'Task not found' });
     }
 
+    // Check for blocking dependencies (hard blocking)
+    const blockingTasks = db.prepare(`
+      SELECT
+        t.id,
+        t.title,
+        t.priority
+      FROM task_dependencies td
+      JOIN tasks t ON td.depends_on_task_id = t.id
+      WHERE td.task_id = ?
+        AND NOT EXISTS (
+          SELECT 1 FROM task_completions WHERE task_id = t.id
+        )
+    `).all(taskId) as Array<{ id: number; title: string; priority: string }>;
+
+    if (blockingTasks.length > 0) {
+      return res.status(400).json({
+        error: 'Cannot complete task: blocking dependencies exist',
+        blocking_tasks: blockingTasks,
+      });
+    }
+
     const result = db.prepare(`
       INSERT INTO task_completions (task_id, completed_at, completion_notes)
       VALUES (?, ?, ?)

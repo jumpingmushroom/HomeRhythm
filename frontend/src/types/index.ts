@@ -153,7 +153,7 @@ export interface Activity {
   household_id: number;
   user_id: number;
   user_email: string;
-  activity_type: 'task_created' | 'task_completed' | 'task_assigned' | 'task_updated' | 'task_deleted';
+  activity_type: 'task_created' | 'task_completed' | 'task_assigned' | 'task_updated' | 'task_deleted' | 'subtask_completed' | 'dependency_added' | 'time_tracked' | 'comment_added';
   task_id: number | null;
   task_title: string | null;
   metadata: string | null;
@@ -167,4 +167,64 @@ export interface ActivityMetadata {
   assigned_to_email?: string;
   completion_notes?: string;
   changes?: Record<string, { old: any; new: any }>;
+}
+
+// Advanced Task Features
+export interface TaskSubtask {
+  id: number;
+  task_id: number;
+  text: string;
+  completed: number; // SQLite boolean (0/1)
+  position: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TaskDependency {
+  id: number;
+  task_id: number;
+  depends_on_task_id: number;
+  created_at: string;
+}
+
+export interface DependencyWithTask extends TaskDependency {
+  depends_on_task_title: string;
+  depends_on_task_completed: boolean;
+}
+
+export interface TaskTimeEntry {
+  id: number;
+  task_id: number;
+  user_id: number;
+  started_at: string;
+  ended_at: string | null;
+  duration: number | null; // seconds
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TaskTimeEntrySummary {
+  task_id: number;
+  total_duration: number; // seconds
+  entry_count: number;
+  user_breakdown: Array<{
+    user_id: number;
+    user_email: string;
+    duration: number;
+  }>;
+}
+
+export interface TaskComment {
+  id: number;
+  task_id: number;
+  user_id: number;
+  comment_text: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+}
+
+export interface TaskCommentWithUser extends TaskComment {
+  user_email: string;
 }

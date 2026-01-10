@@ -16,6 +16,10 @@ import notificationPreferencesRoutes from './routes/notification-preferences';
 import householdRoutes from './routes/households';
 import activityRoutes from './routes/activities';
 import backupRoutes from './routes/backup';
+import subtasksRoutes from './routes/subtasks';
+import commentsRoutes from './routes/comments';
+import timeTrackingRoutes from './routes/time-tracking';
+import dependenciesRoutes from './routes/dependencies';
 
 const app = express();
 
@@ -48,6 +52,10 @@ app.use('/api/notification-preferences', notificationPreferencesRoutes);
 app.use('/api/households', householdRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/backup', backupRoutes);
+app.use('/api/subtasks', subtasksRoutes);
+app.use('/api/comments', commentsRoutes);
+app.use('/api/time-tracking', timeTrackingRoutes);
+app.use('/api/dependencies', dependenciesRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

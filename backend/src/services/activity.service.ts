@@ -5,7 +5,7 @@ class ActivityService {
   createActivity(
     householdId: number,
     userId: number,
-    activityType: 'task_created' | 'task_completed' | 'task_assigned' | 'task_updated' | 'task_deleted',
+    activityType: 'task_created' | 'task_completed' | 'task_assigned' | 'task_updated' | 'task_deleted' | 'subtask_completed' | 'dependency_added' | 'time_tracked' | 'comment_added',
     taskId: number | null,
     metadata?: ActivityMetadata
   ) {

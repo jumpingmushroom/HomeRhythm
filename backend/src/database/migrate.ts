@@ -273,6 +273,129 @@ export function runMigrations() {
       console.log('Default households created successfully');
     }
 
+    // Migration: Add task_subtasks table
+    console.log('Checking for task_subtasks table...');
+    const hasSubtasks = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='task_subtasks'"
+    ).get();
+
+    if (!hasSubtasks) {
+      console.log('Creating task_subtasks table...');
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS task_subtasks (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          task_id INTEGER NOT NULL,
+          text TEXT NOT NULL,
+          completed INTEGER DEFAULT 0,
+          position INTEGER NOT NULL,
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now')),
+          FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_task_subtasks_task_id ON task_subtasks(task_id);
+        CREATE INDEX IF NOT EXISTS idx_task_subtasks_position ON task_subtasks(task_id, position);
+      `);
+      console.log('task_subtasks table created successfully');
+    }
+
+    // Migration: Add task_dependencies table
+    console.log('Checking for task_dependencies table...');
+    const hasDependencies = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='task_dependencies'"
+    ).get();
+
+    if (!hasDependencies) {
+      console.log('Creating task_dependencies table...');
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS task_dependencies (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          task_id INTEGER NOT NULL,
+          depends_on_task_id INTEGER NOT NULL,
+          created_at TEXT DEFAULT (datetime('now')),
+          FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+          FOREIGN KEY (depends_on_task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+          UNIQUE(task_id, depends_on_task_id),
+          CHECK(task_id != depends_on_task_id)
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_task_dependencies_task_id ON task_dependencies(task_id);
+        CREATE INDEX IF NOT EXISTS idx_task_dependencies_depends_on ON task_dependencies(depends_on_task_id);
+        CREATE INDEX IF NOT EXISTS idx_task_dependencies_both ON task_dependencies(task_id, depends_on_task_id);
+      `);
+      console.log('task_dependencies table created successfully');
+    }
+
+    // Migration: Add task_time_entries table
+    console.log('Checking for task_time_entries table...');
+    const hasTimeEntries = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='task_time_entries'"
+    ).get();
+
+    if (!hasTimeEntries) {
+      console.log('Creating task_time_entries table...');
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS task_time_entries (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          task_id INTEGER NOT NULL,
+          user_id INTEGER NOT NULL,
+          started_at TEXT NOT NULL,
+          ended_at TEXT,
+          duration INTEGER,
+          notes TEXT,
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now')),
+          FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_task_time_entries_task_id ON task_time_entries(task_id);
+        CREATE INDEX IF NOT EXISTS idx_task_time_entries_user_id ON task_time_entries(user_id);
+        CREATE INDEX IF NOT EXISTS idx_task_time_entries_active ON task_time_entries(user_id, ended_at);
+        CREATE INDEX IF NOT EXISTS idx_task_time_entries_started_at ON task_time_entries(started_at);
+      `);
+      console.log('task_time_entries table created successfully');
+    }
+
+    // Migration: Add task_comments table
+    console.log('Checking for task_comments table...');
+    const hasComments = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='task_comments'"
+    ).get();
+
+    if (!hasComments) {
+      console.log('Creating task_comments table...');
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS task_comments (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          task_id INTEGER NOT NULL,
+          user_id INTEGER NOT NULL,
+          comment_text TEXT NOT NULL,
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now')),
+          deleted_at TEXT,
+          FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_task_comments_task_id ON task_comments(task_id);
+        CREATE INDEX IF NOT EXISTS idx_task_comments_created_at ON task_comments(task_id, created_at);
+        CREATE INDEX IF NOT EXISTS idx_task_comments_user_id ON task_comments(user_id);
+      `);
+      console.log('task_comments table created successfully');
+    }
+
+    // Migration: Update activity types
+    console.log('Checking activities table for new types...');
+    const activitiesTableInfo = db.prepare("PRAGMA table_info(activities)").all() as Array<{ name: string }>;
+    const hasActivityType = activitiesTableInfo.some(col => col.name === 'activity_type');
+
+    if (hasActivityType) {
+      // Activity types are just strings, no schema change needed
+      // But we log that new types will be supported
+      console.log('Activity types ready for: subtask_completed, dependency_added, time_tracked, comment_added');
+    }
+
     console.log('Migrations completed successfully');
   } catch (error) {
     console.error('Migration failed:', error);
