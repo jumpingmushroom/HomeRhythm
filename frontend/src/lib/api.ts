@@ -145,3 +145,49 @@ export const activitiesApi = {
   getAll: (limit?: number) =>
     api.get<{ activities: Activity[] }>('/activities', { params: { limit } }),
 };
+
+// Backups
+export const backupApi = {
+  getStatus: () =>
+    api.get<{
+      enabled: boolean;
+      lastBackup?: string;
+      lastBackupFilename?: string;
+      backupCount: number;
+      totalSize: number;
+      backupDirectory: string;
+      intervalHours: number;
+    }>('/backup/status'),
+
+  list: () =>
+    api.get<{
+      count: number;
+      backups: Array<{
+        filename: string;
+        size: number;
+        created: string;
+      }>;
+    }>('/backup/list'),
+
+  create: () =>
+    api.post<{
+      message: string;
+      filename: string;
+      timestamp: string;
+    }>('/backup/create'),
+
+  download: (filename: string) => {
+    window.location.href = `/api/backup/download/${filename}`;
+  },
+
+  downloadCurrent: () => {
+    window.location.href = '/api/backup/download-current';
+  },
+
+  cleanup: (keepCount?: number) =>
+    api.delete<{
+      message: string;
+      deleted: number;
+      kept?: number;
+    }>('/backup/cleanup', { params: keepCount ? { keep_count: keepCount } : {} }),
+};

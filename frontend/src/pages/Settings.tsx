@@ -1,6 +1,7 @@
 import { Layout } from '../components/Layout';
 import { HouseholdManagement } from '../components/HouseholdManagement';
 import { NotificationPreferences } from '../components/NotificationPreferences';
+import { BackupSettings } from '../components/BackupSettings';
 import { useTranslation } from 'react-i18next';
 
 export function Settings() {
@@ -20,6 +21,7 @@ export function Settings() {
 
         <HouseholdManagement />
         <NotificationPreferences />
+        <BackupSettings />
       </div>
     </Layout>
   );
