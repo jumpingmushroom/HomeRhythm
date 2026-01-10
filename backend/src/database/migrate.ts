@@ -169,6 +169,16 @@ export function runMigrations() {
         db.prepare("UPDATE task_templates SET category = 'landscaping' WHERE category = 'garden'").run();
         console.log('Category update completed');
       }
+
+      // Migration: Add Norwegian-specific templates
+      console.log('Checking for Norwegian-specific templates...');
+      const norwegianTemplates = db.prepare("SELECT COUNT(*) as count FROM task_templates WHERE title = 'Winterize cabin'").get() as { count: number };
+      if (norwegianTemplates.count === 0) {
+        console.log('Adding Norwegian-specific templates...');
+        seedTemplates();
+        seedTemplateSubtasks();
+        console.log('Norwegian templates added');
+      }
     }
 
     // Migration: Add notification preferences table

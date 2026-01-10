@@ -140,115 +140,572 @@
   "templates": {
     "cleanGutters": {
       "title": "Rengjør takrenner",
-      "description": "Fjern løv og rusk fra takrenner og nedløpsrør"
+      "description": "Fjern løv og rusk fra takrenner og nedløpsrør",
+      "subtasks": [
+        "Sett opp stige sikkert på jevnt underlag",
+        "Fjern store rester for hånd",
+        "Spyl takrenner med hageslange",
+        "Sjekk og rens nedløpsrør",
+        "Rydd opp rusk fra bakken",
+        "Inspiser for skader eller løse seksjoner"
+      ]
     },
     "powerWashExterior": {
       "title": "Høytrykksvask utvendig",
-      "description": "Rengjør kledning, terrasse og innkjørsel"
+      "description": "Rengjør kledning, terrasse og innkjørsel",
+      "subtasks": [
+        "Fjern møbler og dekorasjoner fra området",
+        "Dekk til elektriske uttak og armaturer",
+        "Forbehandle flekker med rengjøringsmiddel",
+        "Høytrykksvask kledning fra topp til bunn",
+        "Rengjør terrasse og innkjørsel",
+        "La overflatene tørke helt"
+      ]
     },
     "inspectRoof": {
       "title": "Inspiser tak",
-      "description": "Sjekk for skadede eller manglende takstein"
+      "description": "Sjekk for skadede eller manglende takstein",
+      "subtasks": [
+        "Bruk kikkert til å inspiser fra bakken (sikrere alternativ)",
+        "Se etter manglende eller skadde takstein",
+        "Sjekk for mose- eller algevekst",
+        "Inspiser takbeslag rundt piper og ventiler",
+        "Sjekk for opphoping av rusk",
+        "Dokument eventuelle problemer med bilder"
+      ]
     },
     "sealDriveway": {
       "title": "Forsegl innkjørsel",
-      "description": "Påfør tettemiddel på asfaltinnkjørsel"
+      "description": "Påfør tettemiddel på asfaltinnkjørsel",
+      "subtasks": [
+        "Rengjør innkjørsel grundig",
+        "Reparer eventuelle sprekker med sprekkfyll",
+        "La reparasjoner herde (24-48 timer)",
+        "Påfør tettemiddel i jevne lag",
+        "Gi riktig tørketid",
+        "Merk av området til det er ferdig herdet"
+      ]
     },
     "winterizeOutdoorFaucets": {
       "title": "Vinterforbered utekraner",
-      "description": "Tøm og dekk til utvendige vannkraner"
+      "description": "Tøm og dekk til utvendige vannkraner",
+      "subtasks": [
+        "Steng av innvendige ventiler til utekraner",
+        "Tøm vann fra utekraner",
+        "Fjern og lagre hageslanger",
+        "Installer isolerte kranedeksler",
+        "Sjekk for lekkasjer eller drypp"
+      ]
     },
     "replaceHvacFilters": {
       "title": "Bytt varme- og ventilasjonsfiltre",
-      "description": "Skift luftfiltre for varme- og kjølesystem"
+      "description": "Skift luftfiltre for varme- og kjølesystem",
+      "subtasks": [
+        "Slå av varmesystem",
+        "Finn og åpne filterkammer",
+        "Fjern gammelt filter og merk størrelsen",
+        "Sett inn nytt filter (sjekk luftstrømningsretnings-pil)",
+        "Lukk kammer sikkert",
+        "Slå på systemet igjen og verifiser drift"
+      ]
     },
     "serviceHvacSystem": {
       "title": "Service varme- og ventilasjonsanlegg",
-      "description": "Profesjonelt vedlikehold av varme- og kjølesystem"
+      "description": "Profesjonelt vedlikehold av varme- og kjølesystem",
+      "subtasks": [
+        "Bestill time med varme-tekniker",
+        "Gi klar tilgang til utstyr",
+        "Gå gjennom funn med tekniker",
+        "Oppbevar serviceoppføringer i vedlikeholdslogg",
+        "Planlegg neste service"
+      ]
     },
     "cleanFurnace": {
       "title": "Rengjør fyrkjel",
-      "description": "Rengjør brennere og kontroller fyrkjelens funksjon"
+      "description": "Rengjør brennere og kontroller fyrkjelens funksjon",
+      "subtasks": [
+        "Slå av strøm og gass til fyrkjelen",
+        "Fjern fyrkjelens deksel",
+        "Støvsug brennere og viftekammer",
+        "Sjekk og rengjør flammesensor",
+        "Inspiser varmeveksler for sprekker",
+        "Sett tilbake deksel og gjenopprett strøm"
+      ]
     },
     "serviceHeatPump": {
       "title": "Service varmepumpe",
-      "description": "Profesjonell inspeksjon og service av varmepumpe"
+      "description": "Profesjonell inspeksjon og service av varmepumpe",
+      "subtasks": [
+        "Bestill time med varme-tekniker",
+        "Rydd området rundt utendørsenhet",
+        "Gå gjennom vedlikeholdsliste med tekniker",
+        "Spør om kjølemiddelnivåer",
+        "Oppbevar serviceoppføringer"
+      ]
     },
     "cleanDryerVent": {
       "title": "Rengjør tørketrommelventil",
-      "description": "Fjern lo-opphopning fra tørketrommelens utblåsingsventil"
+      "description": "Fjern lo-opphopning fra tørketrommelens utblåsingsventil",
+      "subtasks": [
+        "Koble fra tørketrommel og trekk den ut fra veggen",
+        "Koble fra ventilslange fra baksiden av tørketrommelen",
+        "Bruk ventilbørste til å rengjøre ventilkanal",
+        "Rengjør lo fra ventilslange",
+        "Rengjør lofilter og hus",
+        "Koble til ventilslange sikkert",
+        "Skyv tørketrommelen tilbake og test drift"
+      ]
     },
     "cleanRefrigeratorCoils": {
       "title": "Rengjør kjøleskapspiralene",
-      "description": "Støvsug kondensatorspiralene på kjøleskapet"
+      "description": "Støvsug kondensatorspiralene på kjøleskapet",
+      "subtasks": [
+        "Koble fra kjøleskapet",
+        "Finn kondensatorspiralene (vanligvis bak eller under)",
+        "Støvsug spiralene med børstetilbehør",
+        "Tørk av omkringliggende område",
+        "Koble kjøleskapet til igjen",
+        "Sjekk at kjølingen gjenopptas normalt"
+      ]
     },
     "replaceWaterFilter": {
       "title": "Bytt vannfilter",
-      "description": "Skift vannfilter på kjøleskap eller hele huset"
+      "description": "Skift vannfilter på kjøleskap eller hele huset",
+      "subtasks": [
+        "Finn vannfilter (sjekk manual om nødvendig)",
+        "Slå av vannforsyning om nødvendig",
+        "Fjern gammelt filter",
+        "Installer nytt filter i henhold til instruksjoner",
+        "La vannet renne i 3-5 minutter for å skylle",
+        "Nullstill filterindikatorlys om tilstede"
+      ]
     },
     "cleanDishwasherFilter": {
       "title": "Rengjør oppvaskmaskinfilter",
-      "description": "Fjern og rengjør oppvaskmaskinens filter og spylearmer"
+      "description": "Fjern og rengjør oppvaskmaskinens filter og spylearmer",
+      "subtasks": [
+        "Fjern nedre oppvaskkurv",
+        "Finn og fjern filterenhet",
+        "Skyll filter under rennende vann",
+        "Skrubb med myk børste om nødvendig",
+        "Sjekk og rengjør spylarm-hull",
+        "Sett tilbake filter og kurv"
+      ]
     },
     "fertilizeLawn": {
       "title": "Gjødsle plen",
-      "description": "Påfør sesongbasert gjødsel på plenen"
+      "description": "Påfør sesongbasert gjødsel på plenen",
+      "subtasks": [
+        "Klipp plenen før gjødsling",
+        "Velg passende gjødsel for årstiden",
+        "Kalibrer spreder i henhold til instruksjoner",
+        "Påfør gjødsel i overlappende rekker",
+        "Vann plenen lett etter påføring",
+        "Hold kjæledyr og barn borte fra plenen som anvist"
+      ]
     },
     "aerateLawn": {
       "title": "Lufter plen",
-      "description": "Kjernelufting av plen for bedre vann- og næringsopptak"
+      "description": "Kjernelufting av plen for bedre vann- og næringsopptak",
+      "subtasks": [
+        "Merk sprinklerhoder og forsyninger",
+        "Klipp plenen kortere enn vanlig",
+        "Vann plenen dagen før (jorda bør være fuktig)",
+        "Bruk kjerneluftningsmaskin over hele plenen",
+        "La jord-plugger ligge på plenen for å brytes ned",
+        "Ettergjenså om ønsket"
+      ]
     },
     "pruneTreesAndShrubs": {
       "title": "Beskjær trær og busker",
-      "description": "Kutt tilbake overvokste greiner"
+      "description": "Kutt tilbake overvokste greiner",
+      "subtasks": [
+        "Inspiser planter for døde eller syke greiner",
+        "Steriliser beskjæringsverktøy med spritserviett",
+        "Fjern døde, skadde eller kryss greiner",
+        "Gjør rene kutt i riktig vinkel",
+        "Rydd og kast avklipp",
+        "Påfør sårbehandling på store kutt om nødvendig"
+      ]
     },
     "mulchGardenBeds": {
       "title": "Muldek hagebed",
-      "description": "Påfør frisk bark i hagebed"
+      "description": "Påfør frisk bark i hagebed",
+      "subtasks": [
+        "Fjern ugress fra hagebed",
+        "Kant bed for rent utseende",
+        "Beregn bark nødvendig (2-3 tommer dypt)",
+        "Spre bark jevnt rundt planter",
+        "Hold bark borte fra plantestammer",
+        "Vann bed lett for å sette barken"
+      ]
     },
     "winterizeSprinklerSystem": {
       "title": "Vinterforbered sprinklersystem",
-      "description": "Blås ut vannledninger og steng av vann"
+      "description": "Blås ut vannledninger og steng av vann",
+      "subtasks": [
+        "Slå av vannforsyning til sprinklersystem",
+        "Tøm vann fra tilbakeslagsventil",
+        "Sett opp luftkompressor (eller leie profesjonell)",
+        "Blås ut hver sone systematisk",
+        "Isoler komponenter over bakken",
+        "Lagre avtakbare komponenter innendørs"
+      ]
     },
     "testSumpPump": {
       "title": "Test slukpumpe",
-      "description": "Hell vann i slukgropen for å teste pumpens funksjon"
+      "description": "Hell vann i slukgropen for å teste pumpens funksjon",
+      "subtasks": [
+        "Finn slukpumpe i kjeller",
+        "Hell 5 liter vann i slukgropen",
+        "Verifiser at pumpen aktiveres automatisk",
+        "Sjekk at vann pumpes ut riktig",
+        "Lytt etter uvanlige lyder",
+        "Test reservepumpe om tilstede"
+      ]
     },
     "flushWaterHeater": {
       "title": "Spyl varmtvannsbeholder",
-      "description": "Tapp ut sediment fra varmtvannsbeholderen"
+      "description": "Tapp ut sediment fra varmtvannsbeholderen",
+      "subtasks": [
+        "Slå av strøm/gass til varmtvannsbeholder",
+        "Slå av kaldtvannsventil",
+        "Koble til hageslange til tappventil",
+        "Led slange til sluk i gulv eller utenfor",
+        "Åpne tappventil og trykkavlastingsventil",
+        "Tapp til vannet renner klart",
+        "Lukk ventiler, fjern slange, fyll tank på nytt",
+        "Gjenopprett strøm/gass og sjekk drift"
+      ]
     },
     "checkForLeaks": {
       "title": "Sjekk for lekkasjer",
-      "description": "Inspiser under vasker, rundt toaletter og synlige rør"
+      "description": "Inspiser under vasker, rundt toaletter og synlige rør",
+      "subtasks": [
+        "Inspiser under alle vasker for fukt",
+        "Sjekk rundt toalettbaser",
+        "Undersøk synlige rør i kjeller",
+        "Se etter vannflekker på tak",
+        "Sjekk vannmåler for skjulte lekkasjer",
+        "Dokument eventuelle problemer med bilder"
+      ]
     },
     "testGfciOutlets": {
       "title": "Test jordfeilbrytere",
-      "description": "Trykk testknappen på alle jordfeilbrytere"
+      "description": "Trykk testknappen på alle jordfeilbrytere",
+      "subtasks": [
+        "Finn alle jordfeilbrytere (bad, kjøkken, garasje)",
+        "Trykk TEST-knappen på hver uttak",
+        "Verifiser at strømmen kobles ut (test med nattlys)",
+        "Trykk RESET-knappen for å gjenopprette strøm",
+        "Sjekk at tilbakestilling er vellykket",
+        "Bytt ut eventuelle ikke-fungerende jordfeilbrytere"
+      ]
     },
     "testSmokeDetectors": {
       "title": "Test røykvarslere",
-      "description": "Test alle røyk- og CO-varslere, bytt batterier"
+      "description": "Test alle røyk- og CO-varslere, bytt batterier",
+      "subtasks": [
+        "Trykk og hold testknappen på hver detektor",
+        "Verifiser at alarmen lyder høyt",
+        "Test fra flere rom for å sjekke volum",
+        "Rengjør detektordeksler med støvsuger",
+        "Sjekk batterinivå-indikatorer",
+        "Oppfør testdato på hver detektor"
+      ]
     },
     "replaceSmokeDetectorBatteries": {
       "title": "Bytt batterier i røykvarslere",
-      "description": "Bytt batterier i alle røyk- og CO-varslere"
+      "description": "Bytt batterier i alle røyk- og CO-varslere",
+      "subtasks": [
+        "Kjøp riktig batteritype",
+        "Fjern detektor fra monteringsbracket",
+        "Bytt ut gamle batterier med nye",
+        "Test detektor før montering",
+        "Støvsug detektordeksel mens åpen",
+        "Oppfør batteriskiftedato"
+      ]
     },
     "deepCleanCarpets": {
       "title": "Dyprengjør tepper",
-      "description": "Profesjonell eller hjemmelaget tepperengjøring"
+      "description": "Profesjonell eller hjemmelaget tepperengjøring",
+      "subtasks": [
+        "Fjern møbler og rydd gulv",
+        "Støvsug grundig for å fjerne løst smuss",
+        "Forbehandle flekker og høytrafikk-områder",
+        "Lei eller forbered tepperengjøringsmaskin",
+        "Rengjør tepper i overlappende seksjoner",
+        "Åpne vinduer og kjør vifter for å tørke",
+        "Støvsug igjen etter teppene er helt tørre"
+      ]
     },
     "cleanWindows": {
       "title": "Vask vinduer",
-      "description": "Vask innvendige og utvendige vinduer"
+      "description": "Vask innvendige og utvendige vinduer",
+      "subtasks": [
+        "Samle utstyr (skrape, rengjøringsmiddel, filler)",
+        "Fjern og rengjør skjermer separat",
+        "Vask utenfor vinduer først",
+        "Rengjør innvendige vinduer",
+        "Tørk vinduskanter og spor",
+        "Sett tilbake skjermer"
+      ]
     },
     "checkWeatherstripping": {
       "title": "Sjekk tettningslister",
-      "description": "Inspiser og bytt utslitte tettningslister på dører og vinduer"
+      "description": "Inspiser og bytt utslitte tettningslister på dører og vinduer",
+      "subtasks": [
+        "Inspiser alle ytterdører for gap",
+        "Sjekk vindustetningslister",
+        "Test med pengeli (skal ha motstand)",
+        "Fjern og bytt utslitte tettingslister",
+        "Sjekk dørterskler på bunnen",
+        "Test dører for riktig tetning"
+      ]
     },
     "cleanKitchenExhaustFan": {
       "title": "Rengjør kjøkkenvifte",
-      "description": "Fjern og rengjør filtre i emhette"
+      "description": "Fjern og rengjør filtre i emhette",
+      "subtasks": [
+        "Slå av strømmen til avtrekkshetten",
+        "Fjern filter (sjekk manual for type)",
+        "Legg filter i bløt i varmt såpevann eller oppvaskmaskin",
+        "Tørk av innsiden og utsiden av hetten",
+        "Skrubb filter ved behov",
+        "Tørk og sett filter tilbake",
+        "Test viftefunksjon"
+      ]
+    },
+    "winterizeCabin": {
+      "title": "Vinterforbered hytta",
+      "description": "Forbered hytta for vinteren",
+      "subtasks": [
+        "Steng av hovedvannforsyningen",
+        "Tøm alle vannrør og armatur",
+        "Tilsett frostvæske i sluk og toaletter",
+        "Tøm og rengjør kjøleskap, la døren stå åpen",
+        "Fjern all mat og lettfordervelige varer",
+        "Lukk og lås alle vinduer og skodder",
+        "Koble fra alle elektriske apparater",
+        "Sett varmen på minimum (5-8°C) eller tøm varmesystemet"
+      ]
+    },
+    "openCabinForSummer": {
+      "title": "Åpne hytta for sommeren",
+      "description": "Forbered hytta for sommersesong etter vinteren",
+      "subtasks": [
+        "Inspiser utsiden for vinterskader",
+        "Åpne skodder og luft ut hytta",
+        "Slå på vannforsyningen og sjekk for lekkasjer",
+        "Test alle kraner og spyl toaletter",
+        "Rengjør og desinfiser overflater",
+        "Sjekk varme- og elektriske systemer",
+        "Test røyk- og CO-varslere",
+        "Fjern vinterforberedelses materialer"
+      ]
+    },
+    "serviceWoodBurningStove": {
+      "title": "Service vedovn",
+      "description": "Rengjør og inspiser vedovn",
+      "subtasks": [
+        "Fjern og kast aske når avkjølt",
+        "Rengjør glassdør med egnet rengjøringsmiddel",
+        "Støvsug ildsted og askeskuff",
+        "Inspiser dørpakning for slitasje",
+        "Sjekk ildfaste steiner for sprekker",
+        "Rengjør deflektor om aktuelt",
+        "Test dørtetning med papirtest",
+        "Fyll på ved om nødvendig"
+      ]
+    },
+    "scheduleChimneySweeping": {
+      "title": "Bestill feier",
+      "description": "Profesjonell pipeinspektion og rensing",
+      "subtasks": [
+        "Finn sertifisert feier (feiermester)",
+        "Bestill time før fyringssesongen",
+        "Gi tilgang til peis og tak",
+        "Gå gjennom feierens funn og anbefalinger",
+        "Ta vare på kvittering for forsikring/dokumentasjon",
+        "Merk neste servicedato"
+      ]
+    },
+    "checkForIceDamsAndRoofLoad": {
+      "title": "Sjekk for istapper og taklast",
+      "description": "Inspiser tak for tungt snø og isdannelse",
+      "subtasks": [
+        "Inspiser tak visuelt fra bakken",
+        "Se etter istapper langs takskjegget (tegn på isdannelse)",
+        "Sjekk for gjennomhengende takområder fra snøvekt",
+        "Inspiser loft for vannflekker eller fuktighet",
+        "Fjern snø fra tak om nødvendig (leie profesjonell)",
+        "Sjekk at varmekabler fungerer"
+      ]
+    },
+    "maintainHeatingCables": {
+      "title": "Vedlikehold varmekabler",
+      "description": "Test og inspiser varmekabler på tak og takrenner",
+      "subtasks": [
+        "Inspiser kabler visuelt for skader",
+        "Test kabler før første frost",
+        "Sjekk termostat/sensorfunksjon",
+        "Fjern rusk fra kabelområder",
+        "Sørg for at kabler er godt festet",
+        "Bytt ut eventuelle skadede seksjoner"
+      ]
+    },
+    "cleanHrvErvSystem": {
+      "title": "Rengjør balansert ventilasjon",
+      "description": "Rengjør balansert ventilasjon filtre og varmeveksler",
+      "subtasks": [
+        "Slå av ventilasjonsanlegget",
+        "Fjern og rengjør eller bytt filtre",
+        "Rengjør varmevekslerkjerne (følg manual)",
+        "Støvsug inn- og utluftingsventiler",
+        "Sjekk kondensavløp",
+        "Start systemet på nytt og verifiser drift"
+      ]
+    },
+    "checkForMoistureAndMold": {
+      "title": "Sjekk for fukt og mugg",
+      "description": "Inspiser for fuktproblemer og muggvekst",
+      "subtasks": [
+        "Inspiser kjeller og kryprom",
+        "Sjekk bad og kjøkken for fukt",
+        "Se etter kondens på vinduer",
+        "Sjekk skap og lagerområder",
+        "Bruk fuktmåler om tilgjengelig",
+        "Merk eventuelle mugne lukter",
+        "Ta bilder av eventuelle problemområder"
+      ]
+    },
+    "serviceDehumidifier": {
+      "title": "Service avfukter",
+      "description": "Rengjør og vedlikehold avfukter",
+      "subtasks": [
+        "Tøm vannbeholder",
+        "Rengjør filter med støvsuger eller vann",
+        "Tørk av utside og beholder",
+        "Sjekk drenslange om aktuelt",
+        "Rengjør eller bytt luftfilter",
+        "Test drift"
+      ]
+    },
+    "inspectCrawlSpace": {
+      "title": "Inspiser kryprom",
+      "description": "Sjekk kryprom for fukt og skader",
+      "subtasks": [
+        "Sjekk for stående vann eller fukt",
+        "Inspiser dampsperre for skader",
+        "Se etter tegn på skadedyr eller dyr",
+        "Sjekk isolasjonstilstand",
+        "Inspiser fundament for sprekker",
+        "Verifiser at ventilasjon er tilstrekkelig",
+        "Ta bilder for journalføring"
+      ]
+    },
+    "winterizeBoat": {
+      "title": "Vinterforbered båt",
+      "description": "Forbered båt for vinterlagring",
+      "subtasks": [
+        "Spyl og tøm motorkjølesystem",
+        "Tilsett drivstoffstabilisator og fyll tank",
+        "Bytt motorolje og filter",
+        "Tøm ferskvannssystem",
+        "Fjern og lagre batterier",
+        "Rengjør og dekk til båt",
+        "Lagre redningsvester og utstyr innendørs"
+      ]
+    },
+    "serviceBoatForSeason": {
+      "title": "Service båt for sesong",
+      "description": "Forbered båt for båtsesongen",
+      "subtasks": [
+        "Inspiser skrog for skader",
+        "Sjekk motorolje og kjølevæske",
+        "Installer og lad batterier",
+        "Test alle elektriske systemer",
+        "Sjekk sikkerhetsutstyr (redningsvester, brannslukker)",
+        "Verifiser at registrering og forsikring er aktuelle",
+        "Fyll på nødforsyninger"
+      ]
+    },
+    "maintainPierDock": {
+      "title": "Vedlikehold brygge",
+      "description": "Inspiser og reparer brygge",
+      "subtasks": [
+        "Inspiser peler og støtter for råte",
+        "Sjekk dekksplanker for skader",
+        "Stram eller bytt løse beslag",
+        "Test rekkverkstabilitet",
+        "Fjern rusk og vegetasjon",
+        "Reparer eller bytt skadede seksjoner"
+      ]
+    },
+    "treatExteriorWoodSurfaces": {
+      "title": "Behandle utvendige treoverflater",
+      "description": "Olje eller mal trepanel og lister",
+      "subtasks": [
+        "Rengjør overflate med egnet rengjøringsmiddel",
+        "La tørke helt (2-3 dager)",
+        "Puss ru områder om nødvendig",
+        "Påfør treolje eller maling etter behov",
+        "Bruk pensel til detaljerte områder",
+        "Gi god herdetid",
+        "Rengjør pensler og verktøy"
+      ]
+    },
+    "serviceSepticSystem": {
+      "title": "Service septiktank",
+      "description": "Pump og inspiser septiktank",
+      "subtasks": [
+        "Bestill pumping med lisensiert service",
+        "Finn og eksponere septiktank-lokk",
+        "Få tank pumpet og inspisert",
+        "Spør om tanktilstand og slamnivåer",
+        "Sjekk drensfelt for problemer",
+        "Ta vare på serviceoppføringer",
+        "Planlegg neste service (typisk 2-5 år)"
+      ]
+    },
+    "prepareSkiEquipment": {
+      "title": "Forbered skiutstyr",
+      "description": "Voks ski og sjekk bindinger for sesongen",
+      "subtasks": [
+        "Rengjør skisåler grundig",
+        "Påfør passende temperaturvoks",
+        "Skrap og børst voks",
+        "Inspiser og juster bindinger",
+        "Sjekk skikanter for skader",
+        "Test utløserinnstillinger på bindinger",
+        "Organiser skiklær og tilbehør"
+      ]
+    },
+    "storeSummerEquipment": {
+      "title": "Lagre sommerutstyr",
+      "description": "Beskytt utemøbler og utstyr for vinteren",
+      "subtasks": [
+        "Rengjør alle møbler og utstyr",
+        "Tørk grundig for å forhindre mugg",
+        "Påfør beskyttelsestrekk",
+        "Lagre puter innendørs",
+        "Tøm og lagre hageslanger",
+        "Sett bort eller dekk til grill",
+        "Lagre verktøy på tørt sted"
+      ]
+    },
+    "maintainOutdoorLighting": {
+      "title": "Vedlikehold utelys",
+      "description": "Sjekk og bytt utelys og sensorer",
+      "subtasks": [
+        "Bytt utbrente pærer",
+        "Rengjør armaturlinser og deksler",
+        "Test bevegelsessensorer",
+        "Sjekk timerinnstillinger",
+        "Inspiser ledninger for skader",
+        "Stram løse armaturer",
+        "Vurder oppgradering til LED-pærer"
+      ]
     }
   },
   "settings": {
