@@ -111,6 +111,10 @@ export const templateGenerateSchema = z.object({
   due_date: z.string().optional().nullable(),
   assigned_to: z.number().int().positive().optional().nullable(),
   start_date: z.string().optional().nullable(),
+  // Optional translated content (for i18n support)
+  translated_title: z.string().min(1).max(200).optional(),
+  translated_description: z.string().optional().nullable(),
+  translated_subtasks: z.array(z.string()).optional(),
 });
 
 export function validateRequest<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; error: string } {

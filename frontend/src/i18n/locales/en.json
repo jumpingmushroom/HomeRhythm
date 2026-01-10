@@ -104,7 +104,9 @@
   },
   "templateLibrary": {
     "title": "Task Template Library",
-    "loadingTemplates": "Loading templates..."
+    "loadingTemplates": "Loading templates...",
+    "showSubtasks": "Show subtasks",
+    "hideSubtasks": "Hide subtasks"
   },
   "categories": {
     "general": "General",
@@ -158,11 +160,11 @@
       "title": "Winterize outdoor faucets",
       "description": "Drain and cover outdoor water spigots"
     },
-    "replaceHvacFilters": {
+    "replaceHVACFilters": {
       "title": "Replace HVAC filters",
       "description": "Change air filters for heating and cooling system"
     },
-    "serviceHvacSystem": {
+    "serviceHVACSystem": {
       "title": "Service HVAC system",
       "description": "Professional maintenance of heating and cooling system"
     },
@@ -222,7 +224,7 @@
       "title": "Check for leaks",
       "description": "Inspect under sinks, around toilets, and exposed pipes"
     },
-    "testGfciOutlets": {
+    "testGFCIOutlets": {
       "title": "Test GFCI outlets",
       "description": "Press test button on all GFCI outlets"
     },
@@ -249,6 +251,237 @@
     "cleanKitchenExhaustFan": {
       "title": "Clean kitchen exhaust fan",
       "description": "Remove and clean range hood filters"
+    },
+    "winterizeCabin": {
+      "title": "Winterize cabin",
+      "description": "Prepare cabin for winter season",
+      "subtasks": [
+        "Shut off main water supply",
+        "Drain all water lines and fixtures",
+        "Add antifreeze to drains and toilets",
+        "Empty and clean refrigerator, leave door open",
+        "Remove all food and perishables",
+        "Close and lock all windows and shutters",
+        "Unplug all electrical devices",
+        "Set heat to minimum (5-8°C) or drain heating system"
+      ]
+    },
+    "openCabinForSummer": {
+      "title": "Open cabin for summer",
+      "description": "Prepare cabin for summer season after winter",
+      "subtasks": [
+        "Inspect exterior for winter damage",
+        "Open shutters and air out cabin",
+        "Turn on water supply and check for leaks",
+        "Test all faucets and flush toilets",
+        "Clean and sanitize surfaces",
+        "Check heating and electrical systems",
+        "Test smoke and CO detectors",
+        "Remove winterization materials"
+      ]
+    },
+    "serviceWoodburningStove": {
+      "title": "Service wood-burning stove",
+      "description": "Clean and inspect wood stove",
+      "subtasks": [
+        "Remove and dispose of ash when cool",
+        "Clean glass door with appropriate cleaner",
+        "Vacuum firebox and ash pan",
+        "Inspect door gasket for wear",
+        "Check firebricks for cracks",
+        "Clean baffle plate if applicable",
+        "Test door seal with paper test",
+        "Stock up on firewood if needed"
+      ]
+    },
+    "scheduleChimneySweeping": {
+      "title": "Schedule chimney sweeping",
+      "description": "Professional chimney inspection and cleaning",
+      "subtasks": [
+        "Find certified chimney sweep (feiermester)",
+        "Schedule appointment before heating season",
+        "Provide access to fireplace and roof",
+        "Review sweep's findings and recommendations",
+        "Keep receipt for insurance/documentation",
+        "Note next service date"
+      ]
+    },
+    "checkForIceDamsAndRoofLoad": {
+      "title": "Check for ice dams and roof load",
+      "description": "Inspect roof for heavy snow and ice dams",
+      "subtasks": [
+        "Visually inspect roof from ground",
+        "Look for icicles along eaves (sign of ice dams)",
+        "Check for sagging roof areas from snow weight",
+        "Inspect attic for water stains or moisture",
+        "Remove snow from roof if necessary (hire professional)",
+        "Check that heating cables are working"
+      ]
+    },
+    "maintainHeatingCables": {
+      "title": "Maintain heating cables",
+      "description": "Test and inspect heating cables on roof and gutters",
+      "subtasks": [
+        "Visually inspect cables for damage",
+        "Test cables before first freeze",
+        "Check thermostat/sensor operation",
+        "Clear debris from cable areas",
+        "Ensure cables are properly secured",
+        "Replace any damaged sections"
+      ]
+    },
+    "cleanHRVERVSystem": {
+      "title": "Clean HRV/ERV system",
+      "description": "Clean balanced ventilation system filters and heat exchanger",
+      "subtasks": [
+        "Turn off ventilation system",
+        "Remove and clean or replace filters",
+        "Clean heat exchanger core (follow manual)",
+        "Vacuum intake and exhaust vents",
+        "Check condensation drain",
+        "Restart system and verify operation"
+      ]
+    },
+    "checkForMoistureAndMold": {
+      "title": "Check for moisture and mold",
+      "description": "Inspect for moisture problems and mold growth",
+      "subtasks": [
+        "Inspect basement and crawl space",
+        "Check bathrooms and kitchen for moisture",
+        "Look for condensation on windows",
+        "Check closets and storage areas",
+        "Use moisture meter if available",
+        "Note any musty odors",
+        "Take photos of any problem areas"
+      ]
+    },
+    "serviceDehumidifier": {
+      "title": "Service dehumidifier",
+      "description": "Clean and maintain dehumidifier",
+      "subtasks": [
+        "Empty water reservoir",
+        "Clean filter with vacuum or water",
+        "Wipe down exterior and reservoir",
+        "Check drain hose if applicable",
+        "Clean or replace air filter",
+        "Test operation"
+      ]
+    },
+    "inspectCrawlSpace": {
+      "title": "Inspect crawl space",
+      "description": "Check crawl space for moisture and damage",
+      "subtasks": [
+        "Check for standing water or moisture",
+        "Inspect vapor barrier for damage",
+        "Look for signs of pests or animals",
+        "Check insulation condition",
+        "Inspect foundation for cracks",
+        "Verify ventilation is adequate",
+        "Take photos for records"
+      ]
+    },
+    "winterizeBoat": {
+      "title": "Winterize boat",
+      "description": "Prepare boat for winter storage",
+      "subtasks": [
+        "Flush and drain engine cooling system",
+        "Add fuel stabilizer and fill tank",
+        "Change engine oil and filter",
+        "Drain fresh water system",
+        "Remove and store batteries",
+        "Clean and cover boat",
+        "Store life jackets and equipment indoors"
+      ]
+    },
+    "serviceBoatForSeason": {
+      "title": "Service boat for season",
+      "description": "Prepare boat for boating season",
+      "subtasks": [
+        "Inspect hull for damage",
+        "Check engine oil and coolant",
+        "Install and charge batteries",
+        "Test all electrical systems",
+        "Check safety equipment (life jackets, fire extinguisher)",
+        "Verify registration and insurance are current",
+        "Stock emergency supplies"
+      ]
+    },
+    "maintainPierdock": {
+      "title": "Maintain pier/dock",
+      "description": "Inspect and repair pier or dock",
+      "subtasks": [
+        "Inspect pilings and supports for rot",
+        "Check deck boards for damage",
+        "Tighten or replace loose hardware",
+        "Test railing stability",
+        "Clear debris and vegetation",
+        "Repair or replace damaged sections"
+      ]
+    },
+    "treatExteriorWoodSurfaces": {
+      "title": "Treat exterior wood surfaces",
+      "description": "Oil or paint wooden panels and trim",
+      "subtasks": [
+        "Clean surface with appropriate cleaner",
+        "Allow to dry completely (2-3 days)",
+        "Sand rough areas if needed",
+        "Apply wood oil or paint as appropriate",
+        "Use brush for detailed areas",
+        "Allow proper curing time",
+        "Clean brushes and tools"
+      ]
+    },
+    "serviceSepticSystem": {
+      "title": "Service septic system",
+      "description": "Pump and inspect septic system",
+      "subtasks": [
+        "Schedule pumping with licensed service",
+        "Locate and expose septic tank lid",
+        "Have tank pumped and inspected",
+        "Ask about tank condition and sludge levels",
+        "Check drainage field for issues",
+        "Keep service records",
+        "Plan next service (typically 2-5 years)"
+      ]
+    },
+    "prepareSkiEquipment": {
+      "title": "Prepare ski equipment",
+      "description": "Wax skis and check bindings for season",
+      "subtasks": [
+        "Clean ski bases thoroughly",
+        "Apply appropriate temperature wax",
+        "Scrape and brush wax",
+        "Inspect and adjust bindings",
+        "Check ski edges for damage",
+        "Test release settings on bindings",
+        "Organize ski clothing and accessories"
+      ]
+    },
+    "storeSummerEquipment": {
+      "title": "Store summer equipment",
+      "description": "Protect outdoor furniture and equipment for winter",
+      "subtasks": [
+        "Clean all furniture and equipment",
+        "Dry thoroughly to prevent mold",
+        "Apply protective covers",
+        "Store cushions indoors",
+        "Drain and store garden hoses",
+        "Put away or cover grill",
+        "Store tools in dry location"
+      ]
+    },
+    "maintainOutdoorLighting": {
+      "title": "Maintain outdoor lighting",
+      "description": "Check and replace outdoor lights and sensors",
+      "subtasks": [
+        "Replace burned-out bulbs",
+        "Clean fixture lenses and covers",
+        "Test motion sensors",
+        "Check timer settings",
+        "Inspect wiring for damage",
+        "Tighten loose fixtures",
+        "Update to LED bulbs if needed"
+      ]
     }
   },
   "settings": {

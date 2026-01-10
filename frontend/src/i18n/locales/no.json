@@ -104,7 +104,9 @@
   },
   "templateLibrary": {
     "title": "Oppgavemalbibliotek",
-    "loadingTemplates": "Laster maler..."
+    "loadingTemplates": "Laster maler...",
+    "showSubtasks": "Vis deloppgaver",
+    "hideSubtasks": "Skjul deloppgaver"
   },
   "categories": {
     "general": "Generelt",
@@ -197,7 +199,7 @@
         "Sjekk for lekkasjer eller drypp"
       ]
     },
-    "replaceHvacFilters": {
+    "replaceHVACFilters": {
       "title": "Bytt varme- og ventilasjonsfiltre",
       "description": "Skift luftfiltre for varme- og kjølesystem",
       "subtasks": [
@@ -209,7 +211,7 @@
         "Slå på systemet igjen og verifiser drift"
       ]
     },
-    "serviceHvacSystem": {
+    "serviceHVACSystem": {
       "title": "Service varme- og ventilasjonsanlegg",
       "description": "Profesjonelt vedlikehold av varme- og kjølesystem",
       "subtasks": [
@@ -390,7 +392,7 @@
         "Dokument eventuelle problemer med bilder"
       ]
     },
-    "testGfciOutlets": {
+    "testGFCIOutlets": {
       "title": "Test jordfeilbrytere",
       "description": "Trykk testknappen på alle jordfeilbrytere",
       "subtasks": [
@@ -504,7 +506,7 @@
         "Fjern vinterforberedelses materialer"
       ]
     },
-    "serviceWoodBurningStove": {
+    "serviceWoodburningStove": {
       "title": "Service vedovn",
       "description": "Rengjør og inspiser vedovn",
       "subtasks": [
@@ -554,7 +556,7 @@
         "Bytt ut eventuelle skadede seksjoner"
       ]
     },
-    "cleanHrvErvSystem": {
+    "cleanHRVERVSystem": {
       "title": "Rengjør balansert ventilasjon",
       "description": "Rengjør balansert ventilasjon filtre og varmeveksler",
       "subtasks": [
@@ -630,7 +632,7 @@
         "Fyll på nødforsyninger"
       ]
     },
-    "maintainPierDock": {
+    "maintainPierdock": {
       "title": "Vedlikehold brygge",
       "description": "Inspiser og reparer brygge",
       "subtasks": [

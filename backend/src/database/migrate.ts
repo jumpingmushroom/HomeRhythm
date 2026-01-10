@@ -170,6 +170,17 @@ export function runMigrations() {
         console.log('Category update completed');
       }
 
+      // Migration: Add UNIQUE index on template title
+      console.log('Checking for unique index on task_templates.title...');
+      const hasUniqueIndex = db.prepare(
+        "SELECT name FROM sqlite_master WHERE type='index' AND name='idx_task_templates_title_unique'"
+      ).get();
+      if (!hasUniqueIndex) {
+        console.log('Creating unique index on task_templates.title...');
+        db.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_task_templates_title_unique ON task_templates(title)');
+        console.log('Unique index created');
+      }
+
       // Migration: Add Norwegian-specific templates
       console.log('Checking for Norwegian-specific templates...');
       const norwegianTemplates = db.prepare("SELECT COUNT(*) as count FROM task_templates WHERE title = 'Winterize cabin'").get() as { count: number };

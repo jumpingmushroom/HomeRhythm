@@ -121,13 +121,17 @@ export function Dashboard() {
     }
   };
 
-  const handleSelectTemplate = async (template: TaskTemplate) => {
+  const handleSelectTemplate = async (template: TaskTemplate & { translatedSubtasks?: string[] }) => {
     setShowTemplates(false);
     setSubmitting(true);
 
     try {
-      // Use the template generation endpoint which automatically copies subtasks
-      const response = await templatesApi.generateTask(template.id);
+      // Use the template generation endpoint with translated content for i18n support
+      const response = await templatesApi.generateTask(template.id, {
+        translated_title: template.title,
+        translated_description: template.description || undefined,
+        translated_subtasks: template.translatedSubtasks,
+      });
       addTask(response.data.task);
     } catch (error: any) {
       console.error('Failed to create task from template:', error);

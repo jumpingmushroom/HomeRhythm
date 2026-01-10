@@ -104,15 +104,16 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                             ? t(`templates.${titleKey}.description`, { defaultValue: template.description })
                             : '';
 
-                          // Get translated subtasks
-                          const translatedSubtasksRaw = t(`templates.${titleKey}.subtasks`, { defaultValue: [] });
+                          // Get translated subtasks (returnObjects: true tells i18n to return the array)
+                          const translatedSubtasksRaw = t(`templates.${titleKey}.subtasks`, { returnObjects: true, defaultValue: [] });
                           const translatedSubtasks = Array.isArray(translatedSubtasksRaw) ? translatedSubtasksRaw : [];
 
                           // Create a translated copy of the template to pass to the handler
                           const translatedTemplate = {
                             ...template,
                             title: translatedTitle,
-                            description: translatedDescription
+                            description: translatedDescription,
+                            translatedSubtasks: translatedSubtasks.length > 0 ? translatedSubtasks : undefined
                           };
 
                           const isExpanded = expandedTemplates.has(template.id);
@@ -174,7 +175,7 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                                   >
                                     <span className="flex items-center gap-1">
                                       <CheckSquare className="w-4 h-4" />
-                                      {isExpanded ? 'Hide' : 'Show'} subtasks ({template.subtasks.length})
+                                      {isExpanded ? t('templateLibrary.hideSubtasks') : t('templateLibrary.showSubtasks')} ({template.subtasks.length})
                                     </span>
                                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                                   </button>

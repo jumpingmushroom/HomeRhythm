@@ -115,7 +115,7 @@ router.post('/:id/generate', async (req: AuthRequest, res) => {
     return res.status(400).json({ error: validation.error });
   }
 
-  const { due_date, assigned_to } = validation.data;
+  const { due_date, assigned_to, translated_title, translated_description, translated_subtasks } = validation.data;
   const db = getDatabase();
 
   try {
@@ -125,6 +125,10 @@ router.post('/:id/generate', async (req: AuthRequest, res) => {
     if (!template) {
       return res.status(404).json({ error: 'Template not found' });
     }
+
+    // Use translated content if provided, otherwise use template defaults
+    const taskTitle = translated_title || template.title;
+    const taskDescription = translated_description !== undefined ? translated_description : template.description;
 
     // Get user's household_id
     const user = db.prepare('SELECT household_id FROM users WHERE id = ?')
@@ -157,8 +161,8 @@ router.post('/:id/generate', async (req: AuthRequest, res) => {
       req.userId!,
       user.household_id,
       assigned_to || null,
-      template.title,
-      template.description || null,
+      taskTitle,
+      taskDescription || null,
       template.category,
       schedule_type,
       due_date || null,
@@ -187,8 +191,11 @@ router.post('/:id/generate', async (req: AuthRequest, res) => {
         VALUES (?, ?, 0, ?)
       `);
 
-      for (const subtask of templateSubtasks) {
-        insertSubtask.run(task.id, subtask.text, subtask.position);
+      for (let i = 0; i < templateSubtasks.length; i++) {
+        const subtask = templateSubtasks[i];
+        // Use translated subtask text if provided, otherwise use template subtask text
+        const subtaskText = (translated_subtasks && translated_subtasks[i]) || subtask.text;
+        insertSubtask.run(task.id, subtaskText, subtask.position);
       }
     }
 

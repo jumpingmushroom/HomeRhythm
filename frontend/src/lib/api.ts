@@ -109,7 +109,7 @@ export const templatesApi = {
   getOne: (id: number) =>
     api.get<{ template: TaskTemplateWithSubtasks }>(`/templates/${id}`),
 
-  generateTask: (templateId: number, data?: { due_date?: string; assigned_to?: number }) =>
+  generateTask: (templateId: number, data?: { due_date?: string; assigned_to?: number; translated_title?: string; translated_description?: string; translated_subtasks?: string[] }) =>
     api.post<{ message: string; task: Task }>(`/templates/${templateId}/generate`, data || {}),
 };
 

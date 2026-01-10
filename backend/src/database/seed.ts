@@ -392,9 +392,10 @@ export function seedTemplates() {
   const stmt = db.prepare(`
     INSERT OR IGNORE INTO task_templates (
       title, description, category,
-      suggested_recurrence_pattern, suggested_recurrence_interval, suggested_recurrence_config,
+      suggested_recurrence_type, suggested_recurrence_pattern,
+      suggested_recurrence_interval, suggested_recurrence_config,
       is_system_template
-    ) VALUES (?, ?, ?, ?, ?, ?, 1)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, 1)
   `);
 
   for (const template of templates) {
@@ -402,7 +403,8 @@ export function seedTemplates() {
       template.title,
       template.description,
       template.category,
-      template.recurrence_pattern,
+      template.recurrence_pattern, // suggested_recurrence_type (old column)
+      template.recurrence_pattern, // suggested_recurrence_pattern (new column)
       template.recurrence_interval,
       template.recurrence_config
     );
