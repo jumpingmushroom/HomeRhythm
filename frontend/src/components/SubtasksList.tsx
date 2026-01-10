@@ -75,8 +75,8 @@ export default function SubtasksList({ taskId }: SubtasksListProps) {
   if (loading) {
     return (
       <div className="space-y-2">
-        <h3 className="text-lg font-medium text-gray-900">Subtasks</h3>
-        <p className="text-sm text-gray-500">Loading...</p>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Subtasks</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Loading...</p>
       </div>
     );
   }
@@ -86,9 +86,9 @@ export default function SubtasksList({ taskId }: SubtasksListProps) {
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium text-gray-900">Subtasks</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Subtasks</h3>
         {taskSubtasks.length > 0 && (
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500 dark:text-gray-400">
             {completedCount} / {taskSubtasks.length} completed
           </span>
         )}
@@ -99,26 +99,26 @@ export default function SubtasksList({ taskId }: SubtasksListProps) {
         {taskSubtasks.map((subtask) => (
           <div
             key={subtask.id}
-            className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-50"
+            className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50"
           >
             <input
               type="checkbox"
               checked={subtask.completed === 1}
               onChange={() => handleToggleComplete(subtask)}
-              className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
+              className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
             />
             <span
               className={`flex-1 text-sm ${
                 subtask.completed === 1
-                  ? 'line-through text-gray-500'
-                  : 'text-gray-900'
+                  ? 'line-through text-gray-500 dark:text-gray-400'
+                  : 'text-gray-900 dark:text-gray-100'
               }`}
             >
               {subtask.text}
             </span>
             <button
               onClick={() => handleDelete(subtask)}
-              className="text-red-600 hover:text-red-800 text-sm"
+              className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm"
             >
               Delete
             </button>
@@ -126,7 +126,7 @@ export default function SubtasksList({ taskId }: SubtasksListProps) {
         ))}
 
         {taskSubtasks.length === 0 && (
-          <p className="text-sm text-gray-500 italic">No subtasks yet</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 italic">No subtasks yet</p>
         )}
       </div>
 
@@ -142,13 +142,13 @@ export default function SubtasksList({ taskId }: SubtasksListProps) {
             }
           }}
           placeholder="Add a subtask..."
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
           disabled={isAdding}
         />
         <button
           onClick={handleAddSubtask}
           disabled={isAdding || !newSubtaskText.trim()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm"
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm dark:disabled:bg-gray-700 dark:disabled:text-gray-500"
         >
           {isAdding ? 'Adding...' : 'Add'}
         </button>
