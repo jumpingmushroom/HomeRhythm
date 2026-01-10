@@ -9,7 +9,7 @@ import { CalendarView } from '../components/CalendarView';
 import { TaskFilterTabs } from '../components/TaskFilterTabs';
 import { ActivityFeed } from '../components/ActivityFeed';
 import { useTasksStore } from '../store/tasksStore';
-import { tasksApi, completionsApi, usersApi } from '../lib/api';
+import { tasksApi, completionsApi, usersApi, templatesApi } from '../lib/api';
 import { Task, CreateTaskInput, TaskTemplate, CATEGORIES } from '../types';
 import { Plus, Search, BookOpen, List, Calendar as CalendarIcon, Activity } from 'lucide-react';
 
@@ -126,19 +126,8 @@ export function Dashboard() {
     setSubmitting(true);
 
     try {
-      // Create task directly from template data
-      const taskData: CreateTaskInput = {
-        title: template.title,
-        description: template.description || '',
-        category: template.category,
-        schedule_type: 'recurring',
-        recurrence_pattern: template.suggested_recurrence_pattern as any,
-        recurrence_interval: template.suggested_recurrence_interval || undefined,
-        recurrence_config: template.suggested_recurrence_config || '',
-        priority: 'medium',
-      };
-
-      const response = await tasksApi.create(taskData);
+      // Use the template generation endpoint which automatically copies subtasks
+      const response = await templatesApi.generateTask(template.id);
       addTask(response.data.task);
     } catch (error: any) {
       console.error('Failed to create task from template:', error);
