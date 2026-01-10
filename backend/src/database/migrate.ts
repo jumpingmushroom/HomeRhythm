@@ -419,11 +419,27 @@ export function runMigrations() {
       console.log('template_subtasks table created successfully');
     }
 
-    // Seed template subtasks if table is empty
+    // Migration: Clean up and reseed template subtasks
+    console.log('Checking template subtasks...');
     const subtaskCount = db.prepare('SELECT COUNT(*) as count FROM template_subtasks').get() as { count: number };
     if (subtaskCount.count === 0) {
       console.log('Seeding template subtasks...');
       seedTemplateSubtasks();
+    } else {
+      // Check for duplicates (more than 10 subtasks for any template is suspicious)
+      const duplicateCheck = db.prepare(`
+        SELECT template_id, COUNT(*) as count
+        FROM template_subtasks
+        GROUP BY template_id
+        HAVING COUNT(*) > 10
+      `).all();
+
+      if (duplicateCheck.length > 0) {
+        console.log(`Found duplicate subtasks, cleaning up...`);
+        db.prepare('DELETE FROM template_subtasks').run();
+        seedTemplateSubtasks();
+        console.log('Template subtasks reseeded');
+      }
     }
 
     // Migration: Update activity types

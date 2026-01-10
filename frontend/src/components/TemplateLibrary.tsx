@@ -104,6 +104,10 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                             ? t(`templates.${titleKey}.description`, { defaultValue: template.description })
                             : '';
 
+                          // Get translated subtasks
+                          const translatedSubtasksRaw = t(`templates.${titleKey}.subtasks`, { defaultValue: [] });
+                          const translatedSubtasks = Array.isArray(translatedSubtasksRaw) ? translatedSubtasksRaw : [];
+
                           // Create a translated copy of the template to pass to the handler
                           const translatedTemplate = {
                             ...template,
@@ -177,12 +181,15 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
 
                                   {isExpanded && (
                                     <div className="px-4 pb-4 space-y-1">
-                                      {template.subtasks.map((subtask, index) => (
-                                        <div key={subtask.id} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                                          <span className="text-gray-400 dark:text-gray-500 mt-0.5">{index + 1}.</span>
-                                          <span>{subtask.text}</span>
-                                        </div>
-                                      ))}
+                                      {template.subtasks.map((subtask, index) => {
+                                        const subtaskText = translatedSubtasks[index] || subtask.text;
+                                        return (
+                                          <div key={subtask.id} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                            <span className="text-gray-400 dark:text-gray-500 mt-0.5">{index + 1}.</span>
+                                            <span>{subtaskText}</span>
+                                          </div>
+                                        );
+                                      })}
                                     </div>
                                   )}
                                 </div>
