@@ -55,6 +55,18 @@ export interface TaskTemplate {
   created_at: string;
 }
 
+export interface TemplateSubtask {
+  id: number;
+  template_id: number;
+  text: string;
+  position: number;
+  created_at: string;
+}
+
+export interface TaskTemplateWithSubtasks extends TaskTemplate {
+  subtasks: TemplateSubtask[];
+}
+
 export interface CreateTaskInput {
   title: string;
   description?: string;

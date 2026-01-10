@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TaskTemplate, CATEGORY_COLORS } from '../types';
+import { TaskTemplate, TaskTemplateWithSubtasks, CATEGORY_COLORS } from '../types';
 import { templatesApi } from '../lib/api';
-import { X, BookOpen } from 'lucide-react';
+import { X, BookOpen, CheckSquare, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface TemplateLibraryProps {
   onClose: () => void;
@@ -22,9 +22,10 @@ function getTitleKey(title: string): string {
 
 export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryProps) {
   const { t } = useTranslation();
-  const [templates, setTemplates] = useState<Record<string, TaskTemplate[]>>({});
+  const [templates, setTemplates] = useState<Record<string, TaskTemplateWithSubtasks[]>>({});
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [expandedTemplates, setExpandedTemplates] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     loadTemplates();
@@ -110,34 +111,82 @@ export function TemplateLibrary({ onClose, onSelectTemplate }: TemplateLibraryPr
                             description: translatedDescription
                           };
 
+                          const isExpanded = expandedTemplates.has(template.id);
+                          const hasSubtasks = template.subtasks && template.subtasks.length > 0;
+
                           return (
                             <div
                               key={template.id}
-                              onClick={() => onSelectTemplate(translatedTemplate)}
-                              className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg p-4 cursor-pointer transition-colors border border-gray-200 dark:border-gray-700"
+                              className="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
                             >
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">
-                                    {translatedTitle}
-                                  </h4>
-                                  {translatedDescription && (
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                                      {translatedDescription}
-                                    </p>
-                                  )}
-                                  <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                                    <span className={`px-2 py-1 rounded-full border ${CATEGORY_COLORS[template.category]}`}>
-                                      {t(`categories.${template.category}`)}
-                                    </span>
-                                    <span>
-                                      {t(`recurrenceTypes.${template.suggested_recurrence_pattern}`)}
-                                      {template.suggested_recurrence_interval &&
-                                        ` (${t('taskCard.every')} ${template.suggested_recurrence_interval})`}
-                                    </span>
+                              <div
+                                onClick={() => onSelectTemplate(translatedTemplate)}
+                                className="hover:bg-gray-100 dark:hover:bg-gray-700 p-4 cursor-pointer transition-colors"
+                              >
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">
+                                      {translatedTitle}
+                                    </h4>
+                                    {translatedDescription && (
+                                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                        {translatedDescription}
+                                      </p>
+                                    )}
+                                    <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 flex-wrap">
+                                      <span className={`px-2 py-1 rounded-full border ${CATEGORY_COLORS[template.category]}`}>
+                                        {t(`categories.${template.category}`)}
+                                      </span>
+                                      <span>
+                                        {t(`recurrenceTypes.${template.suggested_recurrence_pattern}`)}
+                                        {template.suggested_recurrence_interval &&
+                                          ` (${t('taskCard.every')} ${template.suggested_recurrence_interval})`}
+                                      </span>
+                                      {hasSubtasks && (
+                                        <span className="flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+                                          <CheckSquare className="w-3 h-3" />
+                                          {template.subtasks.length} subtasks
+                                        </span>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
+
+                              {hasSubtasks && (
+                                <div className="border-t border-gray-200 dark:border-gray-700">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const newExpanded = new Set(expandedTemplates);
+                                      if (isExpanded) {
+                                        newExpanded.delete(template.id);
+                                      } else {
+                                        newExpanded.add(template.id);
+                                      }
+                                      setExpandedTemplates(newExpanded);
+                                    }}
+                                    className="w-full px-4 py-2 flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                  >
+                                    <span className="flex items-center gap-1">
+                                      <CheckSquare className="w-4 h-4" />
+                                      {isExpanded ? 'Hide' : 'Show'} subtasks ({template.subtasks.length})
+                                    </span>
+                                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                  </button>
+
+                                  {isExpanded && (
+                                    <div className="px-4 pb-4 space-y-1">
+                                      {template.subtasks.map((subtask, index) => (
+                                        <div key={subtask.id} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                          <span className="text-gray-400 dark:text-gray-500 mt-0.5">{index + 1}.</span>
+                                          <span>{subtask.text}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           );
                         })}

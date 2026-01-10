@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { getDatabase } from '../database';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { validateRequest, templateGenerateSchema } from '../utils/validation';
-import { TaskTemplate, Task } from '../types';
+import { TaskTemplate, Task, TemplateSubtask, TaskTemplateWithSubtasks } from '../types';
 import { activityService } from '../services/activity.service';
 import { notificationService } from '../services/notification.service';
 
@@ -42,13 +42,33 @@ router.get('/by-category', (req: AuthRequest, res) => {
   try {
     const templates = db.prepare('SELECT * FROM task_templates ORDER BY category, title').all() as TaskTemplate[];
 
-    const grouped = templates.reduce((acc, template) => {
+    // Fetch subtasks for all templates
+    const allSubtasks = db.prepare(`
+      SELECT * FROM template_subtasks ORDER BY template_id, position
+    `).all() as TemplateSubtask[];
+
+    // Group subtasks by template_id
+    const subtasksByTemplate = allSubtasks.reduce((acc, subtask) => {
+      if (!acc[subtask.template_id]) {
+        acc[subtask.template_id] = [];
+      }
+      acc[subtask.template_id].push(subtask);
+      return acc;
+    }, {} as Record<number, TemplateSubtask[]>);
+
+    // Add subtasks to each template
+    const templatesWithSubtasks: TaskTemplateWithSubtasks[] = templates.map(template => ({
+      ...template,
+      subtasks: subtasksByTemplate[template.id] || [],
+    }));
+
+    const grouped = templatesWithSubtasks.reduce((acc, template) => {
       if (!acc[template.category]) {
         acc[template.category] = [];
       }
       acc[template.category].push(template);
       return acc;
-    }, {} as Record<string, TaskTemplate[]>);
+    }, {} as Record<string, TaskTemplateWithSubtasks[]>);
 
     res.json({ templates: grouped });
   } catch (error) {
@@ -69,7 +89,17 @@ router.get('/:id', (req: AuthRequest, res) => {
       return res.status(404).json({ error: 'Template not found' });
     }
 
-    res.json({ template });
+    // Fetch subtasks for this template
+    const subtasks = db.prepare(`
+      SELECT * FROM template_subtasks WHERE template_id = ? ORDER BY position
+    `).all(templateId) as TemplateSubtask[];
+
+    const templateWithSubtasks: TaskTemplateWithSubtasks = {
+      ...template,
+      subtasks,
+    };
+
+    res.json({ template: templateWithSubtasks });
   } catch (error) {
     console.error('Error fetching template:', error);
     res.status(500).json({ error: 'Failed to fetch template' });
@@ -143,6 +173,24 @@ router.post('/:id/generate', async (req: AuthRequest, res) => {
     );
 
     const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(result.lastInsertRowid) as Task;
+
+    // Copy template subtasks to the new task
+    const templateSubtasks = db.prepare(`
+      SELECT text, position FROM template_subtasks
+      WHERE template_id = ?
+      ORDER BY position ASC
+    `).all(templateId) as Array<{ text: string; position: number }>;
+
+    if (templateSubtasks.length > 0) {
+      const insertSubtask = db.prepare(`
+        INSERT INTO task_subtasks (task_id, text, completed, position)
+        VALUES (?, ?, 0, ?)
+      `);
+
+      for (const subtask of templateSubtasks) {
+        insertSubtask.run(task.id, subtask.text, subtask.position);
+      }
+    }
 
     // Create activity log entry
     if (user.household_id) {

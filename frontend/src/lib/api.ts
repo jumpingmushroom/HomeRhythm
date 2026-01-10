@@ -3,6 +3,7 @@ import {
   Task,
   TaskCompletion,
   TaskTemplate,
+  TaskTemplateWithSubtasks,
   CreateTaskInput,
   User,
   NotificationPreferences,
@@ -103,10 +104,10 @@ export const templatesApi = {
     api.get<{ templates: TaskTemplate[] }>('/templates', { params }),
 
   getByCategory: () =>
-    api.get<{ templates: Record<string, TaskTemplate[]> }>('/templates/by-category'),
+    api.get<{ templates: Record<string, TaskTemplateWithSubtasks[]> }>('/templates/by-category'),
 
   getOne: (id: number) =>
-    api.get<{ template: TaskTemplate }>(`/templates/${id}`),
+    api.get<{ template: TaskTemplateWithSubtasks }>(`/templates/${id}`),
 
   generateTask: (templateId: number, data?: { due_date?: string; assigned_to?: number }) =>
     api.post<{ message: string; task: Task }>(`/templates/${templateId}/generate`, data || {}),

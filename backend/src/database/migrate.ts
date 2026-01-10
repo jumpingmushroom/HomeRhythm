@@ -1,6 +1,6 @@
 import { getDatabase, closeDatabase } from './index';
 import { schema } from './schema';
-import { seedTemplates } from './seed';
+import { seedTemplates, seedTemplateSubtasks } from './seed';
 
 export function runMigrations() {
   const db = getDatabase();
@@ -383,6 +383,37 @@ export function runMigrations() {
         CREATE INDEX IF NOT EXISTS idx_task_comments_user_id ON task_comments(user_id);
       `);
       console.log('task_comments table created successfully');
+    }
+
+    // Migration: Add template_subtasks table
+    console.log('Checking for template_subtasks table...');
+    const hasTemplateSubtasks = db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='template_subtasks'"
+    ).get();
+
+    if (!hasTemplateSubtasks) {
+      console.log('Creating template_subtasks table...');
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS template_subtasks (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          template_id INTEGER NOT NULL,
+          text TEXT NOT NULL,
+          position INTEGER NOT NULL,
+          created_at TEXT DEFAULT (datetime('now')),
+          FOREIGN KEY (template_id) REFERENCES task_templates(id) ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_template_subtasks_template_id ON template_subtasks(template_id);
+        CREATE INDEX IF NOT EXISTS idx_template_subtasks_position ON template_subtasks(template_id, position);
+      `);
+      console.log('template_subtasks table created successfully');
+    }
+
+    // Seed template subtasks if table is empty
+    const subtaskCount = db.prepare('SELECT COUNT(*) as count FROM template_subtasks').get() as { count: number };
+    if (subtaskCount.count === 0) {
+      console.log('Seeding template subtasks...');
+      seedTemplateSubtasks();
     }
 
     // Migration: Update activity types
