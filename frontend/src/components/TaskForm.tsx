@@ -162,13 +162,13 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
           </div>
 
           <div>
-            <label className="label">Assign To</label>
+            <label className="label">{t('taskForm.assignTo')}</label>
             <select
               value={formData.assigned_to || ''}
               onChange={(e) => handleChange('assigned_to', e.target.value ? parseInt(e.target.value) : undefined)}
               className="input"
             >
-              <option value={currentUser?.id}>Assign to me ({currentUser?.email})</option>
+              <option value={currentUser?.id}>{t('taskForm.assignToMe', { email: currentUser?.email })}</option>
               {users.filter(u => u.id !== currentUser?.id).map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.email}
@@ -178,7 +178,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
           </div>
 
           <div>
-            <label className="label">Schedule Type {t('taskForm.required')}</label>
+            <label className="label">{t('taskForm.scheduleType')} {t('taskForm.required')}</label>
             <select
               required
               value={formData.schedule_type}
@@ -197,15 +197,15 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
               }}
               className="input"
             >
-              <option value="once">One-time task</option>
-              <option value="recurring">Recurring task</option>
+              <option value="once">{t('taskForm.oneTimeTask')}</option>
+              <option value="recurring">{t('taskForm.recurringTask')}</option>
             </select>
           </div>
 
           {formData.schedule_type === 'once' ? (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="label">Due Date</label>
+                <label className="label">{t('taskForm.dueDate')}</label>
                 <input
                   type="date"
                   value={formData.due_date || ''}
@@ -215,17 +215,17 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
               </div>
 
               <div>
-                <label className="label">Flexibility</label>
+                <label className="label">{t('taskForm.flexibility')}</label>
                 <select
                   value={formData.flexibility_window || ''}
                   onChange={(e) => handleChange('flexibility_window', e.target.value || undefined)}
                   className="input"
                 >
-                  <option value="">Not specified</option>
-                  <option value="exact_date">Must be on exact date</option>
-                  <option value="within_week">Sometime this week</option>
-                  <option value="within_month">Sometime this month</option>
-                  <option value="within_year">Sometime this year</option>
+                  <option value="">{t('taskForm.notSpecified')}</option>
+                  <option value="exact_date">{t('taskForm.exactDate')}</option>
+                  <option value="within_week">{t('taskForm.withinWeek')}</option>
+                  <option value="within_month">{t('taskForm.withinMonth')}</option>
+                  <option value="within_year">{t('taskForm.withinYear')}</option>
                 </select>
               </div>
             </div>
@@ -233,7 +233,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
             <>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="label">Recurrence Pattern {t('taskForm.required')}</label>
+                  <label className="label">{t('taskForm.recurrencePattern')} {t('taskForm.required')}</label>
                   <select
                     required={formData.schedule_type === 'recurring'}
                     value={formData.recurrence_pattern || ''}
@@ -248,7 +248,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                     }}
                     className="input"
                   >
-                    <option value="">Select pattern</option>
+                    <option value="">{t('taskForm.selectPattern')}</option>
                     <option value="daily">{t('recurrenceTypes.daily')}</option>
                     <option value="weekly">{t('recurrenceTypes.weekly')}</option>
                     <option value="monthly">{t('recurrenceTypes.monthly')}</option>
@@ -271,7 +271,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
               </div>
 
               <div>
-                <label className="label">First due date</label>
+                <label className="label">{t('taskForm.firstDueDate')}</label>
                 <input
                   type="date"
                   value={formData.due_date || ''}
@@ -282,7 +282,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
 
               {formData.recurrence_pattern === 'seasonal' && (
                 <div>
-                  <label className="label">Season {t('taskForm.required')}</label>
+                  <label className="label">{t('taskForm.season')} {t('taskForm.required')}</label>
                   <select
                     required={formData.recurrence_pattern === 'seasonal'}
                     value={selectedSeason}
@@ -293,7 +293,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                     }}
                     className="input"
                   >
-                    <option value="">Select season</option>
+                    <option value="">{t('taskForm.selectSeason')}</option>
                     <option value="spring">{t('seasons.spring')}</option>
                     <option value="summer">{t('seasons.summer')}</option>
                     <option value="fall">{t('seasons.fall')}</option>
@@ -329,7 +329,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                 placeholder={t('taskForm.estimatedCostPlaceholder')}
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                Enter amount in {getCurrencySymbol(language)} ({language === 'en' ? 'USD' : 'NOK'})
+                {t('taskForm.costPlaceholder', { symbol: getCurrencySymbol(language), currency: language === 'en' ? 'USD' : 'NOK' })}
               </p>
             </div>
           </div>
