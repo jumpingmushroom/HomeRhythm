@@ -15,7 +15,11 @@ export class DateCalculatorService {
       return null;
     }
 
-    const baseDate = lastCompletedAt ? new Date(lastCompletedAt) : new Date(task.created_at);
+    const baseDate = lastCompletedAt
+      ? new Date(lastCompletedAt)
+      : task.due_date
+        ? new Date(task.due_date)
+        : new Date(task.created_at);
     const interval = task.recurrence_interval;
 
     let nextDate = new Date(baseDate);

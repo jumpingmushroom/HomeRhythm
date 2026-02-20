@@ -61,7 +61,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
     estimated_time: task?.estimated_time || undefined,
     estimated_cost: task?.estimated_cost || undefined,
     notes: task?.notes || '',
-    assigned_to: task?.assigned_to || undefined,
+    assigned_to: task?.assigned_to || currentUser?.id || undefined,
   });
 
   useEffect(() => {
@@ -168,7 +168,7 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
               onChange={(e) => handleChange('assigned_to', e.target.value ? parseInt(e.target.value) : undefined)}
               className="input"
             >
-              <option value="">Assign to me ({currentUser?.email})</option>
+              <option value={currentUser?.id}>Assign to me ({currentUser?.email})</option>
               {users.filter(u => u.id !== currentUser?.id).map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.email}
@@ -192,7 +192,6 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                   handleChange('recurrence_config', '');
                   setSelectedSeason('');
                 } else {
-                  handleChange('due_date', undefined);
                   handleChange('flexibility_window', undefined);
                 }
               }}
@@ -269,6 +268,16 @@ export function TaskForm({ task, onSubmit, onCancel, loading }: TaskFormProps) {
                     placeholder="1"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="label">First due date</label>
+                <input
+                  type="date"
+                  value={formData.due_date || ''}
+                  onChange={(e) => handleChange('due_date', e.target.value || undefined)}
+                  className="input"
+                />
               </div>
 
               {formData.recurrence_pattern === 'seasonal' && (

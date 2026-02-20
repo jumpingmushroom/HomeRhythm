@@ -29,10 +29,12 @@ export function calculateNextDueDate(
     return null;
   }
 
-  // Calculate from last completion, or creation date if never completed
+  // Calculate from last completion, or due_date (first due date), or creation date
   const baseDate = lastCompletedAt
     ? parseISO(lastCompletedAt)
-    : parseISO(task.created_at);
+    : task.due_date
+      ? parseISO(task.due_date)
+      : parseISO(task.created_at);
 
   const interval = task.recurrence_interval;
   let nextDate = new Date(baseDate);
